@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Nomba"
 include(":app")
+include(":wraith")
