@@ -4,4 +4,8 @@
     <string name="customer_email_gmail_com">customer-email@gmail.com</string>
     <string name="secured_by">Secured by</string>
     <string name="logo">logo</string>
+    <string name="choose_any_of_the_payment_method_below_to_pay">Choose any of the payment methods\nbelow to pay</string>
+    <string name="pay_by_transfer">Pay by Transfer</string>
+    <string name="pay_by_card">Pay by Card</string>
+    <string name="cancel_payment">Cancel Payment</string>
 </resources>
