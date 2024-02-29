@@ -4,6 +4,7 @@
     <color name="paymentBackground">#FFFFFF</color>
     <color name="mainText">#121212</color>
     <color name="secondaryText">#717171</color>
+    <color name="borderColor">#EEEEEE</color>
     <color name="black">#000000</color>
 
 </resources>
