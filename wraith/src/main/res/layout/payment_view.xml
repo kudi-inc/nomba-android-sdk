@@ -126,6 +126,7 @@
         android:layout_marginTop="@dimen/size_40"
         app:layout_constraintTop_toBottomOf="@id/payment_options"
         android:layout_width="match_parent"
+        android:background="@drawable/cancel_border_bg"
         android:fontFamily="@font/inter_medium"
         android:padding="@dimen/size_10"
         android:textColor="@color/mainText"
