@@ -60,67 +60,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/size_16"
-        android:id="@+id/payment_options"
-        android:background="@drawable/bordertop"
-        android:paddingTop="@dimen/size_16"
+    <LinearLayout
         app:layout_constraintTop_toBottomOf="@id/top_view"
-        android:layout_height="wrap_content">
+         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/payment_options"
+        android:layout_width="match_parent" >
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    app:layout_constraintTop_toTopOf="parent"
-    android:background="@drawable/payment_actions_bg"
-    android:layout_height="wrap_content">
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size_16"
+            layout="@layout/options_view" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:padding="@dimen/size_20"
-        android:background="@drawable/payment_text_action_bg"
-        android:fontFamily="@font/inter_medium"
-        android:textColor="@color/mainText"
-        android:text="@string/choose_any_of_the_payment_method_below_to_pay"
-        android:layout_height="wrap_content"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:paddingTop="@dimen/size_18"
-        android:paddingBottom="@dimen/size_16"
-        android:paddingStart="@dimen/size_20"
-        android:paddingEnd="@dimen/size_20"
-        android:text="@string/pay_by_transfer"
-        android:fontFamily="@font/inter_medium"
-        android:drawablePadding="@dimen/size_10"
-        android:drawableStart="@drawable/bank_transfer"
-        android:drawableEnd="@drawable/chevron_right"
-        android:textColor="@color/mainText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/neutral_two"
-        android:layout_height="2dp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:paddingTop="@dimen/size_18"
-        android:paddingBottom="@dimen/size_16"
-        android:paddingStart="@dimen/size_20"
-        android:paddingEnd="@dimen/size_20"
-        android:drawableEnd="@drawable/chevron_right"
-        android:text="@string/pay_by_card"
-        android:drawableStart="@drawable/atm_card"
-        android:drawablePadding="@dimen/size_10"
-        android:fontFamily="@font/inter_medium"
-        android:textColor="@color/mainText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_marginTop="@dimen/size_40"
