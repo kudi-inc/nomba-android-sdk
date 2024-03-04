@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/neutral_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/line"
+
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_18"
+        android:id="@+id/holder"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:background="@drawable/payment_actions_bg"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:padding="@dimen/size_20"
+            android:background="@drawable/payment_text_action_bg"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/mainText"
+            android:text="@string/choose_any_of_the_payment_method_below_to_pay"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:paddingTop="@dimen/size_18"
+            android:paddingBottom="@dimen/size_16"
+            android:paddingStart="@dimen/size_20"
+            android:paddingEnd="@dimen/size_20"
+            android:text="@string/pay_by_transfer"
+            android:id="@+id/pay_by_transfer_button"
+            android:stateListAnimator="@null"
+            style="?android:attr/borderlessButtonStyle"
+            android:textAllCaps="false"
+            android:fontFamily="@font/inter_medium"
+            android:drawablePadding="@dimen/size_10"
+            android:gravity="left|center_vertical"
+            android:drawableStart="@drawable/bank_transfer"
+            android:drawableEnd="@drawable/chevron_right"
+            android:textColor="@color/mainText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/neutral_two"
+            android:layout_height="1dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:paddingTop="@dimen/size_18"
+            android:paddingBottom="@dimen/size_16"
+            android:paddingStart="@dimen/size_20"
+            android:paddingEnd="@dimen/size_20"
+            android:id="@+id/pay_by_card_button"
+            android:textAllCaps="false"
+            android:stateListAnimator="@null"
+            android:gravity="left|center_vertical"
+            android:drawableEnd="@drawable/chevron_right"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="@string/pay_by_card"
+            android:drawableStart="@drawable/atm_card"
+            android:drawablePadding="@dimen/size_10"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/mainText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="@dimen/size_40"
+        app:layout_constraintTop_toBottomOf="@id/holder"
+        android:layout_width="match_parent"
+        android:background="@drawable/cancel_border_bg"
+        android:fontFamily="@font/inter_medium"
+        android:padding="@dimen/size_10"
+        android:textColor="@color/mainText"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="@dimen/font_16"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:text="@string/cancel_payment"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
