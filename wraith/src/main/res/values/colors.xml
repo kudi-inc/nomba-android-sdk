@@ -10,7 +10,7 @@
     <color name="blue_one">#F2F6FF</color>
     <color name="black">#000000</color>
     <color name="lightText">#8C8C8C</color>
-
+    <color name="button_primary">#FFCC00</color>
     <color name="neutral_eight">#4D4D4D</color>
     <color name="neutral_ten">#1A1A1A</color>
     <color name="neutral_one">#F2F2F2</color>
