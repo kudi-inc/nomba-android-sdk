@@ -1,3 +1,5 @@
+
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -24,6 +26,12 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        //noinspection DataBindingWithoutKapt
+        dataBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
