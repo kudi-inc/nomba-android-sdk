@@ -1,7 +1,7 @@
 package com.nomba.wraith.core
 
 import android.view.View
-import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 
 
 ///The Shelter Architecture is a lightweight model I created and use
@@ -9,9 +9,9 @@ import androidx.databinding.ViewDataBinding
 ///having to resort to fragments or activities, hereby preserving context
 open class Shelter {
 
-    var layout_data_binding : ViewDataBinding
+    var layout_data_binding : ViewBinding
 
-    constructor(layout: ViewDataBinding){
+    constructor(layout: ViewBinding){
         this.layout_data_binding = layout
     }
 
@@ -25,7 +25,7 @@ open class Shelter {
         layout_data_binding.root.visibility = View.GONE
     }
 
-    open fun layout(): ViewDataBinding{
+    open fun layout(): ViewBinding{
         return layout_data_binding
     }
 
