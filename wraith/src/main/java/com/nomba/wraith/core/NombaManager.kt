@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
+import com.nomba.wraith.ui.shelters.TransferShelter
 import java.lang.ref.WeakReference
 import java.text.NumberFormat
 import java.util.Currency
@@ -43,9 +44,11 @@ open class NombaManager private constructor (private var activity: WeakReference
     //private lateinit var clientKey : String
     private lateinit var activityMainViewBinding : MainViewBinding
     private lateinit var paymentOptionsShelter: PaymentOptionsShelter
+    private lateinit var transferShelter: TransferShelter
 
     private fun createAllShelters(){
         paymentOptionsShelter = PaymentOptionsShelter(activityMainViewBinding.paymentOptions)
+        transferShelter = TransferShelter(activityMainViewBinding.transferView)
     }
 
     private fun setUpMainPaymentView()  {
@@ -76,8 +79,16 @@ open class NombaManager private constructor (private var activity: WeakReference
     }
 
     private fun setOnClickListeners(){
+        //Transfer Button
         activityMainViewBinding.paymentOptions.payByTransferButton.setOnClickListener {
             paymentOptionsShelter.hideShelter()
+            transferShelter.showShelter()
+        }
+
+        //Change Payment Button In Transfer View
+        activityMainViewBinding.transferView.transferChangePaymentMtdBtn.setOnClickListener {
+            transferShelter.hideShelter()
+            paymentOptionsShelter.showShelter()
         }
     }
 

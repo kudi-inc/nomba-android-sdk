@@ -73,20 +73,14 @@
         android:id="@+id/payment_options"
         layout="@layout/payment_options_view" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginTop="@dimen/size_40"
-        app:layout_constraintTop_toBottomOf="@id/payment_options"
+    <include
         android:layout_width="match_parent"
-        android:background="@drawable/cancel_border_bg"
-        android:fontFamily="@font/inter_medium"
-        android:padding="@dimen/size_10"
-        android:textColor="@color/mainText"
-        style="?android:attr/borderlessButtonStyle"
-        android:textSize="@dimen/font_16"
-        android:textAllCaps="false"
-        android:gravity="center"
-        android:text="@string/cancel_payment"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintTop_toBottomOf="@id/top_view"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_16"
+        android:visibility="gone"
+        android:id="@+id/transfer_view"
+        layout="@layout/transfer_view" />
 
     <LinearLayout
         android:layout_width="match_parent"

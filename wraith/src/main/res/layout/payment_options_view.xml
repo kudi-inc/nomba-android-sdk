@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/size_18"
+        android:id="@+id/holder"
         app:layout_constraintTop_toBottomOf="@id/line"
         android:background="@drawable/payment_actions_bg"
         android:layout_height="wrap_content">
@@ -73,6 +74,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+
+
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="@dimen/size_40"
+        app:layout_constraintTop_toBottomOf="@id/holder"
+        android:layout_width="match_parent"
+        android:background="@drawable/cancel_border_bg"
+        android:fontFamily="@font/inter_medium"
+        android:padding="@dimen/size_10"
+        android:textColor="@color/mainText"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="@dimen/font_16"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:text="@string/cancel_payment"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
