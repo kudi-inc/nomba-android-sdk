@@ -3,16 +3,21 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="@dimen/size_18"
-    android:background="@drawable/bordertop"
-    android:paddingTop="@dimen/size_18"
     android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/neutral_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/line"
+
+        android:layout_height="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/size_18"
+        app:layout_constraintTop_toBottomOf="@id/line"
         android:background="@drawable/payment_actions_bg"
         android:layout_height="wrap_content">
 
@@ -31,8 +36,13 @@
             android:paddingStart="@dimen/size_20"
             android:paddingEnd="@dimen/size_20"
             android:text="@string/pay_by_transfer"
+            android:id="@+id/pay_by_transfer_button"
+            android:stateListAnimator="@null"
+            style="?android:attr/borderlessButtonStyle"
+            android:textAllCaps="false"
             android:fontFamily="@font/inter_medium"
             android:drawablePadding="@dimen/size_10"
+            android:gravity="left|center_vertical"
             android:drawableStart="@drawable/bank_transfer"
             android:drawableEnd="@drawable/chevron_right"
             android:textColor="@color/mainText"
@@ -49,7 +59,12 @@
             android:paddingBottom="@dimen/size_16"
             android:paddingStart="@dimen/size_20"
             android:paddingEnd="@dimen/size_20"
+            android:id="@+id/pay_by_card_button"
+            android:textAllCaps="false"
+            android:stateListAnimator="@null"
+            android:gravity="left|center_vertical"
             android:drawableEnd="@drawable/chevron_right"
+            style="?android:attr/borderlessButtonStyle"
             android:text="@string/pay_by_card"
             android:drawableStart="@drawable/atm_card"
             android:drawablePadding="@dimen/size_10"

@@ -7,13 +7,9 @@ import androidx.viewbinding.ViewBinding
 ///The Shelter Architecture is a lightweight model I created and use
 ///to easily manage the handling of UI elements on screens without
 ///having to resort to fragments or activities, hereby preserving context
-open class Shelter {
+open class Shelter(layout: ViewBinding) {
 
-    var layout_data_binding : ViewBinding
-
-    constructor(layout: ViewBinding){
-        this.layout_data_binding = layout
-    }
+    var layout_data_binding : ViewBinding = layout
 
     open fun showShelter(){
         layout().root.requestFocus()

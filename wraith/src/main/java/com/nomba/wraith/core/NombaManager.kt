@@ -6,26 +6,32 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import java.lang.ref.WeakReference
+import java.text.NumberFormat
+import java.util.Currency
 
 // pass the activity and parentGroup as weakreferences to avoid memory leak
-open class NombaManager private constructor (private var activity: WeakReference<Activity>, var clientKey: String, private var parentGroup: WeakReference<ViewGroup>) {
+open class NombaManager private constructor (private var activity: WeakReference<Activity>, var clientKey: String, private var parentGroup: WeakReference<ConstraintLayout>) {
 
     init {
+        setUpMainPaymentView()
         createAllShelters()
+        setOnClickListeners()
     }
+
+    private val format: NumberFormat = NumberFormat.getCurrencyInstance()
+    var paymentAmount : Double = 0.0
+    var customerEmail : String = "customer-email@gmail.com"
 
     companion object {
         @Volatile
         private var instance: NombaManager? = null
 
-        init {
-
-        }
         @Synchronized
-        fun getInstance(activity: Activity, clientKey: String, parentGroup: ViewGroup): NombaManager {
+        fun getInstance(activity: Activity, clientKey: String, parentGroup: ConstraintLayout): NombaManager {
             if (instance == null) {
                 instance = NombaManager(WeakReference(activity), clientKey, WeakReference(parentGroup))
             }
@@ -36,40 +42,51 @@ open class NombaManager private constructor (private var activity: WeakReference
 
     //private lateinit var clientKey : String
     private lateinit var activityMainViewBinding : MainViewBinding
-
     private lateinit var paymentOptionsShelter: PaymentOptionsShelter
 
-
-    //open fun shared(activity: Activity, clientKey: String, parentGroup: ViewGroup) = NombaManager(activity, clientKey, parentGroup)
-
     private fun createAllShelters(){
-        val inflater: LayoutInflater = LayoutInflater.from(activity.get()).context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        activityMainViewBinding = MainViewBinding.inflate(inflater)
-        activityMainViewBinding.root.visibility = View.GONE
-        parentGroup.get()?.addView(activityMainViewBinding.root)
-
         paymentOptionsShelter = PaymentOptionsShelter(activityMainViewBinding.paymentOptions)
     }
 
+    private fun setUpMainPaymentView()  {
+        val inflater: LayoutInflater = LayoutInflater.from(activity.get()).context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        activityMainViewBinding = MainViewBinding.inflate(inflater)
+        activityMainViewBinding.root.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,  ConstraintLayout.LayoutParams.MATCH_PARENT)
+        activityMainViewBinding.root.visibility = View.GONE
+        activityMainViewBinding.root.setOnApplyWindowInsetsListener { _, windowInsets ->
+            val statusBarSize = windowInsets.systemWindowInsetTop
+            val navBarSize = windowInsets.systemWindowInsetBottom
+            val param = activityMainViewBinding.topView.layoutParams as ViewGroup.MarginLayoutParams
+            param.setMargins(0, statusBarSize,0, 0)
+            activityMainViewBinding.topView.layoutParams = param
+
+            val bottomParam = activityMainViewBinding.attribution.layoutParams as ViewGroup.MarginLayoutParams
+            bottomParam.setMargins(0, 0,0, navBarSize)
+            activityMainViewBinding.attribution.layoutParams = bottomParam
+            windowInsets
+        }
+        parentGroup.get()?.addView(activityMainViewBinding.root)
+    }
+
     fun showPaymentView(){
+        setPaymentValues()
         paymentOptionsShelter.showShelter()
         activityMainViewBinding.root.visibility = View.VISIBLE
-        Log.e("Yess", "Balls")
+        Log.e("Wraith by Nomba", "Show Payment View")
+    }
+
+    private fun setOnClickListeners(){
+        activityMainViewBinding.paymentOptions.payByTransferButton.setOnClickListener {
+            paymentOptionsShelter.hideShelter()
+        }
+    }
+
+    private fun setPaymentValues(){
+        format.maximumFractionDigits = 2
+        format.currency = Currency.getInstance("NGN")
+        activityMainViewBinding.amountLabel.text = format.format(paymentAmount)
+        activityMainViewBinding.emailLabel.text = customerEmail
     }
 
 
 }
-
-
-//class Singleton {
-//    companion object {
-//        private var instance: NombaManager? = null
-//        fun getInstance(activity: Activity, clientKey: String, parentGroup: ViewGroup): NombaManager {
-//            if (instance == null) {
-//                instance = NombaManager(activity, clientKey, parentGroup)
-//            }
-//
-//            return instance!!
-//        }
-//    }
-//}

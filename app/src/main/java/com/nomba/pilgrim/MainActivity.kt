@@ -22,8 +22,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 
         val button = findViewById<Button>(R.id.sample_pay_button)
-        val main = findViewById<LinearLayout>(R.id.main)
+        val main = findViewById<ConstraintLayout>(R.id.main)
         val nombaManager = NombaManager.getInstance(this, "", main)
+        nombaManager.paymentAmount = 69000.0
+        nombaManager.customerEmail = "knightbenax@gmail.com"
 
         button.setOnClickListener {
             nombaManager.showPaymentView()

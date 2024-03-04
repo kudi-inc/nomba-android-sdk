@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/neutral_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/line"
+        android:layout_height="1dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_18"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:padding="@dimen/size_20"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/mainText"
+            android:gravity="center"
+            android:text="@string/transfer_to_account_details_below"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="@drawable/blue_border_bg"
+            android:padding="@dimen/size_12"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_eight"
+                    android:textSize="@dimen/font_12"
+                    android:text="@string/account_number"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_ten"
+                    android:text="@string/_98762371891"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="@dimen/size_4"
+                android:fontFamily="@font/inter_regular"
+                android:textSize="@dimen/font_12"
+                android:text="@string/copy"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/neutral_two"
+            android:layout_height="1dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:paddingTop="@dimen/size_18"
+            android:paddingBottom="@dimen/size_16"
+            android:paddingStart="@dimen/size_20"
+            android:paddingEnd="@dimen/size_20"
+            android:id="@+id/pay_by_card_button"
+            android:textAllCaps="false"
+            android:stateListAnimator="@null"
+            android:gravity="left|center_vertical"
+            android:drawableEnd="@drawable/chevron_right"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="@string/pay_by_card"
+            android:drawableStart="@drawable/atm_card"
+            android:drawablePadding="@dimen/size_10"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/mainText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,4 +8,8 @@
     <string name="pay_by_transfer">Pay by Transfer</string>
     <string name="pay_by_card">Pay by Card</string>
     <string name="cancel_payment">Cancel Payment</string>
+    <string name="transfer_to_account_details_below">Transfer to account details below</string>
+    <string name="account_number">Account Number</string>
+    <string name="_98762371891">98762371891</string>
+    <string name="copy">COPY</string>
 </resources>

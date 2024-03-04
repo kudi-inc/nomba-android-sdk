@@ -6,7 +6,10 @@
     <color name="secondaryText">#717171</color>
     <color name="borderColor">#EEEEEE</color>
     <color name="borderTetriary">#E6E6E6</color>
+    <color name="blue_two">#CCDDFF</color>
     <color name="black">#000000</color>
+    <color name="neutral_eight">#4D4D4D</color>
+    <color name="neutral_ten">#1A1A1A</color>
     <color name="neutral_one">#F2F2F2</color>
     <color name="neutral_two">#E6E6E6</color>
 

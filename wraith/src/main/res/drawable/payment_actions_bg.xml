@@ -5,7 +5,7 @@
     </solid>
 
     <corners
-        android:radius="@dimen/size_10"   >
+        android:radius="@dimen/size_16"   >
     </corners>
 
 
