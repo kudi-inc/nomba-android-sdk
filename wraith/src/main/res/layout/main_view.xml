@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="₦ 80,400.00"
+                    android:text="@string/_80_400_00"
                     android:id="@+id/amount_label"
                     android:textColor="@color/mainText"
                     android:fontFamily="@font/inter_black"

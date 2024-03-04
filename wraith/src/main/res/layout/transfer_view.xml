@@ -32,7 +32,10 @@
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:background="@drawable/blue_border_bg"
-            android:padding="@dimen/size_12"
+            android:paddingTop="@dimen/size_12"
+            android:paddingBottom="@dimen/size_12"
+            android:paddingStart="@dimen/size_16"
+            android:paddingEnd="@dimen/size_16"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -66,7 +69,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:padding="@dimen/size_4"
+                android:paddingTop="@dimen/size_4"
+                android:paddingBottom="@dimen/size_4"
+                android:paddingStart="@dimen/size_8"
+                android:paddingEnd="@dimen/size_8"
+                android:background="@drawable/copy_btn_bg"
                 android:fontFamily="@font/inter_regular"
                 android:textSize="@dimen/font_12"
                 android:text="@string/copy"
@@ -75,10 +82,132 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@color/neutral_two"
-            android:layout_height="1dp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/size_18"
+            android:background="@drawable/blue_bg"
+            android:paddingTop="@dimen/size_12"
+            android:paddingBottom="@dimen/size_12"
+            android:paddingStart="@dimen/size_16"
+            android:paddingEnd="@dimen/size_16"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_eight"
+                    android:textSize="@dimen/font_12"
+                    android:text="@string/account_number"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_ten"
+                    android:text="@string/_98762371891"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_eight"
+                    android:textSize="@dimen/font_12"
+                    android:text="@string/account_name"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_ten"
+                    android:text="@string/abdullahi_abodunrin"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/size_18"
+            android:background="@drawable/blue_bg"
+            android:paddingTop="@dimen/size_12"
+            android:paddingBottom="@dimen/size_12"
+            android:paddingStart="@dimen/size_16"
+            android:paddingEnd="@dimen/size_16"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_eight"
+                    android:textSize="@dimen/font_12"
+                    android:text="@string/amount"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/neutral_ten"
+                    android:text="@string/_80_400_00"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:padding="@dimen/size_20"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/lightText"
+            android:gravity="center"
+            android:textSize="@dimen/font_12"
+            android:text="@string/use_this_account_only_for_this_transaction"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:background="@drawable/cancel_border_bg"
+            android:fontFamily="@font/inter_medium"
+            android:padding="@dimen/size_10"
+            android:textColor="@color/mainText"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="@dimen/font_16"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:text="@string/change_payment_method"
+            android:layout_height="wrap_content"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:paddingTop="@dimen/size_18"

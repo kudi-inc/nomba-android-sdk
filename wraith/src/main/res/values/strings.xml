@@ -12,4 +12,10 @@
     <string name="account_number">Account Number</string>
     <string name="_98762371891">98762371891</string>
     <string name="copy">COPY</string>
+    <string name="account_name">Account Name</string>
+    <string name="abdullahi_abodunrin">Abdullahi Abodunrin</string>
+    <string name="amount">Amount</string>
+    <string name="_80_400_00">₦ 80,400.00</string>
+    <string name="use_this_account_only_for_this_transaction">Use this account only for this transaction</string>
+    <string name="change_payment_method">Change payment method</string>
 </resources>
