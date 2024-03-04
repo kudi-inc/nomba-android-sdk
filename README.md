@@ -6,6 +6,6 @@ Payment Options             |  Payment By Transfer
 
 
 <p float="left">
-  <img src="/1.png" width="50%" />
-  <img src="/2.png" width="50%" /> 
+  <img src="/1.png" width="47%" />
+  <img src="/2.png" width="47%" /> 
 </p>
