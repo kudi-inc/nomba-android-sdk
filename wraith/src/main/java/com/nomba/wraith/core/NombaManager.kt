@@ -10,6 +10,17 @@ import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 
 open class NombaManager(private var activity: Activity, var clientKey: String, private var parentGroup: ViewGroup) {
 
+    companion object {
+        private var instance: NombaManager? = null
+        fun getInstance(activity: Activity, clientKey: String, parentGroup: ViewGroup): NombaManager {
+            if (instance == null) {
+                instance = NombaManager(activity, clientKey, parentGroup)
+            }
+
+            return instance!!
+        }
+    }
+
     //private lateinit var clientKey : String
     private lateinit var activityMainViewBinding : MainViewBinding
 
@@ -35,3 +46,17 @@ open class NombaManager(private var activity: Activity, var clientKey: String, p
 
 
 }
+
+
+//class Singleton {
+//    companion object {
+//        private var instance: NombaManager? = null
+//        fun getInstance(activity: Activity, clientKey: String, parentGroup: ViewGroup): NombaManager {
+//            if (instance == null) {
+//                instance = NombaManager(activity, clientKey, parentGroup)
+//            }
+//
+//            return instance!!
+//        }
+//    }
+//}
