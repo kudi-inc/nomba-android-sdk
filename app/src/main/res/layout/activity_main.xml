@@ -6,16 +6,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".MainActivity">
 
     <Button
         android:layout_width="match_parent"
         android:text="@string/pay_me"
-        android:layout_margin="@dimen/size_20"
+        android:layout_marginEnd="@dimen/size_30"
+        android:layout_marginStart="@dimen/size_30"
         android:id="@+id/sample_pay_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/size_20"
+        android:layout_marginBottom="@dimen/size_40"
         android:layout_height="wrap_content"/>
 
 

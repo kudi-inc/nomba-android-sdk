@@ -19,4 +19,6 @@
     <string name="use_this_account_only_for_this_transaction">Use this account only for this transaction</string>
     <string name="change_payment_method">Change payment method</string>
     <string name="i_have_sent_the_money">I have sent the money</string>
+    <string name="expires_in">Expires in</string>
+    <string name="_29_09">29:09</string>
 </resources>
