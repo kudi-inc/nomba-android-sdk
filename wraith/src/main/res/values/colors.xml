@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="dark_gray">#0D0D0D</color>
     <color name="paymentBackground">#FFFFFF</color>
     <color name="mainText">#121212</color>
     <color name="secondaryText">#717171</color>

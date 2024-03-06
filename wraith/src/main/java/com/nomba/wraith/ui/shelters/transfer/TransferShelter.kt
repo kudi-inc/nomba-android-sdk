@@ -1,23 +1,26 @@
-package com.nomba.wraith.ui.shelters
+package com.nomba.wraith.ui.shelters.transfer
 
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.TransferViewBinding
-import kotlin.reflect.KFunction1
+import java.util.Locale
 
 class TransferShelter(activityTransferViewBinding: TransferViewBinding) : Shelter(activityTransferViewBinding) {
 
     private lateinit var waitingForTransferTimer: CountDownTimer
     private lateinit var confirmationTimer: CountDownTimer
+    private val waitingForTransferTime : Long = 1800000
+    private val confirmationTime : Long = 1800000
     override fun layout(): TransferViewBinding {
         return super.layout() as TransferViewBinding
     }
 
     override fun showShelter() {
         super.showShelter()
-        waitingForTransferTimer = createTimer(1800000, ::onWaitingForTransferTick, ::onWaitingForTransferEnd)
-        confirmationTimer = createTimer(1000, ::onConfirmationTransferTick, ::onConfirmationTransferEnd)
+        waitingForTransferTimer = createTimer(waitingForTransferTime, ::onWaitingForTransferTick, ::onWaitingForTransferEnd)
+        confirmationTimer = createTimer(confirmationTime, ::onConfirmationTransferTick, ::onConfirmationTransferEnd)
+        layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
     }
 
@@ -26,7 +29,13 @@ class TransferShelter(activityTransferViewBinding: TransferViewBinding) : Shelte
         val totalSeconds = millisUntilFinished / 1000
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
-        layout().waitingForTransferTimerView.text = "$minutes:$seconds"
+        layout().waitingForTransferTimerView.text = String.format(
+            Locale.getDefault(),
+            "%02d:%02d",
+            minutes,
+            seconds,
+        )
+        layout().waitingForTransferProgress.progress = millisUntilFinished.toInt()
     }
 
     private fun onConfirmationTransferTick(millisUntilFinished: Long){

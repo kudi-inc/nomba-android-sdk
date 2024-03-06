@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
-import com.nomba.wraith.ui.shelters.TransferShelter
+import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import java.lang.ref.WeakReference
 import java.text.NumberFormat
 import java.util.Currency

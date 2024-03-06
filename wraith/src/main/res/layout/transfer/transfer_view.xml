@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/size_20"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
@@ -206,41 +207,52 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
 
             <TextView
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size_4"
                 android:fontFamily="@font/inter_medium"
-                android:textColor="@color/lightText"
                 android:gravity="center"
-                android:layout_marginEnd="@dimen/size_4"
-                android:textSize="@dimen/font_12"
                 android:text="@string/expires_in"
-                android:layout_height="wrap_content"/>
+                android:textColor="@color/lightText"
+                android:textSize="@dimen/font_12" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:fontFamily="@font/inter_bold"
-                android:textColor="@color/green"
-                android:layout_marginEnd="@dimen/size_4"
-                android:gravity="center"
                 android:id="@+id/waiting_for_transfer_timer_view"
-                android:textSize="@dimen/font_12"
-                android:text="@string/_29_09"
-                android:layout_height="wrap_content"/>
-
-            <TextView
                 android:layout_width="match_parent"
-                android:fontFamily="@font/inter_medium"
-                android:textColor="@color/lightText"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/size_4"
-                android:textSize="@dimen/font_12"
-                android:text="@string/expires_in"
-                android:layout_height="wrap_content"/>
+                android:fontFamily="@font/inter_bold"
+                android:gravity="center"
+                android:text="@string/_29_09"
+                android:textColor="@color/green"
+                android:textSize="@dimen/font_12" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/size_18"
+                    android:layout_height="@dimen/size_18"
+                    android:layout_marginEnd="@dimen/size_4"
+                    android:contentDescription="@string/clock"
+                    android:src="@drawable/clock" />
+
+                <ProgressBar android:layout_width="@dimen/size_60"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:indeterminate="false"
+                    android:id="@+id/waiting_for_transfer_progress"
+                    android:progressDrawable="@drawable/linear_progress_bar"
+                    android:layout_height="@dimen/size_6"/>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -255,6 +267,7 @@
             android:textColor="@color/mainText"
             style="?android:attr/borderlessButtonStyle"
             android:textSize="@dimen/font_16"
+            android:id="@+id/sent_mny_btn"
             android:textAllCaps="false"
             android:gravity="center"
             android:text="@string/i_have_sent_the_money"
@@ -278,7 +291,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_marginTop="@dimen/size_10"
             android:layout_width="match_parent"
-
+            android:id="@+id/cancel_button"
             android:fontFamily="@font/inter_medium"
             android:padding="@dimen/size_10"
             android:textColor="@color/mainText"
