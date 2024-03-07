@@ -48,6 +48,21 @@ open class NombaManager private constructor (private var activity: WeakReference
     private lateinit var transferExpiredShelter: TransferExpiredShelter
 
 
+    fun showExitDialog(){
+        activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
+    }
+
+    fun hideExitDialog(){
+        activityMainViewBinding.dialogView.root.visibility = View.GONE
+    }
+
+    fun showLoader(){
+        activityMainViewBinding.loadingView.root.visibility = View.VISIBLE
+    }
+
+    fun hideLoader(){
+        activityMainViewBinding.loadingView.root.visibility = View.GONE
+    }
 
     private fun setUpMainPaymentView()  {
         val inflater: LayoutInflater = LayoutInflater.from(activity.get()).context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -69,8 +84,6 @@ open class NombaManager private constructor (private var activity: WeakReference
             activityMainViewBinding.statusBar.layoutParams = ViewGroup.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, statusBarSize)
 
             windowInsets
-
-            //activityMainViewBinding.statusBar.he
         }
         parentGroup.get()?.addView(activityMainViewBinding.root)
     }

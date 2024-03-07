@@ -30,4 +30,8 @@
     <string name="i_ve_sent_the_money">I\'ve sent the money</string>
     <string name="try_again">Try again</string>
     <string name="try_another_payment_method">Try another payment method</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="by_closing_this_checkout_you_are_confirming_to_close_this_checkout_and_cancel_the_transaction">By closing this checkout, you are confirming\nto close this checkout and cancel the transaction.</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 </resources>
