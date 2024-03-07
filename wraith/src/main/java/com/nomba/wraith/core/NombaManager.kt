@@ -21,7 +21,6 @@ open class NombaManager private constructor (private var activity: WeakReference
     init {
         setUpMainPaymentView()
         createAllShelters()
-        setOnClickListeners()
     }
 
     private val format: NumberFormat = NumberFormat.getCurrencyInstance()
@@ -63,7 +62,7 @@ open class NombaManager private constructor (private var activity: WeakReference
             activityMainViewBinding.topView.layoutParams = param
 
             val bottomParam = activityMainViewBinding.attribution.layoutParams as ViewGroup.MarginLayoutParams
-            bottomParam.setMargins(0, 0,0, navBarSize)
+            bottomParam.setMargins(0, 0,0, navBarSize + 40)
             activityMainViewBinding.attribution.layoutParams = bottomParam
 
             //val statusHeightParam = activityMainViewBinding.statusBar.layoutParams as ViewGroup.MarginLayoutParams
@@ -77,40 +76,39 @@ open class NombaManager private constructor (private var activity: WeakReference
     }
 
     private fun createAllShelters(){
-        paymentOptionsShelter = PaymentOptionsShelter(activityMainViewBinding.paymentOptions)
+        paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
         transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
-        transferExpiredShelter = TransferExpiredShelter(activityMainViewBinding.transferExpiredView)
+        transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
     }
 
     fun showPaymentView(){
         setPaymentValues()
         paymentOptionsShelter.showShelter()
         activityMainViewBinding.root.visibility = View.VISIBLE
-        Log.e("Wraith by Nomba", "Show Payment View")
     }
 
     private fun setPaymentValues(){
-        format.maximumFractionDigits = 2
-        format.currency = Currency.getInstance("NGN")
-        activityMainViewBinding.amountLabel.text = format.format(paymentAmount)
+        activityMainViewBinding.amountLabel.text = formatPaymentAmount()
         activityMainViewBinding.emailLabel.text = customerEmail
     }
 
-
-    private fun setOnClickListeners(){
-        //Transfer Button
-        activityMainViewBinding.paymentOptions.payByTransferButton.setOnClickListener {
-            paymentOptionsShelter.hideShelter()
-            transferShelter.showShelter()
-        }
-
-        //Change Payment Button In Transfer View
-        activityMainViewBinding.transferView.transferChangePaymentMtdBtn.setOnClickListener {
-            transferShelter.hideShelter()
-            paymentOptionsShelter.showShelter()
-        }
+    fun formatPaymentAmount() : String{
+        format.maximumFractionDigits = 2
+        format.currency = Currency.getInstance("NGN")
+        return format.format(paymentAmount)
     }
 
+    fun showTransferView(){
+        transferExpiredShelter.hideShelter()
+        paymentOptionsShelter.hideShelter()
+        transferShelter.showShelter()
+
+    }
+
+    fun changePaymentFromTransfer(){
+        transferShelter.hideShelter()
+        paymentOptionsShelter.showShelter()
+    }
 
     fun waitingForTransferExpired(){
         transferShelter.hideShelter()

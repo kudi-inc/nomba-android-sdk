@@ -23,6 +23,13 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
         confirmationTimer = createTimer(confirmationTime, ::onConfirmationTransferTick, ::onConfirmationTransferEnd)
         layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
+
+        //Change Payment Button In Transfer View
+        layout().transferChangePaymentMtdBtn.setOnClickListener {
+            manager.changePaymentFromTransfer()
+        }
+
+        layout().amountLabel.text = manager.formatPaymentAmount()
     }
 
     @SuppressLint("SetTextI18n")

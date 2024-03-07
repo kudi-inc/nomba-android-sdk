@@ -28,6 +28,7 @@
             android:background="@drawable/payment_text_action_bg"
             android:fontFamily="@font/inter_medium"
             android:textColor="@color/mainText"
+            android:textSize="@dimen/font_16"
             android:text="@string/choose_any_of_the_payment_method_below_to_pay"
             android:layout_height="wrap_content"/>
 
@@ -43,6 +44,7 @@
             android:textAllCaps="false"
             android:fontFamily="@font/inter_medium"
             android:drawablePadding="@dimen/size_10"
+            android:textSize="@dimen/font_16"
             android:gravity="left|center_vertical"
             android:drawableStart="@drawable/bank_transfer"
             android:drawableEnd="@drawable/chevron_right"
@@ -62,6 +64,7 @@
             android:paddingEnd="@dimen/size_20"
             android:id="@+id/pay_by_card_button"
             android:textAllCaps="false"
+            android:textSize="@dimen/font_16"
             android:stateListAnimator="@null"
             android:gravity="left|center_vertical"
             android:drawableEnd="@drawable/chevron_right"
