@@ -112,14 +112,14 @@
                     android:fontFamily="@font/inter_medium"
                     android:textColor="@color/neutral_eight"
                     android:textSize="@dimen/font_12"
-                    android:text="@string/account_number"
+                    android:text="@string/bank_name"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:fontFamily="@font/inter_medium"
                     android:textColor="@color/neutral_ten"
-                    android:text="@string/_98762371891"
+                    android:text="@string/amucha_mfb"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>

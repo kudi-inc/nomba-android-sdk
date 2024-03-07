@@ -9,6 +9,13 @@
     android:layout_height="match_parent"
     >
 
+    <View
+        android:layout_width="match_parent"
+        android:id="@+id/status_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/status_bar"
+        android:layout_height="@dimen/size_40"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -84,6 +91,15 @@
         android:visibility="gone"
         android:id="@+id/transfer_view"
         layout="@layout/transfer_view" />
+
+    <include
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_16"
+        android:visibility="gone"
+        android:id="@+id/transfer_expired_view"
+        layout="@layout/transfer_expired_view" />
 
     <LinearLayout
         android:layout_width="match_parent"

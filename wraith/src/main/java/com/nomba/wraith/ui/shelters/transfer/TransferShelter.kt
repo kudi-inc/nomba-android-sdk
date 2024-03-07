@@ -2,11 +2,12 @@ package com.nomba.wraith.ui.shelters.transfer
 
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
+import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.TransferViewBinding
 import java.util.Locale
 
-class TransferShelter(activityTransferViewBinding: TransferViewBinding) : Shelter(activityTransferViewBinding) {
+class TransferShelter(private var manager: NombaManager, activityTransferViewBinding: TransferViewBinding) : Shelter(activityTransferViewBinding) {
 
     private lateinit var waitingForTransferTimer: CountDownTimer
     private lateinit var confirmationTimer: CountDownTimer
@@ -43,7 +44,7 @@ class TransferShelter(activityTransferViewBinding: TransferViewBinding) : Shelte
     }
 
     private fun onWaitingForTransferEnd() {
-
+        manager.waitingForTransferExpired()
     }
 
     private fun onConfirmationTransferEnd(){

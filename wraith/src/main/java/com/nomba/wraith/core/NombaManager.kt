@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
+import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import java.lang.ref.WeakReference
 import java.text.NumberFormat
@@ -45,11 +46,9 @@ open class NombaManager private constructor (private var activity: WeakReference
     private lateinit var activityMainViewBinding : MainViewBinding
     private lateinit var paymentOptionsShelter: PaymentOptionsShelter
     private lateinit var transferShelter: TransferShelter
+    private lateinit var transferExpiredShelter: TransferExpiredShelter
 
-    private fun createAllShelters(){
-        paymentOptionsShelter = PaymentOptionsShelter(activityMainViewBinding.paymentOptions)
-        transferShelter = TransferShelter(activityMainViewBinding.transferView)
-    }
+
 
     private fun setUpMainPaymentView()  {
         val inflater: LayoutInflater = LayoutInflater.from(activity.get()).context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -66,9 +65,21 @@ open class NombaManager private constructor (private var activity: WeakReference
             val bottomParam = activityMainViewBinding.attribution.layoutParams as ViewGroup.MarginLayoutParams
             bottomParam.setMargins(0, 0,0, navBarSize)
             activityMainViewBinding.attribution.layoutParams = bottomParam
+
+            //val statusHeightParam = activityMainViewBinding.statusBar.layoutParams as ViewGroup.MarginLayoutParams
+            activityMainViewBinding.statusBar.layoutParams = ViewGroup.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, statusBarSize)
+
             windowInsets
+
+            //activityMainViewBinding.statusBar.he
         }
         parentGroup.get()?.addView(activityMainViewBinding.root)
+    }
+
+    private fun createAllShelters(){
+        paymentOptionsShelter = PaymentOptionsShelter(activityMainViewBinding.paymentOptions)
+        transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
+        transferExpiredShelter = TransferExpiredShelter(activityMainViewBinding.transferExpiredView)
     }
 
     fun showPaymentView(){
@@ -77,6 +88,14 @@ open class NombaManager private constructor (private var activity: WeakReference
         activityMainViewBinding.root.visibility = View.VISIBLE
         Log.e("Wraith by Nomba", "Show Payment View")
     }
+
+    private fun setPaymentValues(){
+        format.maximumFractionDigits = 2
+        format.currency = Currency.getInstance("NGN")
+        activityMainViewBinding.amountLabel.text = format.format(paymentAmount)
+        activityMainViewBinding.emailLabel.text = customerEmail
+    }
+
 
     private fun setOnClickListeners(){
         //Transfer Button
@@ -92,12 +111,13 @@ open class NombaManager private constructor (private var activity: WeakReference
         }
     }
 
-    private fun setPaymentValues(){
-        format.maximumFractionDigits = 2
-        format.currency = Currency.getInstance("NGN")
-        activityMainViewBinding.amountLabel.text = format.format(paymentAmount)
-        activityMainViewBinding.emailLabel.text = customerEmail
+
+    fun waitingForTransferExpired(){
+        transferShelter.hideShelter()
+        transferExpiredShelter.showShelter()
     }
+
+
 
 
 }

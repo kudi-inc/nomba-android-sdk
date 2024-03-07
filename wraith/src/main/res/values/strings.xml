@@ -22,4 +22,12 @@
     <string name="expires_in">Expires in</string>
     <string name="_29_09">29:09</string>
     <string name="clock">clock</string>
+    <string name="amucha_mfb">Amucha MFB</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="caution">caution</string>
+    <string name="account_has_expired">Account has expired</string>
+    <string name="the_account_provided_for_this_transaction_has_expired">The account provided for this\ntransaction has expired.</string>
+    <string name="i_ve_sent_the_money">I\'ve sent the money</string>
+    <string name="try_again">Try again</string>
+    <string name="try_another_payment_method">Try another payment method</string>
 </resources>
