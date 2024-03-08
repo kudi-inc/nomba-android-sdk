@@ -88,6 +88,7 @@
         android:background="@drawable/cancel_border_bg"
         android:fontFamily="@font/inter_medium"
         android:padding="@dimen/size_10"
+        android:id="@+id/cancel_button"
         android:textColor="@color/mainText"
         style="?android:attr/borderlessButtonStyle"
         android:textSize="@dimen/font_16"

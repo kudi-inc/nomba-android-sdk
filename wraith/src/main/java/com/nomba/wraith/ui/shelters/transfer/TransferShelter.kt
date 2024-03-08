@@ -2,6 +2,7 @@ package com.nomba.wraith.ui.shelters.transfer
 
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
+import com.google.android.material.snackbar.Snackbar
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.TransferViewBinding
@@ -13,23 +14,43 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
     private lateinit var confirmationTimer: CountDownTimer
     private val waitingForTransferTime : Long = 1800000
     private val confirmationTime : Long = 1800000
+
     override fun layout(): TransferViewBinding {
         return super.layout() as TransferViewBinding
     }
 
     override fun showShelter() {
         super.showShelter()
+        setOnClickListeners()
         waitingForTransferTimer = createTimer(waitingForTransferTime, ::onWaitingForTransferTick, ::onWaitingForTransferEnd)
         confirmationTimer = createTimer(confirmationTime, ::onConfirmationTransferTick, ::onConfirmationTransferEnd)
         layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
 
+        layout().amountLabel.text = manager.formatPaymentAmount()
+    }
+
+    private fun setOnClickListeners(){
         //Change Payment Button In Transfer View
         layout().transferChangePaymentMtdBtn.setOnClickListener {
             manager.changePaymentFromTransfer()
         }
 
-        layout().amountLabel.text = manager.formatPaymentAmount()
+        layout().accountNumber.setOnClickListener {
+            val accountNumber = layout().accountNumberText.text
+            manager.addToClipboard(accountNumber)
+            Snackbar.make(layout().root, "Account Number copied to clipboard", Snackbar.LENGTH_SHORT).show()
+        }
+
+        layout().accountNumberCopyBtn.setOnClickListener {
+            val accountNumber = layout().accountNumberText.text
+            manager.addToClipboard(accountNumber)
+            Snackbar.make(layout().root, "Account Number copied to clipboard", Snackbar.LENGTH_SHORT).show()
+        }
+
+        layout().cancelButton.setOnClickListener {
+            manager.showExitDialog()
+        }
     }
 
     @SuppressLint("SetTextI18n")

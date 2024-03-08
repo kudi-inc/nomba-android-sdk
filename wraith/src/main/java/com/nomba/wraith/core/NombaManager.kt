@@ -1,6 +1,8 @@
 package com.nomba.wraith.core
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,17 +18,18 @@ import java.text.NumberFormat
 import java.util.Currency
 
 // pass the activity and parentGroup as weakreferences to avoid memory leak
-open class NombaManager private constructor (private var activity: WeakReference<Activity>, var clientKey: String, private var parentGroup: WeakReference<ConstraintLayout>) {
+open class NombaManager private constructor (var activity: WeakReference<Activity>, var clientKey: String, private var parentGroup: WeakReference<ConstraintLayout>) {
 
     init {
         setUpMainPaymentView()
         createAllShelters()
+        setOnClickListeners()
     }
 
     private val format: NumberFormat = NumberFormat.getCurrencyInstance()
     var paymentAmount : Double = 0.0
     var customerEmail : String = "customer-email@gmail.com"
-
+    private val clipboardManager = activity.get()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     companion object {
         @Volatile
         private var instance: NombaManager? = null
@@ -64,6 +67,11 @@ open class NombaManager private constructor (private var activity: WeakReference
         activityMainViewBinding.loadingView.root.visibility = View.GONE
     }
 
+    fun addToClipboard(textToAdd: CharSequence){
+        val clipData = ClipData.newPlainText("text", textToAdd)
+        clipboardManager.setPrimaryClip(clipData)
+    }
+
     private fun setUpMainPaymentView()  {
         val inflater: LayoutInflater = LayoutInflater.from(activity.get()).context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         activityMainViewBinding = MainViewBinding.inflate(inflater)
@@ -88,6 +96,21 @@ open class NombaManager private constructor (private var activity: WeakReference
         parentGroup.get()?.addView(activityMainViewBinding.root)
     }
 
+    fun setOnClickListeners(){
+activityMainViewBinding.dialogView.dialogCloseBtn.setOnClickListener {
+    hideExitDialog()
+}
+
+        activityMainViewBinding.dialogView.dialogCancelBtn.setOnClickListener {
+            hideExitDialog()
+        }
+
+        activityMainViewBinding.dialogView.dialogConfirmBtn.setOnClickListener {
+            hideExitDialog()
+            hidePaymentView()
+        }
+    }
+
     private fun createAllShelters(){
         paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
         transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
@@ -98,6 +121,11 @@ open class NombaManager private constructor (private var activity: WeakReference
         setPaymentValues()
         paymentOptionsShelter.showShelter()
         activityMainViewBinding.root.visibility = View.VISIBLE
+    }
+
+    fun hidePaymentView(){
+        paymentOptionsShelter.hideShelter()
+        activityMainViewBinding.root.visibility = View.GONE
     }
 
     private fun setPaymentValues(){

@@ -27,7 +27,9 @@
             android:layout_width="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/dialog_cancel_btn"
+            android:id="@+id/dialog_close_btn"
+            style="?android:attr/borderlessButtonStyle"
+
             android:src="@drawable/cancel"
             android:minWidth="@dimen/size_0"
             android:minHeight="@dimen/size_0"
@@ -40,7 +42,7 @@
             android:layout_marginTop="@dimen/size_18"
             android:id="@+id/holder"
             android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/dialog_cancel_btn"
+            app:layout_constraintTop_toBottomOf="@id/dialog_close_btn"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -89,7 +91,7 @@
                 android:textColor="@color/mainText"
                 style="?android:attr/borderlessButtonStyle"
                 android:textSize="@dimen/font_16"
-                android:id="@+id/try_again_btn"
+                android:id="@+id/dialog_confirm_btn"
                 android:textAllCaps="false"
                 android:gravity="center"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -114,7 +116,7 @@
                 android:background="@drawable/cancel_border_bg"
                 android:fontFamily="@font/inter_medium"
                 android:padding="@dimen/size_10"
-                android:id="@+id/sent_mny_btn"
+                android:id="@+id/dialog_cancel_btn"
                 android:textColor="@color/mainText"
                 style="?android:attr/borderlessButtonStyle"
                 android:textSize="@dimen/font_16"

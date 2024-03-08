@@ -34,4 +34,6 @@
     <string name="by_closing_this_checkout_you_are_confirming_to_close_this_checkout_and_cancel_the_transaction">By closing this checkout, you are confirming\nto close this checkout and cancel the transaction.</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="your_payment_has_been_confirmed_successfully">Your Payment has been\nconfirmed successfully</string>
+    <string name="your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you">Your payment of ₦ %1$d to %2$s has been confirmed. You will now be redirected to your merchant’s site. Thank you</string>
 </resources>
