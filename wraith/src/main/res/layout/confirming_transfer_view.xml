@@ -31,7 +31,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:fontFamily="@font/inter_medium"
                 android:textColor="@color/neutral_ten"
                 android:id="@+id/content_label"
@@ -39,17 +39,28 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/please_wait_we_are_confirming_your_payment_it_might_take_a_few_minutes"
+                app:layout_constraintEnd_toStartOf="@id/spacer"
                 android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_width="@dimen/size_10"
+                app:layout_constraintStart_toEndOf="@id/content_label"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/spacer"
+                app:layout_constraintEnd_toStartOf="@id/static_progress"
+                android:layout_height="@dimen/size_2"/>
 
             <ProgressBar
                 android:id="@+id/static_progress"
                 android:layout_width="@dimen/size_40"
                 android:layout_height="@dimen/size_40"
+                android:layout_marginStart="@dimen/font_10"
                 android:indeterminateTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@id/content_label"
+                app:layout_constraintStart_toEndOf="@id/spacer"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -129,7 +140,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_marginTop="@dimen/size_26"
             android:layout_width="match_parent"
-            android:id="@+id/help_button"
+            android:id="@+id/need_help_with_this_transaction_button"
             android:fontFamily="@font/inter_medium"
             android:padding="@dimen/size_10"
 

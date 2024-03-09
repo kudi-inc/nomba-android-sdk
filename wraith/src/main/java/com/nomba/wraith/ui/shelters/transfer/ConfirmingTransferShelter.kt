@@ -1,6 +1,7 @@
 package com.nomba.wraith.ui.shelters.transfer
 
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.nomba.wraith.R
@@ -13,7 +14,7 @@ import java.util.Locale
 class ConfirmingTransferShelter(private var manager: NombaManager, activityConfirmingTransferViewBinding: ConfirmingTransferViewBinding) : Shelter(activityConfirmingTransferViewBinding) {
 
     private lateinit var confirmationTimer: CountDownTimer
-    private val confirmationTime : Long = 600000
+    private val confirmationTime : Long = 3000 //600000
 
     override fun layout(): ConfirmingTransferViewBinding {
         return super.layout() as ConfirmingTransferViewBinding
@@ -33,6 +34,13 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
                 manager.displayViewState = DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO
             }
         }
+
+        layout().getHelpBtn.setOnClickListener {
+            Log.e("Tax", "SET")
+            manager.hideTransferConfirmingView()
+            manager.showGetHelpView()
+        }
+        resetViews()
     }
 
     private fun onConfirmationTransferTick(millisUntilFinished: Long){
@@ -68,10 +76,27 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
             ContextCompat.getString(it, R.string.transaction_taking_long)
         }
 
-        layout().helpButton.visibility = View.GONE
+        layout().needHelpWithThisTransactionButton.visibility = View.GONE
         layout().buttonHolder.visibility = View.VISIBLE
+    }
 
+    private fun resetViews(){
+        layout().timeElaspedLabel.text = manager.activity.get()?.getString(R.string.wait_time)
+        layout().waitingForConfirmationTimerView.visibility = View.VISIBLE
 
+        layout().topContentHolder.background =
+            manager.activity.get()?.let {
+                ContextCompat.getDrawable(it, R.drawable.warning_bg) }
+
+        layout().staticProgress.visibility = View.VISIBLE
+        layout().contentLabel.text = manager.activity.get()?.let {
+            ContextCompat.getString(it, R.string.please_wait_we_are_confirming_your_payment_it_might_take_a_few_minutes)
+        }
+
+        layout().needHelpWithThisTransactionButton.visibility = View.VISIBLE
+        layout().buttonHolder.visibility = View.GONE
+        layout().waitingHolder.visibility = View.VISIBLE
+        layout().waitingForConfirmationTimerView.visibility = View.VISIBLE
     }
 
     private fun setUpSecondConfirmationScreen(){

@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
+import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import java.lang.ref.WeakReference
@@ -56,6 +57,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var transferShelter: TransferShelter
     private lateinit var transferExpiredShelter: TransferExpiredShelter
     private lateinit var confirmingTransferShelter: ConfirmingTransferShelter
+    private lateinit var getHelpShelter: GetHelpShelter
+
     var utils = Utils()
 
     fun showExitDialog(){
@@ -106,16 +109,6 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private fun setOnClickListeners(){
         activityMainViewBinding.root.isFocusableInTouchMode = true
         activityMainViewBinding.root.requestFocus()
-        Log.e("Bruh", "SET ERE")
-        activityMainViewBinding.root.setOnKeyListener { _, keyCode, event ->
-            Log.e("Bruh", "SET ERE TY")
-            if (event.action === KeyEvent.ACTION_UP) {
-                // Add your code here
-                Log.e("Bru", "SET")
-                handleBackStack()
-                true
-            } else false
-        }
 
         activityMainViewBinding.dialogView.dialogCloseBtn.setOnClickListener {
             hideExitDialog()
@@ -147,6 +140,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
             DisplayViewState.TRANSFER_CONFIRMATION_INNER_ONE -> TODO()
             DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO -> TODO()
+            DisplayViewState.GET_HELP -> TODO()
         }
     }
 
@@ -155,12 +149,21 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
         transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
         confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
+        getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
     }
 
     fun showPaymentView(){
         setPaymentValues()
         paymentOptionsShelter.showShelter()
         activityMainViewBinding.root.visibility = View.VISIBLE
+    }
+
+    fun showGetHelpView(){
+        getHelpShelter.showShelter()
+    }
+
+    fun hideTransferConfirmingView(){
+        confirmingTransferShelter.hideShelter()
     }
 
     fun hidePaymentView(){
