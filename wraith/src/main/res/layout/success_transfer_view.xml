@@ -43,6 +43,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/content_holder"
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/holder"
         android:padding="@dimen/size_20"
@@ -61,5 +62,23 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintTop_toBottomOf="@id/content_holder"
+        android:layout_marginTop="@dimen/size_50"
+        android:layout_width="match_parent"
+        android:background="@drawable/cancel_border_bg"
+        android:fontFamily="@font/inter_medium"
+        android:padding="@dimen/size_10"
+        android:id="@+id/sent_mny_btn"
+        android:textColor="@color/mainText"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="@dimen/font_16"
+        android:layout_marginStart="@dimen/size_10"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:text="@string/close_checkout"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

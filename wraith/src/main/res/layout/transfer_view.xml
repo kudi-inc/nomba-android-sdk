@@ -250,12 +250,12 @@
                     android:contentDescription="@string/clock"
                     android:src="@drawable/clock" />
 
-                <ProgressBar android:layout_width="@dimen/size_60"
+                <ProgressBar android:layout_width="@dimen/size_80"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:indeterminate="false"
                     android:id="@+id/waiting_for_transfer_progress"
                     android:progressDrawable="@drawable/linear_progress_bar"
-                    android:layout_height="@dimen/size_6"/>
+                    android:layout_height="@dimen/size_8"/>
             </LinearLayout>
 
         </LinearLayout>

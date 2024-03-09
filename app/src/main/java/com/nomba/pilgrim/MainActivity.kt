@@ -3,6 +3,7 @@ package com.nomba.pilgrim
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +31,22 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener {
             nombaManager.showPaymentView()
         }
+
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true)
+            {
+                override fun handleOnBackPressed() {
+                    // Leave empty do disable back press or
+                    // write your code which you want
+                    nombaManager.handleBackStack()
+                }
+            }
+
+
+        onBackPressedDispatcher.addCallback(callback)
     }
+
+
 
 
 }

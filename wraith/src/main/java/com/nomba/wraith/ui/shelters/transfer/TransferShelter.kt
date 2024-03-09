@@ -3,6 +3,7 @@ package com.nomba.wraith.ui.shelters.transfer
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import com.google.android.material.snackbar.Snackbar
+import com.nomba.wraith.core.DisplayViewState
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.TransferViewBinding
@@ -11,9 +12,8 @@ import java.util.Locale
 class TransferShelter(private var manager: NombaManager, activityTransferViewBinding: TransferViewBinding) : Shelter(activityTransferViewBinding) {
 
     private lateinit var waitingForTransferTimer: CountDownTimer
-    private lateinit var confirmationTimer: CountDownTimer
     private val waitingForTransferTime : Long = 1800000
-    private val confirmationTime : Long = 1800000
+
 
     override fun layout(): TransferViewBinding {
         return super.layout() as TransferViewBinding
@@ -22,8 +22,9 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
     override fun showShelter() {
         super.showShelter()
         setOnClickListeners()
-        waitingForTransferTimer = createTimer(waitingForTransferTime, ::onWaitingForTransferTick, ::onWaitingForTransferEnd)
-        confirmationTimer = createTimer(confirmationTime, ::onConfirmationTransferTick, ::onConfirmationTransferEnd)
+        manager.displayViewState = DisplayViewState.TRANSFER
+        waitingForTransferTimer = manager.utils.createTimer(waitingForTransferTime, ::onWaitingForTransferTick, ::onWaitingForTransferEnd)
+
         layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
 
@@ -51,6 +52,10 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
         layout().cancelButton.setOnClickListener {
             manager.showExitDialog()
         }
+
+        layout().sentMnyBtn.setOnClickListener{
+            manager.showTransferConfirmationView()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -67,35 +72,15 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
         layout().waitingForTransferProgress.progress = millisUntilFinished.toInt()
     }
 
-    private fun onConfirmationTransferTick(millisUntilFinished: Long){
-
-    }
-
     private fun onWaitingForTransferEnd() {
         manager.waitingForTransferExpired()
-    }
-
-    private fun onConfirmationTransferEnd(){
-
-    }
-
-    private fun createTimer(duration: Long, onTickFun: (millisUntilFinished: Long) -> Unit, onFinishFun: () -> Unit): CountDownTimer{
-        return object: CountDownTimer(duration, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                onTickFun(millisUntilFinished)
-            }
-
-            override fun onFinish() {
-                onFinishFun()
-            }
-        }
     }
 
 
     override fun hideShelter() {
         super.hideShelter()
         waitingForTransferTimer.cancel()
-        confirmationTimer.cancel()
+
     }
 
 }
