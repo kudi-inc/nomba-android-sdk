@@ -125,7 +125,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="@dimen/size_30"
+            android:layout_marginTop="@dimen/size_26"
             android:layout_width="match_parent"
             android:id="@+id/help_button"
             android:fontFamily="@font/inter_medium"
@@ -143,6 +143,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="horizontal"
+            android:layout_marginTop="@dimen/font_10"
             app:layout_constraintTop_toBottomOf="@id/holder"
             android:id="@+id/button_holder"
             android:visibility="gone"
@@ -187,7 +188,7 @@
                 android:background="@drawable/cancel_border_bg"
                 android:fontFamily="@font/inter_medium"
                 android:padding="@dimen/size_10"
-                android:id="@+id/sent_mny_btn"
+                android:id="@+id/get_help_btn"
                 android:textColor="@color/mainText"
                 android:textCursorDrawable="@drawable/question_mark_circle"
                 style="?android:attr/borderlessButtonStyle"
