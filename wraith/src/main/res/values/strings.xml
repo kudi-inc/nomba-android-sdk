@@ -19,4 +19,21 @@
     <string name="use_this_account_only_for_this_transaction">Use this account only for this transaction</string>
     <string name="change_payment_method">Change payment method</string>
     <string name="i_have_sent_the_money">I have sent the money</string>
+    <string name="expires_in">Expires in</string>
+    <string name="_29_09">29:09</string>
+    <string name="clock">clock</string>
+    <string name="amucha_mfb">Amucha MFB</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="caution">caution</string>
+    <string name="account_has_expired">Account has expired</string>
+    <string name="the_account_provided_for_this_transaction_has_expired">The account provided for this\ntransaction has expired.</string>
+    <string name="i_ve_sent_the_money">I\'ve sent the money</string>
+    <string name="try_again">Try again</string>
+    <string name="try_another_payment_method">Try another payment method</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="by_closing_this_checkout_you_are_confirming_to_close_this_checkout_and_cancel_the_transaction">By closing this checkout, you are confirming\nto close this checkout and cancel the transaction.</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="your_payment_has_been_confirmed_successfully">Your Payment has been\nconfirmed successfully</string>
+    <string name="your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you">Your payment of ₦ %1$d to %2$s has been confirmed. You will now be redirected to your merchant’s site. Thank you</string>
 </resources>

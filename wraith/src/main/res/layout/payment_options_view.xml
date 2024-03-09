@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/size_20"
     android:layout_height="wrap_content">
 
     <View
@@ -10,7 +11,6 @@
         android:background="@color/neutral_two"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/line"
-
         android:layout_height="1dp" />
 
     <LinearLayout
@@ -28,6 +28,7 @@
             android:background="@drawable/payment_text_action_bg"
             android:fontFamily="@font/inter_medium"
             android:textColor="@color/mainText"
+            android:textSize="@dimen/font_16"
             android:text="@string/choose_any_of_the_payment_method_below_to_pay"
             android:layout_height="wrap_content"/>
 
@@ -43,6 +44,7 @@
             android:textAllCaps="false"
             android:fontFamily="@font/inter_medium"
             android:drawablePadding="@dimen/size_10"
+            android:textSize="@dimen/font_16"
             android:gravity="left|center_vertical"
             android:drawableStart="@drawable/bank_transfer"
             android:drawableEnd="@drawable/chevron_right"
@@ -62,6 +64,7 @@
             android:paddingEnd="@dimen/size_20"
             android:id="@+id/pay_by_card_button"
             android:textAllCaps="false"
+            android:textSize="@dimen/font_16"
             android:stateListAnimator="@null"
             android:gravity="left|center_vertical"
             android:drawableEnd="@drawable/chevron_right"
@@ -85,6 +88,7 @@
         android:background="@drawable/cancel_border_bg"
         android:fontFamily="@font/inter_medium"
         android:padding="@dimen/size_10"
+        android:id="@+id/cancel_button"
         android:textColor="@color/mainText"
         style="?android:attr/borderlessButtonStyle"
         android:textSize="@dimen/font_16"

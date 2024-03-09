@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:background="@color/dark_gray"
+        android:alpha="0.64"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/dialog_bg"
+        android:layout_width="match_parent"
+        android:padding="@dimen/size_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/dialog_close_btn"
+            style="?android:attr/borderlessButtonStyle"
+
+            android:src="@drawable/cancel"
+            android:minWidth="@dimen/size_0"
+            android:minHeight="@dimen/size_0"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/size_18"
+            android:id="@+id/holder"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/dialog_close_btn"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/size_50"
+                android:src="@drawable/caution"
+                android:layout_marginBottom="@dimen/size_16"
+                android:contentDescription="@string/caution"
+                android:layout_height="@dimen/size_50"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/neutral_ten"
+                android:textSize="@dimen/font_22"
+                android:text="@string/are_you_sure"
+                android:layout_marginBottom="@dimen/size_4"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:textColor="@color/neutral_ten"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textSize="@dimen/font_16"
+                android:text="@string/by_closing_this_checkout_you_are_confirming_to_close_this_checkout_and_cancel_the_transaction"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/holder"
+            android:paddingBottom="@dimen/size_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/size_20"
+                android:background="@drawable/positive_button_bg"
+                android:fontFamily="@font/inter_medium"
+                android:padding="@dimen/size_10"
+                android:textColor="@color/mainText"
+                style="?android:attr/borderlessButtonStyle"
+                android:textSize="@dimen/font_16"
+                android:id="@+id/dialog_confirm_btn"
+                android:textAllCaps="false"
+                android:gravity="center"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline"
+                android:text="@string/confirm"
+                android:layout_marginEnd="@dimen/size_10"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="186dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/size_20"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/guideline"
+                android:layout_width="0dp"
+                android:background="@drawable/cancel_border_bg"
+                android:fontFamily="@font/inter_medium"
+                android:padding="@dimen/size_10"
+                android:id="@+id/dialog_cancel_btn"
+                android:textColor="@color/mainText"
+                style="?android:attr/borderlessButtonStyle"
+                android:textSize="@dimen/font_16"
+                android:layout_marginStart="@dimen/size_10"
+                android:textAllCaps="false"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

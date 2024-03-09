@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="@dimen/size_20"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -12,22 +12,13 @@
         android:id="@+id/line"
         android:layout_height="1dp" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/size_18"
         app:layout_constraintTop_toBottomOf="@id/line"
         android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-
-            android:fontFamily="@font/inter_medium"
-            android:textColor="@color/mainText"
-            android:gravity="center"
-            android:text="@string/transfer_to_account_details_below"
-            android:layout_height="wrap_content"/>
+        
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="status_bar">#666666</color>
+    <color name="dark_gray">#0D0D0D</color>
     <color name="paymentBackground">#FFFFFF</color>
     <color name="mainText">#121212</color>
     <color name="secondaryText">#717171</color>
@@ -10,8 +12,12 @@
     <color name="blue_one">#F2F6FF</color>
     <color name="black">#000000</color>
     <color name="lightText">#8C8C8C</color>
+    <color name="warning_one">#FFFAE6</color>
+    <color name="warning_two">#FFFAE6</color>
     <color name="button_primary">#FFCC00</color>
+    <color name="green">#0E9C00</color>
     <color name="neutral_eight">#4D4D4D</color>
+    <color name="red_one">#FFF4F2</color>
     <color name="neutral_ten">#1A1A1A</color>
     <color name="neutral_one">#F2F2F2</color>
     <color name="neutral_two">#E6E6E6</color>

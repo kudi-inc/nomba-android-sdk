@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/size_20"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/neutral_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/line"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_18"
+        android:id="@+id/holder"
+        android:gravity="center"
+        android:padding="@dimen/size_30"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:background="@drawable/payment_actions_bg"
+        android:layout_height="wrap_content">
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:src="@drawable/caution"
+    android:layout_marginBottom="@dimen/size_16"
+    android:contentDescription="@string/caution"
+    android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/neutral_ten"
+            android:text="@string/account_has_expired"
+            android:layout_marginBottom="@dimen/size_4"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/neutral_ten"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:text="@string/the_account_provided_for_this_transaction_has_expired"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/size_20"
+            android:background="@drawable/positive_button_bg"
+            android:fontFamily="@font/inter_medium"
+            android:padding="@dimen/size_10"
+            android:textColor="@color/mainText"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="@dimen/font_16"
+            android:id="@+id/try_again_btn"
+            android:textAllCaps="false"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            android:text="@string/try_again"
+            android:layout_marginEnd="@dimen/size_10"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="186dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/size_20"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            android:layout_width="0dp"
+            android:background="@drawable/cancel_border_bg"
+            android:fontFamily="@font/inter_medium"
+            android:padding="@dimen/size_10"
+            android:id="@+id/sent_mny_btn"
+            android:textColor="@color/mainText"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="@dimen/font_16"
+            android:layout_marginStart="@dimen/size_10"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:text="@string/i_ve_sent_the_money"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginTop="@dimen/size_20"
+            android:layout_width="match_parent"
+            android:id="@+id/transfer_expired_change_payment_mtd_btn"
+            android:fontFamily="@font/inter_medium"
+            android:padding="@dimen/size_10"
+
+            android:textColor="@color/secondaryText"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="@dimen/font_16"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:text="@string/try_another_payment_method"
+            app:layout_constraintTop_toBottomOf="@id/sent_mny_btn"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
