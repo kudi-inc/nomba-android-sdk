@@ -18,14 +18,47 @@
         android:layout_marginTop="@dimen/size_18"
         app:layout_constraintTop_toBottomOf="@id/line"
         android:layout_height="wrap_content">
-        
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/top_content_holder"
+            android:background="@drawable/warning_bg"
+            android:paddingTop="@dimen/size_12"
+            android:paddingBottom="@dimen/size_12"
+            android:paddingStart="@dimen/size_16"
+            android:paddingEnd="@dimen/size_16"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:textColor="@color/neutral_ten"
+                android:id="@+id/content_label"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/please_wait_we_are_confirming_your_payment_it_might_take_a_few_minutes"
+                android:layout_height="wrap_content"/>
+
+            <ProgressBar
+                android:layout_width="@dimen/size_40"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:indeterminateTint="@color/black"
+                android:id="@+id/static_progress"
+                android:layout_height="@dimen/size_40" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/size_18"
             android:orientation="horizontal"
             android:id="@+id/account_number"
-            android:background="@drawable/blue_border_bg"
+            android:background="@drawable/cancel_border_bg"
             android:paddingTop="@dimen/size_12"
             android:paddingBottom="@dimen/size_12"
             android:paddingStart="@dimen/size_16"
@@ -34,269 +67,141 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content">
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/size_4"
                     android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_eight"
-                    android:textSize="@dimen/font_12"
-                    android:text="@string/account_number"
-                    android:layout_height="wrap_content"/>
+                    android:gravity="center"
+                    android:id="@+id/time_elasped_label"
+                    android:text="@string/wait_time"
+                    android:textColor="@color/lightText"
+                    android:textSize="@dimen/font_12" />
 
                 <TextView
+                    android:id="@+id/waiting_for_confirmation_timer_view"
                     android:layout_width="match_parent"
-                    android:id="@+id/account_number_text"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_ten"
-                    android:text="@string/_98762371891"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/size_4"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:text="@string/_29_09"
+                    android:textColor="@color/lightText"
+                    android:textSize="@dimen/font_12" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="@dimen/size_18"
+                        android:layout_height="@dimen/size_18"
+                        android:layout_marginEnd="@dimen/size_4"
+                        android:contentDescription="@string/clock"
+                        android:src="@drawable/clock" />
+
+                    <ProgressBar android:layout_width="@dimen/size_80"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:indeterminate="false"
+                        android:id="@+id/waiting_for_confirmation_progress"
+                        android:progressDrawable="@drawable/linear_progress_bar"
+                        android:layout_height="@dimen/size_8"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginTop="@dimen/size_30"
+            android:layout_width="match_parent"
+            android:id="@+id/help_button"
+            android:fontFamily="@font/inter_medium"
+            android:padding="@dimen/size_10"
+
+            android:textColor="@color/warningText"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="@dimen/font_16"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:text="@string/need_help_with_this_transaction"
+            android:layout_height="wrap_content"/>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/holder"
+            android:id="@+id/button_holder"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingTop="@dimen/size_4"
-                android:minHeight="0dp" android:minWidth="0dp"
-                android:paddingBottom="@dimen/size_4"
-                android:textColor="@color/neutral_ten"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/size_20"
+                android:background="@drawable/positive_button_bg"
+                android:fontFamily="@font/inter_medium"
+                android:padding="@dimen/size_10"
+                android:textColor="@color/mainText"
                 style="?android:attr/borderlessButtonStyle"
-                android:paddingStart="@dimen/size_8"
-                android:paddingEnd="@dimen/size_8"
-                android:id="@+id/account_number_copy_btn"
-                android:stateListAnimator="@null"
-                android:background="@drawable/copy_btn_bg"
-                android:fontFamily="@font/inter_regular"
-                android:textSize="@dimen/font_12"
-                android:text="@string/copy"
+                android:textSize="@dimen/font_16"
+                android:id="@+id/try_again_btn"
+                android:textAllCaps="false"
+                android:drawableStart="@drawable/refresh"
+                android:paddingStart="@dimen/size_36"
+                android:paddingEnd="@dimen/size_40"
+                android:gravity="center"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline"
+                android:text="@string/try_again"
+                android:layout_marginEnd="@dimen/size_10"
                 android:layout_height="wrap_content"/>
 
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/size_18"
-            android:background="@drawable/blue_bg"
-            android:paddingTop="@dimen/size_12"
-            android:paddingBottom="@dimen/size_12"
-            android:paddingStart="@dimen/size_16"
-            android:paddingEnd="@dimen/size_16"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
+                app:layout_constraintGuide_begin="186dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_eight"
-                    android:textSize="@dimen/font_12"
-                    android:text="@string/bank_name"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_ten"
-                    android:text="@string/amucha_mfb"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_eight"
-                    android:textSize="@dimen/font_12"
-                    android:text="@string/account_name"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_ten"
-                    android:text="@string/abdullahi_abodunrin"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/size_18"
-            android:background="@drawable/blue_bg"
-            android:paddingTop="@dimen/size_12"
-            android:paddingBottom="@dimen/size_12"
-            android:paddingStart="@dimen/size_16"
-            android:paddingEnd="@dimen/size_16"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_eight"
-                    android:textSize="@dimen/font_12"
-                    android:text="@string/amount"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/neutral_ten"
-                    android:id="@+id/amount_label"
-                    android:text="@string/_80_400_00"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:paddingStart="@dimen/size_20"
-            android:paddingEnd="@dimen/size_20"
-            android:paddingTop="@dimen/size_20"
-            android:layout_marginBottom="@dimen/size_5"
-            android:fontFamily="@font/inter_medium"
-            android:textColor="@color/lightText"
-            android:gravity="center"
-            android:textSize="@dimen/font_12"
-            android:text="@string/use_this_account_only_for_this_transaction"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/size_4"
+                android:layout_marginTop="@dimen/size_20"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/guideline"
+                android:layout_width="0dp"
+                android:background="@drawable/cancel_border_bg"
                 android:fontFamily="@font/inter_medium"
-                android:gravity="center"
-                android:text="@string/expires_in"
-                android:textColor="@color/lightText"
-                android:textSize="@dimen/font_12" />
+                android:padding="@dimen/size_10"
+                android:id="@+id/sent_mny_btn"
+                android:textColor="@color/mainText"
+                android:textCursorDrawable="@drawable/question_mark_circle"
+                style="?android:attr/borderlessButtonStyle"
+                android:textSize="@dimen/font_16"
 
-            <TextView
-                android:id="@+id/waiting_for_transfer_timer_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/size_4"
-                android:fontFamily="@font/inter_bold"
-                android:gravity="center"
-                android:text="@string/_29_09"
-                android:textColor="@color/green"
-                android:textSize="@dimen/font_12" />
+                android:layout_marginStart="@dimen/size_10"
+                android:textAllCaps="false"
+                android:drawableStart="@drawable/question_mark_circle"
+                android:paddingStart="@dimen/size_40"
+                android:paddingEnd="@dimen/size_40"
+                android:text="@string/get_help"
+                android:layout_height="wrap_content"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="@dimen/size_18"
-                    android:layout_height="@dimen/size_18"
-                    android:layout_marginEnd="@dimen/size_4"
-                    android:contentDescription="@string/clock"
-                    android:src="@drawable/clock" />
-
-                <ProgressBar android:layout_width="@dimen/size_60"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:indeterminate="false"
-                    android:id="@+id/waiting_for_transfer_progress"
-                    android:progressDrawable="@drawable/linear_progress_bar"
-                    android:layout_height="@dimen/size_6"/>
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/size_20"
-            android:background="@drawable/positive_button_bg"
-            android:fontFamily="@font/inter_medium"
-            android:padding="@dimen/size_10"
-            android:textColor="@color/mainText"
-            style="?android:attr/borderlessButtonStyle"
-            android:textSize="@dimen/font_16"
-            android:id="@+id/sent_mny_btn"
-            android:textAllCaps="false"
-            android:gravity="center"
-            android:text="@string/i_have_sent_the_money"
-            android:layout_height="wrap_content"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="@dimen/size_20"
-            android:layout_width="match_parent"
-            android:background="@drawable/cancel_border_bg"
-            android:fontFamily="@font/inter_medium"
-            android:padding="@dimen/size_10"
-            android:id="@+id/transfer_change_payment_mtd_btn"
-            android:textColor="@color/mainText"
-            style="?android:attr/borderlessButtonStyle"
-            android:textSize="@dimen/font_16"
-            android:textAllCaps="false"
-            android:gravity="center"
-            android:text="@string/change_payment_method"
-            android:layout_height="wrap_content"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="@dimen/size_10"
-            android:layout_width="match_parent"
-            android:id="@+id/cancel_button"
-            android:fontFamily="@font/inter_medium"
-            android:padding="@dimen/size_10"
-            android:textColor="@color/mainText"
-            style="?android:attr/borderlessButtonStyle"
-            android:textSize="@dimen/font_16"
-            android:textAllCaps="false"
-            android:gravity="center"
-            android:text="@string/cancel_payment"
-            android:layout_height="wrap_content"/>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

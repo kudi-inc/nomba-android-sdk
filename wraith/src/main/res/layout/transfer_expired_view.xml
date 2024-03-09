@@ -47,7 +47,6 @@
             android:text="@string/the_account_provided_for_this_transaction_has_expired"
             android:layout_height="wrap_content"/>
 
-
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

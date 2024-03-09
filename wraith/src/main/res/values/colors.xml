@@ -6,6 +6,7 @@
     <color name="paymentBackground">#FFFFFF</color>
     <color name="mainText">#121212</color>
     <color name="secondaryText">#717171</color>
+    <color name="warningText">#AA8800</color>
     <color name="borderColor">#EEEEEE</color>
     <color name="borderTetriary">#E6E6E6</color>
     <color name="blue_two">#CCDDFF</color>

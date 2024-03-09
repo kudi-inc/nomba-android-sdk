@@ -5,17 +5,22 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
+import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import java.lang.ref.WeakReference
 import java.text.NumberFormat
 import java.util.Currency
+
 
 // pass the activity and parentGroup as weakreferences to avoid memory leak
 open class NombaManager private constructor (var activity: WeakReference<Activity>, var clientKey: String, private var parentGroup: WeakReference<ConstraintLayout>) {
@@ -28,6 +33,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     private val format: NumberFormat = NumberFormat.getCurrencyInstance()
     var paymentAmount : Double = 0.0
+    var displayViewState : DisplayViewState = DisplayViewState.PAYMENTOPTIONS
     var customerEmail : String = "customer-email@gmail.com"
     private val clipboardManager = activity.get()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     companion object {
@@ -49,7 +55,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var paymentOptionsShelter: PaymentOptionsShelter
     private lateinit var transferShelter: TransferShelter
     private lateinit var transferExpiredShelter: TransferExpiredShelter
-
+    private lateinit var confirmingTransferShelter: ConfirmingTransferShelter
+    var utils = Utils()
 
     fun showExitDialog(){
         activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
@@ -96,10 +103,23 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         parentGroup.get()?.addView(activityMainViewBinding.root)
     }
 
-    fun setOnClickListeners(){
-activityMainViewBinding.dialogView.dialogCloseBtn.setOnClickListener {
-    hideExitDialog()
-}
+    private fun setOnClickListeners(){
+        activityMainViewBinding.root.isFocusableInTouchMode = true
+        activityMainViewBinding.root.requestFocus()
+        Log.e("Bruh", "SET ERE")
+        activityMainViewBinding.root.setOnKeyListener { _, keyCode, event ->
+            Log.e("Bruh", "SET ERE TY")
+            if (event.action === KeyEvent.ACTION_UP) {
+                // Add your code here
+                Log.e("Bru", "SET")
+                handleBackStack()
+                true
+            } else false
+        }
+
+        activityMainViewBinding.dialogView.dialogCloseBtn.setOnClickListener {
+            hideExitDialog()
+        }
 
         activityMainViewBinding.dialogView.dialogCancelBtn.setOnClickListener {
             hideExitDialog()
@@ -111,10 +131,29 @@ activityMainViewBinding.dialogView.dialogCloseBtn.setOnClickListener {
         }
     }
 
+    fun handleBackStack(){
+        when (displayViewState){
+            DisplayViewState.PAYMENTOPTIONS -> activity.get()?.onBackPressed()
+
+            DisplayViewState.TRANSFER -> {
+                transferShelter.hideShelter()
+                paymentOptionsShelter.showShelter()
+                displayViewState = DisplayViewState.PAYMENTOPTIONS
+            }
+
+            DisplayViewState.TRANSFER_CONFIRMATION -> {
+
+            }
+
+            DisplayViewState.DIALOG -> TODO()
+        }
+    }
+
     private fun createAllShelters(){
         paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
         transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
         transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
+        confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
     }
 
     fun showPaymentView(){
@@ -144,6 +183,11 @@ activityMainViewBinding.dialogView.dialogCloseBtn.setOnClickListener {
         paymentOptionsShelter.hideShelter()
         transferShelter.showShelter()
 
+    }
+
+    fun showTransferConfirmationView(){
+        transferShelter.hideShelter()
+        confirmingTransferShelter.showShelter()
     }
 
     fun changePaymentFromTransfer(){

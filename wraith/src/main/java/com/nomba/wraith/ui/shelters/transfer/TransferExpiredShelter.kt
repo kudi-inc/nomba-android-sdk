@@ -21,9 +21,7 @@ class TransferExpiredShelter(var manager : NombaManager, activityTransferExpired
 
         }
 
-        layout().sentMnyBtn.setOnClickListener {
-
-        }
+        layout().sentMnyBtn.setOnClickListener {  }
     }
 
 }
