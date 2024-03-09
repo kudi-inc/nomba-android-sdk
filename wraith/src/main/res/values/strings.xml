@@ -44,4 +44,7 @@
     <string name="time_elapsed">Time elapsed</string>
     <string name="get_help">Get help</string>
     <string name="note_that_this_transaction_will_be_completed_automatically_as_soon_as_we_confirm_your_payment">Note that this transaction will be completed automatically as soon as we confirm your payment.</string>
+    <string name="need_further_help_reach_out_to_us_on_support_nomba_com">Need further help? Reach out to us on\n<b>support@nomba.com</b></string>
+    <string name="longer_than_expected">Taking longer than expected? You don\'t need\nto stay here till we confirm it</string>
+    <string name="keep_waiting">Keep waiting</string>
 </resources>

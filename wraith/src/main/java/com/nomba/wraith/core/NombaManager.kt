@@ -145,7 +145,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
             }
 
-            DisplayViewState.DIALOG -> TODO()
+            DisplayViewState.TRANSFER_CONFIRMATION_INNER_ONE -> TODO()
+            DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO -> TODO()
         }
     }
 

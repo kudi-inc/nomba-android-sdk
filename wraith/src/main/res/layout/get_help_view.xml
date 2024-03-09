@@ -53,9 +53,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
+        android:lineSpacingMultiplier="1.1"
         android:layout_marginTop="@dimen/size_20"
         android:textAlignment="center"
-        android:text="@string/the_account_provided_for_this_transaction_has_expired"
+        android:text="@string/need_further_help_reach_out_to_us_on_support_nomba_com"
         android:layout_height="wrap_content"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,7 +81,7 @@
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/guideline"
-            android:text="@string/try_again"
+            android:text="@string/keep_waiting"
             android:layout_marginEnd="@dimen/size_10"
             android:layout_height="wrap_content"/>
 
@@ -100,14 +101,14 @@
             android:background="@drawable/cancel_border_bg"
             android:fontFamily="@font/inter_medium"
             android:padding="@dimen/size_10"
-            android:id="@+id/sent_mny_btn"
+            android:id="@+id/close_checkout_btn"
             android:textColor="@color/mainText"
             style="?android:attr/borderlessButtonStyle"
             android:textSize="@dimen/font_16"
             android:layout_marginStart="@dimen/size_10"
             android:textAllCaps="false"
             android:gravity="center"
-            android:text="@string/i_ve_sent_the_money"
+            android:text="@string/close_checkout"
             android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

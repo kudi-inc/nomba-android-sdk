@@ -42,13 +42,15 @@
                 android:layout_height="wrap_content"/>
 
             <ProgressBar
+                android:id="@+id/static_progress"
                 android:layout_width="@dimen/size_40"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="@dimen/size_40"
+                android:indeterminateTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:indeterminateTint="@color/black"
-                android:id="@+id/static_progress"
-                android:layout_height="@dimen/size_40" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/content_label"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -57,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/size_18"
             android:orientation="horizontal"
-            android:id="@+id/account_number"
+            android:id="@+id/waiting_holder"
             android:background="@drawable/cancel_border_bg"
             android:paddingTop="@dimen/size_12"
             android:paddingBottom="@dimen/size_12"
@@ -143,7 +145,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/font_10"
+            android:layout_marginTop="@dimen/size_18"
             app:layout_constraintTop_toBottomOf="@id/holder"
             android:id="@+id/button_holder"
             android:visibility="gone"

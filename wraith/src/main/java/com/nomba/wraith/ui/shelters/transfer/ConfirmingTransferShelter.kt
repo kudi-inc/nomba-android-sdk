@@ -25,6 +25,14 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
         confirmationTimer = manager.utils.createTimer(confirmationTime, ::onConfirmationTransferTick, ::onConfirmationTransferEnd)
         confirmationTimer.start()
         layout().waitingForConfirmationProgress.max = confirmationTime.toInt()
+        layout().tryAgainBtn.setOnClickListener {
+            if (manager.displayViewState == DisplayViewState.TRANSFER_CONFIRMATION) {
+                manager.displayViewState = DisplayViewState.TRANSFER_CONFIRMATION_INNER_ONE
+                setUpSecondConfirmationScreen()
+            } else {
+                manager.displayViewState = DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO
+            }
+        }
     }
 
     private fun onConfirmationTransferTick(millisUntilFinished: Long){
@@ -62,12 +70,23 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
 
         layout().helpButton.visibility = View.GONE
         layout().buttonHolder.visibility = View.VISIBLE
+
+
     }
 
-    private fun secondConfirmationEnded(){
-        layout().timeElaspedLabel.text = manager.activity.get()?.getString(R.string.time_elapsed)
+    private fun setUpSecondConfirmationScreen(){
+        layout().waitingHolder.visibility = View.GONE
         layout().waitingForConfirmationProgress.progress = 0
         layout().waitingForConfirmationTimerView.visibility = View.GONE
+
+        layout().topContentHolder.background =
+            manager.activity.get()?.let {
+                ContextCompat.getDrawable(it, R.drawable.warning_bg) }
+
+        layout().staticProgress.visibility = View.VISIBLE
+        layout().contentLabel.text = manager.activity.get()?.let {
+            ContextCompat.getString(it, R.string.longer_than_expected)
+        }
     }
 
     override fun hideShelter() {
