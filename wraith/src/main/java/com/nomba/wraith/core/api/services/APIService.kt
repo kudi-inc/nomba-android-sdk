@@ -1,15 +1,29 @@
 package com.nomba.wraith.core.api.services
 
-import android.telecom.Call
+import android.database.Observable
+import com.nomba.wraith.core.api.models.accesstoken.AccessTokenRequest
+import com.nomba.wraith.core.api.models.accesstoken.AccessTokenResponse
+import com.nomba.wraith.core.api.models.fetchbanks.FetchBanksResponse
+import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
+import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenRequest
+import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Path
 
 interface APIService {
 
-    @GET("posts/{id}")
-    fun getPostById(@Path("id") postID: Int): Call<Post>
-
     @POST("/v1/auth/token/issue")
-    fun obtainAccessToken()
+    fun obtainAccessToken(@Header("accountId") accountId : String,  @Body accessTokenRequest: AccessTokenRequest): Observable<AccessTokenResponse>
+
+    @POST("/v1/auth/token/refresh")
+    fun refreshAccessToken(@Header("accountId") accountId : String,  @Body refreshTokenRequest: RefreshTokenRequest): Observable<RefreshTokenResponse>
+
+    @GET("/v1/transfers/banks")
+    fun getBanks(@Header("accountId") accountId : String, @Header("Authorization") authorization : String) : Observable<FetchBanksResponse>
+
+    @GET("/v1/accounts/parent")
+    fun getparentBankAcount(@Header("accountId") accountId : String, @Header("Authorization") authorization : String) : Observable<FetchParentAccountResponse>
+
 }
