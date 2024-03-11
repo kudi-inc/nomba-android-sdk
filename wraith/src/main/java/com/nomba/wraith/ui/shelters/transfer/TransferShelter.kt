@@ -13,7 +13,9 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
 
     private lateinit var waitingForTransferTimer: CountDownTimer
     private val waitingForTransferTime : Long = 1800000
-
+    private var accountNumber : String = ""
+    private var bankName : String = ""
+    private var accountName : String = ""
 
     override fun layout(): TransferViewBinding {
         return super.layout() as TransferViewBinding
@@ -22,13 +24,24 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
     override fun showShelter() {
         super.showShelter()
         setOnClickListeners()
+        layout().amountLabel.text = manager.formatPaymentAmount()
+        layout().accountNumberText.text = accountNumber
+        layout().accountNameText.text = accountName
+        layout().bankNameText.text = bankName
+
         manager.displayViewState = DisplayViewState.TRANSFER
         waitingForTransferTimer = manager.utils.createTimer(waitingForTransferTime, ::onWaitingForTransferTick, ::onWaitingForTransferEnd)
 
         layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
 
-        layout().amountLabel.text = manager.formatPaymentAmount()
+
+    }
+
+    fun setBankDetails(accountNumber: String, bankName : String, accountName : String){
+        this.bankName = bankName
+        this.accountName = accountName
+        this.accountNumber = accountNumber
     }
 
     private fun setOnClickListeners(){

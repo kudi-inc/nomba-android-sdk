@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
+import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
 import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
@@ -26,10 +27,11 @@ import retrofit2.Response
 import java.lang.ref.WeakReference
 import java.text.NumberFormat
 import java.util.Currency
+import java.util.UUID
 
 
 // pass the activity and parentGroup as weakreferences to avoid memory leak
-open class NombaManager private constructor (var activity: WeakReference<Activity>, var accountId: String, private var parentGroup: WeakReference<ConstraintLayout>) {
+open class NombaManager private constructor (var activity: WeakReference<Activity>, private var accountId: String, var clientId: String, var clientKey: String, private var parentGroup: WeakReference<ConstraintLayout>) {
 
     init {
         setUpMainPaymentView()
@@ -39,18 +41,19 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     private val format: NumberFormat = NumberFormat.getCurrencyInstance()
     var paymentAmount : Double = 0.0
+    var orderReference : String = UUID.randomUUID().toString()
     var displayViewState : DisplayViewState = DisplayViewState.PAYMENTOPTIONS
     var customerEmail : String = "customer-email@gmail.com"
-    var networkManager = NetworkManager()
+    private var networkManager = NetworkManager()
     private val clipboardManager = activity.get()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     companion object {
         @Volatile
         private var instance: NombaManager? = null
 
         @Synchronized
-        fun getInstance(activity: Activity, clientKey: String, parentGroup: ConstraintLayout): NombaManager {
+        fun getInstance(activity: Activity, accountId: String, clientId: String, clientKey: String, parentGroup: ConstraintLayout): NombaManager {
             if (instance == null) {
-                instance = NombaManager(WeakReference(activity), clientKey, WeakReference(parentGroup))
+                instance = NombaManager(WeakReference(activity), accountId, clientId, clientKey, WeakReference(parentGroup))
             }
 
             return instance!!
@@ -190,27 +193,36 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showTransferView(){
         showLoader()
-        networkManager.getAccessToken(accountId = accountId, clientId = "", clientSecret = "", ::fetchBanksForTransfer)
+        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, ::fetchBanksForTransfer)
     }
 
     private fun fetchBanksForTransfer(){
-        networkManager.fetchAcount(accountId).enqueue(object : Callback<FetchParentAccountResponse> {
-            override fun onResponse(call: Call<FetchParentAccountResponse>, response: Response<FetchParentAccountResponse>) {
+        networkManager.getFlashAccount(accountId).enqueue(object : Callback<FlashAccountResponse> {
+            override fun onResponse(call: Call<FlashAccountResponse>, response: Response<FlashAccountResponse>) {
                 if (response.isSuccessful) {
                     val post = response.body()
+                    Log.e("Error", post.toString())
                     hideLoader()
+                    transferShelter.setBankDetails(post!!.data.accountNumber, post.data.bankName, post.data.accountName)
                     transferExpiredShelter.hideShelter()
                     paymentOptionsShelter.hideShelter()
                     transferShelter.showShelter()
+                    Log.e("Success", "Gotten Transfer Details")
                     // Handle the retrieved post data
                 } else {
-                    hideLoader()
+                    Log.e("Error", "Error Transfer")
+                    Log.e("Error", response.toString())
+                    Log.e("Error", response.code().toString())
                     // Handle error
+                    hideLoader()
                 }
             }
-            override fun onFailure(call: Call<FetchParentAccountResponse>, t: Throwable) {
+            override fun onFailure(call: Call<FlashAccountResponse>, t: Throwable) {
                 // Handle failure
                 hideLoader()
+                Log.e("Error", "Error Access Token")
+                Log.e("Error", t.localizedMessage)
+                Log.e("Error", t.toString())
             }
         })
     }
