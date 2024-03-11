@@ -5,7 +5,7 @@ import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.TransferExpiredViewBinding
 
 
-class TransferExpiredShelter(var manager : NombaManager, activityTransferExpiredViewBinding: TransferExpiredViewBinding) : Shelter(activityTransferExpiredViewBinding) {
+class TransferExpiredShelter(private var manager : NombaManager, activityTransferExpiredViewBinding: TransferExpiredViewBinding) : Shelter(activityTransferExpiredViewBinding) {
 
     override fun layout(): TransferExpiredViewBinding {
         return super.layout() as TransferExpiredViewBinding
@@ -18,10 +18,13 @@ class TransferExpiredShelter(var manager : NombaManager, activityTransferExpired
         }
 
         layout().transferExpiredChangePaymentMtdBtn.setOnClickListener {
-
+            manager.showPaymentOptionsView()
         }
 
-        layout().sentMnyBtn.setOnClickListener {  }
+        layout().sentMnyBtn.setOnClickListener {
+            hideShelter()
+            manager.showTransferConfirmationView()
+        }
     }
 
 }

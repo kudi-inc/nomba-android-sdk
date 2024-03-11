@@ -14,7 +14,7 @@ import java.util.Locale
 class ConfirmingTransferShelter(private var manager: NombaManager, activityConfirmingTransferViewBinding: ConfirmingTransferViewBinding) : Shelter(activityConfirmingTransferViewBinding) {
 
     private lateinit var confirmationTimer: CountDownTimer
-    private val confirmationTime : Long = 30000 //600000
+    private val confirmationTime : Long = 600000
 
     override fun layout(): ConfirmingTransferViewBinding {
         return super.layout() as ConfirmingTransferViewBinding

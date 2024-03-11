@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/size_20"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
@@ -58,9 +60,10 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:id="@+id/account_number_text"
+                    android:id="@+id/card_number_text"
                     android:fontFamily="@font/inter_medium"
                     android:textSize="@dimen/font_16"
+                    android:textColorHint="@color/mainText"
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
                     android:layout_marginTop="@dimen/size_2"
@@ -127,13 +130,14 @@
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
                     android:layout_marginTop="@dimen/size_2"
+                    android:textColorHint="@color/mainText"
                     android:paddingBottom="@dimen/size_0"
                     android:paddingTop="@dimen/size_0"
                     android:textColor="@color/neutral_ten"
                     android:background="@null"
                     android:hint="@string/mm_yy"
                     android:layout_height="wrap_content"
-                    android:inputType="date" />
+                    android:inputType="datetime" />
 
             </LinearLayout>
 
@@ -174,6 +178,7 @@
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
                     android:layout_marginTop="@dimen/size_2"
+                    android:textColorHint="@color/mainText"
                     android:paddingBottom="@dimen/size_0"
                     android:paddingTop="@dimen/size_0"
                     android:textColor="@color/neutral_ten"

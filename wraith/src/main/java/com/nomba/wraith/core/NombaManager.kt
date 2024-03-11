@@ -184,6 +184,11 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         getHelpShelter.showShelter()
     }
 
+    fun showPaymentOptionsView(){
+        transferExpiredShelter.hideShelter()
+        paymentOptionsShelter.showShelter()
+    }
+
     fun hideTransferConfirmingView(){
         confirmingTransferShelter.hideShelter()
     }
