@@ -1,17 +1,50 @@
 package com.nomba.wraith.core.managers
 
-import android.database.Observable
 import com.nomba.wraith.core.api.APIClient
+import com.nomba.wraith.core.api.models.accesstoken.AccessTokenRequest
+import com.nomba.wraith.core.api.models.accesstoken.AccessTokenResponse
 import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class NetworkManager {
 
     private lateinit var accessToken: String
+    private lateinit var refreshToken: String
 
     init {
 
+    }
+
+    //first call to server, if accessToken is not initialised, fetch access token and save it
+    //if initialised, just make a trip with the account instead
+    fun getAccessToken(accountId: String, clientId: String, clientSecret: String, onAccessTokenGottenFun: () -> Unit,) {
+        if (this::accessToken.isInitialized || this::refreshToken.isInitialized){
+            onAccessTokenGottenFun()
+        } else {
+            APIClient.apiService.obtainAccessToken(accountId = accountId, accessTokenRequest = AccessTokenRequest(grant_type = "client_credentials",
+                client_id = clientId,
+                client_secret = clientSecret)).enqueue(object : Callback<AccessTokenResponse> {
+                override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
+                    if (response.isSuccessful) {
+                        val post = response.body()
+                        accessToken = post!!.data.access_token
+                        refreshToken = post.data.refresh_token
+                        onAccessTokenGottenFun()
+                        // Handle the retrieved post data
+                    } else {
+                        // Handle error
+                        accessToken = ""
+                        refreshToken = ""
+                    }
+                }
+                override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
+                    // Handle failure
+
+                }
+            })
+        }
     }
 
     fun fetchAcount(accountId: String) : Call<FetchParentAccountResponse> {

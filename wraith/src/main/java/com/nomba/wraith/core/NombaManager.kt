@@ -190,6 +190,10 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showTransferView(){
         showLoader()
+        networkManager.getAccessToken(accountId = accountId, clientId = "", clientSecret = "", ::fetchBanksForTransfer)
+    }
+
+    private fun fetchBanksForTransfer(){
         networkManager.fetchAcount(accountId).enqueue(object : Callback<FetchParentAccountResponse> {
             override fun onResponse(call: Call<FetchParentAccountResponse>, response: Response<FetchParentAccountResponse>) {
                 if (response.isSuccessful) {
@@ -200,6 +204,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
                     transferShelter.showShelter()
                     // Handle the retrieved post data
                 } else {
+                    hideLoader()
                     // Handle error
                 }
             }
