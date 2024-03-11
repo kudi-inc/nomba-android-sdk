@@ -12,19 +12,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
+import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.lang.ref.WeakReference
 import java.text.NumberFormat
 import java.util.Currency
 
 
 // pass the activity and parentGroup as weakreferences to avoid memory leak
-open class NombaManager private constructor (var activity: WeakReference<Activity>, var clientKey: String, private var parentGroup: WeakReference<ConstraintLayout>) {
+open class NombaManager private constructor (var activity: WeakReference<Activity>, var accountId: String, private var parentGroup: WeakReference<ConstraintLayout>) {
 
     init {
         setUpMainPaymentView()
@@ -36,6 +41,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var paymentAmount : Double = 0.0
     var displayViewState : DisplayViewState = DisplayViewState.PAYMENTOPTIONS
     var customerEmail : String = "customer-email@gmail.com"
+    var networkManager = NetworkManager()
     private val clipboardManager = activity.get()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     companion object {
         @Volatile
@@ -183,10 +189,25 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showTransferView(){
-        transferExpiredShelter.hideShelter()
-        paymentOptionsShelter.hideShelter()
-        transferShelter.showShelter()
-
+        showLoader()
+        networkManager.fetchAcount(accountId).enqueue(object : Callback<FetchParentAccountResponse> {
+            override fun onResponse(call: Call<FetchParentAccountResponse>, response: Response<FetchParentAccountResponse>) {
+                if (response.isSuccessful) {
+                    val post = response.body()
+                    hideLoader()
+                    transferExpiredShelter.hideShelter()
+                    paymentOptionsShelter.hideShelter()
+                    transferShelter.showShelter()
+                    // Handle the retrieved post data
+                } else {
+                    // Handle error
+                }
+            }
+            override fun onFailure(call: Call<FetchParentAccountResponse>, t: Throwable) {
+                // Handle failure
+                hideLoader()
+            }
+        })
     }
 
     fun showTransferConfirmationView(){

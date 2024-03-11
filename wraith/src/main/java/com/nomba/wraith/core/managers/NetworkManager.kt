@@ -3,7 +3,7 @@ package com.nomba.wraith.core.managers
 import android.database.Observable
 import com.nomba.wraith.core.api.APIClient
 import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
-import com.nomba.wraith.core.api.services.APIService
+import retrofit2.Call
 import retrofit2.Response
 
 class NetworkManager {
@@ -14,8 +14,8 @@ class NetworkManager {
 
     }
 
-    fun fetchAcount(accountId: String) : Observable<Response<FetchParentAccountResponse>>{
-        return APIClient.apiService.getparentBankAcount()
+    fun fetchAcount(accountId: String) : Call<FetchParentAccountResponse> {
+        return APIClient.apiService.getparentBankAcount(authorization = accessToken, accountId = accountId)
     }
 
 }
