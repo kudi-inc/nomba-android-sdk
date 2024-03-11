@@ -15,9 +15,12 @@ import com.nomba.wraith.core.api.models.createorder.Order
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
+import com.nomba.wraith.core.enums.DisplayViewState
+import com.nomba.wraith.core.enums.PaymentOption
 import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
+import com.nomba.wraith.ui.shelters.card.CardShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
 import com.nomba.wraith.ui.shelters.transfer.SuccessShelter
@@ -69,6 +72,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var activityMainViewBinding : MainViewBinding
     private lateinit var paymentOptionsShelter: PaymentOptionsShelter
     private lateinit var transferShelter: TransferShelter
+    private lateinit var cardShelter: CardShelter
     private lateinit var transferExpiredShelter: TransferExpiredShelter
     private lateinit var confirmingTransferShelter: ConfirmingTransferShelter
     private lateinit var getHelpShelter: GetHelpShelter
@@ -156,6 +160,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             DisplayViewState.TRANSFER_CONFIRMATION_INNER_ONE -> TODO()
             DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO -> TODO()
             DisplayViewState.GET_HELP -> TODO()
+            DisplayViewState.PAYMENT_SUCCESS -> activity.get()?.onBackPressed()
         }
     }
 
@@ -166,6 +171,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
         getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
         successShelter = SuccessShelter(this, activityMainViewBinding.successTransferView)
+        cardShelter = CardShelter(this, activityMainViewBinding.cardView)
     }
 
     fun showPaymentView(){
@@ -200,9 +206,13 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showTransferView(){
         showLoader()
-        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, ::createOrder)
+        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.TRANSFER, ::createOrder)
     }
 
+    fun showCardView(){
+        showLoader()
+        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
+    }
 
     fun showTransferConfirmationView(){
         transferShelter.hideShelter()
@@ -257,7 +267,9 @@ private fun fetchBanksForTransfer(){
     })
 }
 
-    private fun createOrder(){
+
+
+    private fun createOrder(selectedPaymentOption : PaymentOption){
         // the order hasn't been created so create it
         networkManager.createOrder(accountId,
             CreateOrderRequest(Order(paymentAmount.toString(), callbackUrl = "",
@@ -270,7 +282,14 @@ private fun fetchBanksForTransfer(){
                     Log.e("Error Response", post.toString())
                     if (post?.code == "00"){
                         orderReference = post.data.orderReference
-                        fetchBanksForTransfer()
+                        when (selectedPaymentOption) {
+                            PaymentOption.TRANSFER -> fetchBanksForTransfer()
+                            PaymentOption.CARD -> {
+                                hideLoader()
+                                    paymentOptionsShelter.hideShelter()
+                                    cardShelter.showShelter()
+                            }
+                        }
                     }
                 } else {
                     hideLoader()
@@ -291,7 +310,7 @@ private fun fetchBanksForTransfer(){
                     val post = response.body()
                     Log.e("Error Response", post.toString())
                     if (post?.code == "00"){
-                        if (post.data.status == "success") {
+                        if (post.data.status == "true") {
                             confirmingTransferShelter.hideShelter()
                             successShelter.showShelter()
                         }

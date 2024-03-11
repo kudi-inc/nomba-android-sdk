@@ -3,7 +3,7 @@ package com.nomba.wraith.ui.shelters.transfer
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import com.google.android.material.snackbar.Snackbar
-import com.nomba.wraith.core.DisplayViewState
+import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.TransferViewBinding

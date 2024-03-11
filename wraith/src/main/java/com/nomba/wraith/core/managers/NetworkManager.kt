@@ -10,6 +10,7 @@ import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountRes
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
+import com.nomba.wraith.core.enums.PaymentOption
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,9 +26,9 @@ class NetworkManager {
 
     //first call to server, if accessToken is not initialised, fetch access token and save it
     //if initialised, just make a trip with the account instead
-    fun getAccessToken(accountId: String, clientId: String, clientKey: String, onAccessTokenGottenFun: () -> Unit,) {
+    fun getAccessToken(accountId: String, clientId: String, clientKey: String, selectedPaymentOption : PaymentOption, onAccessTokenGottenFun: (selectedPaymentOption : PaymentOption) -> Unit,) {
         if (this::accessToken.isInitialized || this::refreshToken.isInitialized){
-            onAccessTokenGottenFun()
+            onAccessTokenGottenFun(selectedPaymentOption)
         } else {
             APIClient.apiService.obtainAccessToken(accountId = accountId, accessTokenRequest = AccessTokenRequest(grant_type = "client_credentials",
                 client_id = clientId,
@@ -38,7 +39,7 @@ class NetworkManager {
                         accessToken = post!!.data.access_token
                         refreshToken = post.data.refresh_token
                         Log.e("Success", "Gotten Token")
-                        onAccessTokenGottenFun()
+                        onAccessTokenGottenFun(selectedPaymentOption)
                         // Handle the retrieved post data
                     } else {
                         Log.e("Error", "Error Access Token")

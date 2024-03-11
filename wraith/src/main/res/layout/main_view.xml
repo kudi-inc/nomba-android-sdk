@@ -87,10 +87,17 @@
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/top_view"
         android:layout_height="wrap_content"
-
         android:visibility="gone"
         android:id="@+id/transfer_view"
         layout="@layout/transfer_view" />
+
+    <include
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/card_view"
+        layout="@layout/card_view" />
 
     <include
         android:layout_width="match_parent"

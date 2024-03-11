@@ -25,8 +25,9 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.sample_pay_button)
         val main = findViewById<ConstraintLayout>(R.id.main)
         val nombaManager = NombaManager.getInstance(this, "293bb9a0-dc25-428d-8f63-d828b9420cd5", clientId = "2e43173e-3e69-4fa2-8168-f4fedbf9a962", clientKey = "GF3G1qY9f2TNZ64Jsin9QY4WJ5FnlCPyu23y716StxUsMR6jXNB0zcZHQEZ1avU1Y+CdgdrzW5zHefMlblXGmQ==", main)
-        nombaManager.paymentAmount = 69000.0
+        nombaManager.paymentAmount = 20.0//69000.0
         nombaManager.customerEmail = "knightbenax@gmail.com"
+        nombaManager.customerName = "Emeka Bond"
 
         button.setOnClickListener {
             nombaManager.showPaymentView()

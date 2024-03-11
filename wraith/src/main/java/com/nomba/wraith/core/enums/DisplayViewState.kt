@@ -1,4 +1,4 @@
-package com.nomba.wraith.core
+package com.nomba.wraith.core.enums
 
 enum class DisplayViewState {
     PAYMENTOPTIONS,
@@ -6,5 +6,6 @@ enum class DisplayViewState {
     TRANSFER_CONFIRMATION,
     TRANSFER_CONFIRMATION_INNER_ONE,
     TRANSFER_CONFIRMATION_INNER_TWO,
+    PAYMENT_SUCCESS,
     GET_HELP
 }
