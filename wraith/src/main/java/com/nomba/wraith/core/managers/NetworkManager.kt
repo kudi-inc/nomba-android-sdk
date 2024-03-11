@@ -8,6 +8,8 @@ import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
 import com.nomba.wraith.core.api.models.createorder.CreateOrderResponse
 import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
+import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
+import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,6 +67,10 @@ class NetworkManager {
 
     fun createOrder(accountId: String, createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse> {
         return APIClient.apiService.createAnOrder(accountId, accessToken, createOrderRequest)
+    }
+
+    fun checkTransactionOrderStatus(checkTransactionStatusRequest: CheckTransactionStatusRequest) : Call<CheckTransactionStatusResponse> {
+        return APIClient.apiService.checkTransactionOrderStatus(accessToken, checkTransactionStatusRequest)
     }
 
 }

@@ -119,6 +119,14 @@
         android:id="@+id/get_help_view"
         layout="@layout/get_help_view" />
 
+    <include
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/success_transfer_view"
+        layout="@layout/success_transfer_view" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"

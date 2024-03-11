@@ -10,6 +10,8 @@ import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountRes
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
 import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenRequest
 import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenResponse
+import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
+import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -40,4 +42,8 @@ interface APIService {
 
     @POST("/v1/checkout/order")
     fun createAnOrder(@Header("accountId") accountId : String, @Header("Authorization") authorization : String, @Body createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse>
+
+
+    @POST("/v1/checkout/confirm-transaction-receipt")
+    fun checkTransactionOrderStatus(@Header("Authorization") authorization : String, @Body checkTransactionStatusRequest: CheckTransactionStatusRequest) :Call<CheckTransactionStatusResponse>
 }

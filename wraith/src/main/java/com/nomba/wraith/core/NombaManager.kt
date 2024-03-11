@@ -5,20 +5,22 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
+import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
+import com.nomba.wraith.core.api.models.createorder.CreateOrderResponse
+import com.nomba.wraith.core.api.models.createorder.Order
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
+import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
+import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
+import com.nomba.wraith.ui.shelters.transfer.SuccessShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import retrofit2.Call
@@ -44,6 +46,9 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var orderReference : String = UUID.randomUUID().toString()
     var displayViewState : DisplayViewState = DisplayViewState.PAYMENTOPTIONS
     var customerEmail : String = "customer-email@gmail.com"
+    var customerId : String = UUID.randomUUID().toString()
+    var customerName : String = "Wasiu Jackson"
+
     private var networkManager = NetworkManager()
     private val clipboardManager = activity.get()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     companion object {
@@ -67,6 +72,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var transferExpiredShelter: TransferExpiredShelter
     private lateinit var confirmingTransferShelter: ConfirmingTransferShelter
     private lateinit var getHelpShelter: GetHelpShelter
+    private lateinit var successShelter: SuccessShelter
 
     var utils = Utils()
 
@@ -159,6 +165,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
         confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
         getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
+        successShelter = SuccessShelter(this, activityMainViewBinding.successTransferView)
     }
 
     fun showPaymentView(){
@@ -193,39 +200,9 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showTransferView(){
         showLoader()
-        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, ::fetchBanksForTransfer)
+        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, ::createOrder)
     }
 
-    private fun fetchBanksForTransfer(){
-        networkManager.getFlashAccount(accountId).enqueue(object : Callback<FlashAccountResponse> {
-            override fun onResponse(call: Call<FlashAccountResponse>, response: Response<FlashAccountResponse>) {
-                if (response.isSuccessful) {
-                    val post = response.body()
-                    Log.e("Error", post.toString())
-                    hideLoader()
-                    transferShelter.setBankDetails(post!!.data.accountNumber, post.data.bankName, post.data.accountName)
-                    transferExpiredShelter.hideShelter()
-                    paymentOptionsShelter.hideShelter()
-                    transferShelter.showShelter()
-                    Log.e("Success", "Gotten Transfer Details")
-                    // Handle the retrieved post data
-                } else {
-                    Log.e("Error", "Error Transfer")
-                    Log.e("Error", response.toString())
-                    Log.e("Error", response.code().toString())
-                    // Handle error
-                    hideLoader()
-                }
-            }
-            override fun onFailure(call: Call<FlashAccountResponse>, t: Throwable) {
-                // Handle failure
-                hideLoader()
-                Log.e("Error", "Error Access Token")
-                Log.e("Error", t.localizedMessage)
-                Log.e("Error", t.toString())
-            }
-        })
-    }
 
     fun showTransferConfirmationView(){
         transferShelter.hideShelter()
@@ -243,6 +220,92 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
 
+///Network Funs
+private fun fetchBanksForTransfer(){
+    networkManager.getFlashAccount(orderReference).enqueue(object : Callback<FlashAccountResponse> {
+        override fun onResponse(call: Call<FlashAccountResponse>, response: Response<FlashAccountResponse>) {
+            if (response.isSuccessful) {
+                // Handle the retrieved post data
+                val post = response.body()
+                Log.e("Error Response", post.toString())
+                hideLoader()
+                if (post?.code == "00"){
+                    transferShelter.setBankDetails(post.data.accountNumber, post.data.bankName, post.data.accountName)
+                    transferExpiredShelter.hideShelter()
+                    paymentOptionsShelter.hideShelter()
+                    transferShelter.showShelter()
+                }
+//                    else if (post?.code == "400") {
+//                        Log.e("Error Response", post.toString())
+//                        val description = post.description
+//                        if (description.contains("INTERNAL: Unable to find Order for", ignoreCase = true)){
+//                            createOrder()
+//                        }
+//                    }
+            } else {
+//                    Log.e("Error", "Error Transfer")
+//                    Log.e("Error", response.toString())
+//                    Log.e("Error", response.code().toString())
+                // Handle error
+                hideLoader()
+            }
+        }
+        override fun onFailure(call: Call<FlashAccountResponse>, t: Throwable) {
+            // Handle failure
+            hideLoader()
+        }
+    })
+}
+
+    private fun createOrder(){
+        // the order hasn't been created so create it
+        networkManager.createOrder(accountId,
+            CreateOrderRequest(Order(paymentAmount.toString(), callbackUrl = "",
+                currency = "NGN", customerEmail = customerEmail,
+                orderReference = orderReference, customerId = customerId),
+                tokenizeCard = "true")).enqueue(object : Callback<CreateOrderResponse> {
+            override fun onResponse(call: Call<CreateOrderResponse>, response: Response<CreateOrderResponse>) {
+                if (response.isSuccessful) {
+                    val post = response.body()
+                    Log.e("Error Response", post.toString())
+                    if (post?.code == "00"){
+                        orderReference = post.data.orderReference
+                        fetchBanksForTransfer()
+                    }
+                } else {
+                    hideLoader()
+                }
+            }
+            override fun onFailure(call: Call<CreateOrderResponse>, t: Throwable) {
+                // Handle failure
+                hideLoader()
+            }
+        })
+    }
+
+
+    fun checkOrderDetails(){
+        networkManager.checkTransactionOrderStatus(CheckTransactionStatusRequest(orderReference)).enqueue(object : Callback<CheckTransactionStatusResponse> {
+            override fun onResponse(call: Call<CheckTransactionStatusResponse>, response: Response<CheckTransactionStatusResponse>) {
+                if (response.isSuccessful) {
+                    val post = response.body()
+                    Log.e("Error Response", post.toString())
+                    if (post?.code == "00"){
+                        if (post.data.status == "success") {
+                            confirmingTransferShelter.hideShelter()
+                            successShelter.showShelter()
+                        }
+                    }
+                } else {
+                    hideLoader()
+                }
+            }
+            override fun onFailure(call: Call<CheckTransactionStatusResponse>, t: Throwable) {
+                // Handle failure
+                hideLoader()
+            }
+        })
+    }
 
 
 }
