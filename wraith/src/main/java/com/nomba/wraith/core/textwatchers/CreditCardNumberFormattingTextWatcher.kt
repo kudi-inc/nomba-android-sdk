@@ -4,7 +4,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 
-class CreditCardNumberFormattingTextWatcher : TextWatcher {
+class CreditCardNumberFormattingTextWatcher(var onTextChanged: () -> Unit) : TextWatcher {
     private var current = ""
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -22,6 +22,7 @@ class CreditCardNumberFormattingTextWatcher : TextWatcher {
             }
             s.replace(0, s.length, current, 0, current.length)
         }
+        onTextChanged()
     }
 
     companion object {

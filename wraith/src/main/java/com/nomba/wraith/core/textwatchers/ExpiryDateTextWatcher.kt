@@ -7,7 +7,7 @@ import android.text.Spannable
 import android.text.TextWatcher
 import android.text.style.ReplacementSpan
 
-class ExpiryDateTextWatcher : TextWatcher {
+class ExpiryDateTextWatcher(var onTextChanged: () -> Unit) : TextWatcher {
     private val maxLength = 5
     private var internalStopFormatFlag = false
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -19,6 +19,7 @@ class ExpiryDateTextWatcher : TextWatcher {
         internalStopFormatFlag = true
         formatExpiryDate(s, maxLength)
         internalStopFormatFlag = false
+        onTextChanged()
     }
 
     class SlashSpan : ReplacementSpan() {

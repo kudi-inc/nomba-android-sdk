@@ -50,6 +50,10 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
             manager.changePaymentFromTransfer()
         }
 
+        layout().cancelButton.setOnClickListener {
+            manager.showExitDialog()
+        }
+
         layout().accountNumber.setOnClickListener {
             val accountNumber = layout().accountNumberText.text
             manager.addToClipboard(accountNumber)
@@ -62,9 +66,7 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
             Snackbar.make(layout().root, "Account Number copied to clipboard", Snackbar.LENGTH_SHORT).show()
         }
 
-        layout().cancelButton.setOnClickListener {
-            manager.showExitDialog()
-        }
+
 
         layout().sentMnyBtn.setOnClickListener{
             manager.showTransferConfirmationView()

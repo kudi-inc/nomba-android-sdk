@@ -3,6 +3,8 @@ package com.nomba.wraith.core.enums
 enum class DisplayViewState {
     PAYMENTOPTIONS,
     TRANSFER,
+    CARD,
+    CARD_PIN,
     TRANSFER_CONFIRMATION,
     TRANSFER_CONFIRMATION_INNER_ONE,
     TRANSFER_CONFIRMATION_INNER_TWO,

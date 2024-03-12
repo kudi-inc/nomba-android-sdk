@@ -134,6 +134,7 @@
                     android:textColorHint="@color/mainText"
                     android:paddingBottom="@dimen/size_0"
                     android:paddingTop="@dimen/size_0"
+                    android:maxLength="5"
                     android:textColor="@color/neutral_ten"
                     android:background="@null"
                     android:hint="@string/mm_yy"
@@ -178,6 +179,7 @@
                     android:textSize="@dimen/font_16"
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
+                    android:maxLength="3"
                     android:layout_marginTop="@dimen/size_2"
                     android:textColorHint="@color/mainText"
                     android:paddingBottom="@dimen/size_0"
@@ -200,7 +202,7 @@
             android:layout_height="wrap_content">
 
             <CheckBox
-                android:id="@+id/save_card"
+                android:id="@+id/save_card_checkbox"
 
                 android:buttonTint="@color/black"
                 android:layout_width="match_parent"
@@ -219,29 +221,31 @@
             android:background="@drawable/positive_button_bg"
             android:fontFamily="@font/inter_medium"
             android:padding="@dimen/size_10"
+            android:enabled="false"
             android:textColor="@color/mainText"
+            android:alpha="0.4"
             style="?android:attr/borderlessButtonStyle"
             android:textSize="@dimen/font_16"
-            android:id="@+id/sent_mny_btn"
+            android:id="@+id/pay_btn"
             android:textAllCaps="false"
             android:gravity="center"
-            android:text="@string/i_have_sent_the_money"
+            android:text="@string/pay_button_label"
             android:layout_height="wrap_content"/>
 
         <View
             android:layout_width="match_parent"
             android:background="@color/neutral_two"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/size_18"
+            android:layout_marginTop="@dimen/size_24"
             android:layout_height="1dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="@dimen/size_20"
+            android:layout_marginTop="@dimen/size_24"
             android:layout_width="match_parent"
             android:background="@drawable/cancel_border_bg"
             android:fontFamily="@font/inter_medium"
             android:padding="@dimen/size_10"
-            android:id="@+id/transfer_change_payment_mtd_btn"
+            android:id="@+id/card_change_payment_mtd_btn"
             android:textColor="@color/mainText"
             style="?android:attr/borderlessButtonStyle"
             android:textSize="@dimen/font_16"

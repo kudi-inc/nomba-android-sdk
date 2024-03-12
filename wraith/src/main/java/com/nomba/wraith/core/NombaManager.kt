@@ -8,12 +8,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.nomba.wraith.R
+import com.nomba.wraith.core.api.models.CardObject
 import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
 import com.nomba.wraith.core.api.models.createorder.CreateOrderResponse
 import com.nomba.wraith.core.api.models.createorder.Order
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
+import com.nomba.wraith.core.api.models.submitcard.DeviceInformation
+import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsRequest
+import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsResponse
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import com.nomba.wraith.core.enums.DisplayViewState
@@ -21,6 +26,8 @@ import com.nomba.wraith.core.enums.PaymentOption
 import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
+import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
+import com.nomba.wraith.ui.shelters.card.CardPinShelter
 import com.nomba.wraith.ui.shelters.card.CardShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
@@ -54,6 +61,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     private var networkManager = NetworkManager()
     private val clipboardManager = activity.get()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+    lateinit var cardObject: CardObject
     companion object {
         @Volatile
         private var instance: NombaManager? = null
@@ -77,6 +86,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var confirmingTransferShelter: ConfirmingTransferShelter
     private lateinit var getHelpShelter: GetHelpShelter
     private lateinit var successShelter: SuccessShelter
+    private lateinit var cardPinShelter: CardPinShelter
+    private lateinit var cardLoadingShelter: CardLoadingShelter
 
     var utils = Utils()
 
@@ -146,7 +157,6 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     fun handleBackStack(){
         when (displayViewState){
             DisplayViewState.PAYMENTOPTIONS -> activity.get()?.onBackPressed()
-
             DisplayViewState.TRANSFER -> {
                 transferShelter.hideShelter()
                 paymentOptionsShelter.showShelter()
@@ -161,6 +171,17 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO -> TODO()
             DisplayViewState.GET_HELP -> TODO()
             DisplayViewState.PAYMENT_SUCCESS -> activity.get()?.onBackPressed()
+            DisplayViewState.CARD -> {
+                cardShelter.hideShelter()
+                paymentOptionsShelter.showShelter()
+                displayViewState = DisplayViewState.PAYMENTOPTIONS
+            }
+
+            DisplayViewState.CARD_PIN -> {
+                cardPinShelter.hideShelter()
+                cardShelter.showShelter()
+                displayViewState = DisplayViewState.CARD
+            }
         }
     }
 
@@ -172,6 +193,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
         successShelter = SuccessShelter(this, activityMainViewBinding.successTransferView)
         cardShelter = CardShelter(this, activityMainViewBinding.cardView)
+        cardPinShelter = CardPinShelter(this, activityMainViewBinding.cardPinView)
+        cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
     }
 
     fun showPaymentView(){
@@ -204,13 +227,17 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun formatPaymentAmount(): String {
-        format.maximumFractionDigits = 2
-        format.minimumFractionDigits = 2
-        format.format(paymentAmount)
         return activity.get()!!.getString(
             R.string.pay_label,
-            format.format(paymentAmount)
+            doFormattingAmount()
         )
+    }
+
+
+    fun doFormattingAmount() : String{
+        format.maximumFractionDigits = 2
+        format.minimumFractionDigits = 2
+        return format.format(paymentAmount)
     }
 
     fun showTransferView(){
@@ -223,6 +250,19 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
     }
 
+    fun showCardPinView(){
+        cardShelter.hideShelter()
+        cardPinShelter.showShelter()
+    }
+
+
+
+
+    fun hideKeyboard(){
+        val inputMethodManager = activity.get()?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(activityMainViewBinding.root.windowToken, 0)
+    }
+
     fun showTransferConfirmationView(){
         transferShelter.hideShelter()
         confirmingTransferShelter.showShelter()
@@ -230,6 +270,11 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun changePaymentFromTransfer(){
         transferShelter.hideShelter()
+        paymentOptionsShelter.showShelter()
+    }
+
+    fun changePaymentFromCard(){
+        cardShelter.hideShelter()
         paymentOptionsShelter.showShelter()
     }
 
@@ -311,6 +356,50 @@ private fun fetchBanksForTransfer(){
         })
     }
 
+    fun submitCardDetails(){
+        cardPinShelter.hideShelter()
+        cardLoadingShelter.showShelter()
+        val deviceInformation = DeviceInformation("android-sdk",
+            "",
+            ""
+            , ""
+            , ""
+            , ""
+            , ""
+            , ""
+            , "wraith")
+        val stringCardDetails = "{\"cardCVV\": " + cardObject.cardCVV + ",\"cardExpiryMonth\": " + cardObject.cardMonth + ",\"cardExpiryYear\": " + cardObject.cardYear + ",\"cardNumber\": \"" + cardObject.cardNumber + "\",\"cardPin\": " + cardObject.cardPin +"}"
+        val submitCardDetailsRequest = SubmitCardDetailsRequest(cardDetails = stringCardDetails,
+            key = "", orderReference = orderReference,
+            saveCard = cardObject.saveCard.toString(),
+            deviceInformation = deviceInformation)
+        networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
+            override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
+                if (response.isSuccessful) {
+                    val post = response.body()
+                    Log.e("Success Response", post.toString())
+                    if (post?.code == "00"){
+                        if (post.data.responseCode == "T0") {
+                            //show OTP screen
+                            cardLoadingShelter.hideShelter()
+                        }  else if (post.data.responseCode == "S0") {
+                            //show 3Ds screen
+                            cardLoadingShelter.hideShelter()
+                        } else if (post.data.responseCode == "00") {
+                            cardLoadingShelter.hideShelter()
+                            successShelter.showShelter()
+                        }
+                    }
+                } else {
+                    cardLoadingShelter.hideShelter()
+                }
+            }
+            override fun onFailure(call: Call<SubmitCardDetailsResponse>, t: Throwable) {
+                // Handle failure
+                cardLoadingShelter.hideShelter()
+            }
+        })
+    }
 
     fun checkOrderDetails(){
         networkManager.checkTransactionOrderStatus(CheckTransactionStatusRequest(orderReference)).enqueue(object : Callback<CheckTransactionStatusResponse> {
