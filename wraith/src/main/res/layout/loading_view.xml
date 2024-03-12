@@ -17,7 +17,7 @@
     <ProgressBar
         android:layout_width="@dimen/size_100"
         android:layout_height="@dimen/size_100"
-        android:progressDrawable="@drawable/linear_progress_bar"
+        android:indeterminateTint="@color/button_primary"
         android:indeterminate="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

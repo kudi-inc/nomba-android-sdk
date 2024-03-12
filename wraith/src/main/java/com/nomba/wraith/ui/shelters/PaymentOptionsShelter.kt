@@ -21,6 +21,10 @@ class PaymentOptionsShelter(private var manager: NombaManager, private var activ
         layout().payByTransferButton.setOnClickListener {
             manager.showTransferView()
         }
+
+        layout().payByCardButton.setOnClickListener {
+            manager.showCardView()
+        }
     }
 
     init {

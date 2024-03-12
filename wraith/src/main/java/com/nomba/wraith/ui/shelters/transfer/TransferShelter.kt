@@ -3,7 +3,7 @@ package com.nomba.wraith.ui.shelters.transfer
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import com.google.android.material.snackbar.Snackbar
-import com.nomba.wraith.core.DisplayViewState
+import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.TransferViewBinding
@@ -13,7 +13,9 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
 
     private lateinit var waitingForTransferTimer: CountDownTimer
     private val waitingForTransferTime : Long = 1800000
-
+    private var accountNumber : String = ""
+    private var bankName : String = ""
+    private var accountName : String = ""
 
     override fun layout(): TransferViewBinding {
         return super.layout() as TransferViewBinding
@@ -22,19 +24,34 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
     override fun showShelter() {
         super.showShelter()
         setOnClickListeners()
+        layout().amountLabel.text = manager.formatPaymentAmount()
+        layout().accountNumberText.text = accountNumber
+        layout().accountNameText.text = accountName
+        layout().bankNameText.text = bankName
+
         manager.displayViewState = DisplayViewState.TRANSFER
         waitingForTransferTimer = manager.utils.createTimer(waitingForTransferTime, ::onWaitingForTransferTick, ::onWaitingForTransferEnd)
 
         layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
 
-        layout().amountLabel.text = manager.formatPaymentAmount()
+
+    }
+
+    fun setBankDetails(accountNumber: String, bankName : String, accountName : String){
+        this.bankName = bankName
+        this.accountName = accountName
+        this.accountNumber = accountNumber
     }
 
     private fun setOnClickListeners(){
         //Change Payment Button In Transfer View
         layout().transferChangePaymentMtdBtn.setOnClickListener {
             manager.changePaymentFromTransfer()
+        }
+
+        layout().cancelButton.setOnClickListener {
+            manager.showExitDialog()
         }
 
         layout().accountNumber.setOnClickListener {
@@ -49,9 +66,7 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
             Snackbar.make(layout().root, "Account Number copied to clipboard", Snackbar.LENGTH_SHORT).show()
         }
 
-        layout().cancelButton.setOnClickListener {
-            manager.showExitDialog()
-        }
+
 
         layout().sentMnyBtn.setOnClickListener{
             manager.showTransferConfirmationView()

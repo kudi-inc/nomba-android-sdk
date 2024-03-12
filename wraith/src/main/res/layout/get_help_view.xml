@@ -76,7 +76,7 @@
             android:textColor="@color/mainText"
             style="?android:attr/borderlessButtonStyle"
             android:textSize="@dimen/font_16"
-            android:id="@+id/try_again_btn"
+            android:id="@+id/keep_waiting_btn"
             android:textAllCaps="false"
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"

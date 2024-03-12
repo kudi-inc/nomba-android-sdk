@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/size_20"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/neutral_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/line"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:layout_width="match_parent"
+        android:background="@drawable/card_pin_view_bg"
+        android:layout_marginTop="@dimen/size_20"
+        android:paddingStart="@dimen/size_10"
+        android:paddingEnd="@dimen/size_10"
+        android:paddingTop="@dimen/size_60"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/size_60"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:src="@drawable/otp"
+            android:contentDescription="@string/pay_label"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="@dimen/size_10"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:id="@+id/content_label"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/mainText"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_marginBottom="@dimen/size_30"
+            android:text="@string/opt_text"
+            android:layout_height="wrap_content" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/otpView"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:textColorHint="@color/mainText"
+            android:hint="@string/_0000"
+            android:inputType="number"
+            android:textColor="@color/mainText"
+            app:cursorWidth="1dp"
+            android:textSize="@dimen/font_14"
+            app:hideLineWhenFilled="true"
+            app:itemCount="6"
+            app:itemHeight="48dp"
+            app:itemRadius="6dp"
+            app:itemSpacing="@dimen/size_10"
+            app:itemWidth="48dp"
+            app:lineColor="@color/borderColor"
+            app:lineWidth="1dp"
+            app:viewType="rectangle" />
+
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

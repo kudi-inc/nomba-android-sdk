@@ -15,7 +15,9 @@
     <string name="account_name">Account Name</string>
     <string name="abdullahi_abodunrin">Abdullahi Abodunrin</string>
     <string name="amount">Amount</string>
-    <string name="_80_400_00">₦ 80,400.00</string>
+    <string name="pay_label">₦%1$s</string>
+    <string name="pay_button_label">Pay ₦%1$s</string>
+    <string name="opt_text">Enter the One Time Password (OTP)\nsent to %1$s to verify it</string>
     <string name="use_this_account_only_for_this_transaction">Use this account only for this transaction</string>
     <string name="change_payment_method">Change payment method</string>
     <string name="i_have_sent_the_money">I have sent the money</string>
@@ -35,7 +37,7 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="your_payment_has_been_confirmed_successfully">Your Payment has been\nconfirmed successfully</string>
-    <string name="your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you">Your payment of ₦ %1$d to %2$s has been confirmed. You will now be redirected to your merchant’s site. Thank you</string>
+    <string name="your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you">Your payment of ₦ %1$s to %2$s has been confirmed. You will now be redirected to your merchant’s app. Thank you</string>
     <string name="please_wait_we_are_confirming_your_payment_it_might_take_a_few_minutes">Please wait. We are confirming your payment, It might take a few minutes…</string>
     <string name="wait_time">Wait time</string>
     <string name="transaction_taking_long">This transaction has taken longer than usual? Kindly try again or get help, to continue. Thank you</string>
@@ -48,4 +50,17 @@
     <string name="need_further_help_reach_out_to_us_on_support_nomba_com">Need further help? Reach out to us on\n<b>support@nomba.com</b></string>
     <string name="longer_than_expected">Taking longer than expected? You don\'t need to stay here till we confirm it</string>
     <string name="keep_waiting">Keep waiting</string>
+    <string name="enter_your_card_information_for_payment">Enter your card information for payment</string>
+    <string name="card_number">Card Number</string>
+    <string name="_0000_0000_0000_0000">0000 0000 0000 0000</string>
+    <string name="expiry_date">Expiry date</string>
+    <string name="mm_yy">MM/YY</string>
+    <string name="cvv">CVV</string>
+    <string name="_007">007</string>
+    <string name="save_card_for_future_use">Save card for future use</string>
+    <string name="please_enter_your_4_digit_card_pin_to_complete_transaction">Please enter your 4-digit card PIN to\ncomplete transaction</string>
+    <string name="_0000">0000</string>
+    <string name="please_wait">Please Wait</string>
+
+
 </resources>

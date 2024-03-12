@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.nomba.wraith.R
-import com.nomba.wraith.core.DisplayViewState
+import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
 import com.nomba.wraith.databinding.ConfirmingTransferViewBinding
@@ -14,7 +14,7 @@ import java.util.Locale
 class ConfirmingTransferShelter(private var manager: NombaManager, activityConfirmingTransferViewBinding: ConfirmingTransferViewBinding) : Shelter(activityConfirmingTransferViewBinding) {
 
     private lateinit var confirmationTimer: CountDownTimer
-    private val confirmationTime : Long = 3000 //600000
+    private val confirmationTime : Long = 600000
 
     override fun layout(): ConfirmingTransferViewBinding {
         return super.layout() as ConfirmingTransferViewBinding
@@ -30,8 +30,10 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
             if (manager.displayViewState == DisplayViewState.TRANSFER_CONFIRMATION) {
                 manager.displayViewState = DisplayViewState.TRANSFER_CONFIRMATION_INNER_ONE
                 setUpSecondConfirmationScreen()
+                manager.checkOrderDetails()
             } else {
                 manager.displayViewState = DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO
+                manager.checkOrderDetails()
             }
         }
 
@@ -40,7 +42,9 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
             manager.hideTransferConfirmingView()
             manager.showGetHelpView()
         }
+
         resetViews()
+        manager.checkOrderDetails()
     }
 
     private fun onConfirmationTransferTick(millisUntilFinished: Long){

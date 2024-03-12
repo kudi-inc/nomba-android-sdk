@@ -57,6 +57,7 @@
             android:textColor="@color/neutral_ten"
             android:lineSpacingMultiplier="1.2"
             android:gravity="center"
+            android:id="@+id/success_content_text"
             android:textAlignment="center"
             android:text="@string/your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you"
             android:layout_height="wrap_content"/>
