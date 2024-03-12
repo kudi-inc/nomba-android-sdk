@@ -182,12 +182,17 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
                 paymentOptionsShelter.showShelter()
                 displayViewState = DisplayViewState.PAYMENTOPTIONS
             }
-
             DisplayViewState.CARD_PIN -> {
                 cardPinShelter.hideShelter()
                 cardShelter.showShelter()
                 displayViewState = DisplayViewState.CARD
             }
+            DisplayViewState.CARD_OTP -> {
+                cardOTPShelter.hideShelter()
+                cardShelter.showShelter()
+                displayViewState = DisplayViewState.CARD
+            }
+            DisplayViewState.CARD_LOADING -> {}
         }
     }
 
