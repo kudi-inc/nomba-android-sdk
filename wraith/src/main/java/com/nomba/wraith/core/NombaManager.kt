@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.nomba.wraith.R
 import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
 import com.nomba.wraith.core.api.models.createorder.CreateOrderResponse
 import com.nomba.wraith.core.api.models.createorder.Order
@@ -31,7 +32,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.ref.WeakReference
 import java.text.NumberFormat
-import java.util.Currency
 import java.util.UUID
 
 
@@ -44,7 +44,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         setOnClickListeners()
     }
 
-    private val format: NumberFormat = NumberFormat.getCurrencyInstance()
+    private val format: NumberFormat = NumberFormat.getInstance()
     var paymentAmount : Double = 0.0
     var orderReference : String = UUID.randomUUID().toString()
     var displayViewState : DisplayViewState = DisplayViewState.PAYMENTOPTIONS
@@ -203,10 +203,14 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         activityMainViewBinding.emailLabel.text = customerEmail
     }
 
-    fun formatPaymentAmount() : String{
+    fun formatPaymentAmount(): String {
         format.maximumFractionDigits = 2
-        format.currency = Currency.getInstance("NGN")
-        return format.format(paymentAmount)
+        format.minimumFractionDigits = 2
+        format.format(paymentAmount)
+        return activity.get()!!.getString(
+            R.string.pay_label,
+            format.format(paymentAmount)
+        )
     }
 
     fun showTransferView(){

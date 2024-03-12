@@ -15,7 +15,7 @@
     <string name="account_name">Account Name</string>
     <string name="abdullahi_abodunrin">Abdullahi Abodunrin</string>
     <string name="amount">Amount</string>
-    <string name="_80_400_00">₦ 80,400.00</string>
+    <string name="pay_label">₦ %1$s</string>
     <string name="use_this_account_only_for_this_transaction">Use this account only for this transaction</string>
     <string name="change_payment_method">Change payment method</string>
     <string name="i_have_sent_the_money">I have sent the money</string>
@@ -55,4 +55,5 @@
     <string name="mm_yy">MM/YY</string>
     <string name="cvv">CVV</string>
     <string name="_007">007</string>
+    <string name="save_card_for_future_use">Save card for future use</string>
 </resources>

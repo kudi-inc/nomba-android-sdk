@@ -190,7 +190,7 @@
                     android:fontFamily="@font/inter_medium"
                     android:textColor="@color/neutral_ten"
                     android:id="@+id/amount_label"
-                    android:text="@string/_80_400_00"
+                    android:text="@string/pay_label"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
