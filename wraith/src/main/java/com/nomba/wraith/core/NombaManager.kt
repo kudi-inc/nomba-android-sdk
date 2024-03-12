@@ -357,6 +357,7 @@ private fun fetchBanksForTransfer(){
     }
 
     fun submitCardDetails(){
+        hideKeyboard()
         cardPinShelter.hideShelter()
         cardLoadingShelter.showShelter()
         val deviceInformation = DeviceInformation("android-sdk",
