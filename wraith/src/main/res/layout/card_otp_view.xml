@@ -36,6 +36,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:gravity="center"
+            android:id="@+id/content_label"
             android:fontFamily="@font/inter_medium"
             android:textColor="@color/mainText"
             android:lineSpacingMultiplier="1.2"

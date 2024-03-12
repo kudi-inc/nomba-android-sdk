@@ -10,6 +10,8 @@ import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountRes
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsRequest
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsResponse
+import com.nomba.wraith.core.api.models.submitotp.SubmitOTPRequest
+import com.nomba.wraith.core.api.models.submitotp.SubmitOTPResponse
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import com.nomba.wraith.core.enums.PaymentOption
@@ -78,6 +80,10 @@ class NetworkManager {
 
     fun submitCardDetails(submitCardDetailsRequest: SubmitCardDetailsRequest) : Call<SubmitCardDetailsResponse> {
         return APIClient.apiService.submitCardDetails(accessToken, submitCardDetailsRequest)
+    }
+
+    fun submitOTPDetails(submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse> {
+        return APIClient.apiService.submitOTPDetails(accessToken, submitOTPRequest)
     }
 
 }

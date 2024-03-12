@@ -1,6 +1,5 @@
 package com.nomba.wraith.core.api.services
 
-import android.database.Observable
 import com.nomba.wraith.core.api.models.accesstoken.AccessTokenRequest
 import com.nomba.wraith.core.api.models.accesstoken.AccessTokenResponse
 import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
@@ -12,10 +11,11 @@ import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenRequest
 import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenResponse
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsRequest
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsResponse
+import com.nomba.wraith.core.api.models.submitotp.SubmitOTPRequest
+import com.nomba.wraith.core.api.models.submitotp.SubmitOTPResponse
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -50,5 +50,7 @@ interface APIService {
     fun checkTransactionOrderStatus(@Header("Authorization") authorization : String, @Body checkTransactionStatusRequest: CheckTransactionStatusRequest) :Call<CheckTransactionStatusResponse>
 
     @POST("/v1/checkout/checkout-card-detail")
-    fun submitCardDetails(@Header("Authorization") authorization : String, submitCardDetailsRequest: SubmitCardDetailsRequest) : Call<SubmitCardDetailsResponse>
+    fun submitCardDetails(@Header("Authorization") authorization : String, @Body submitCardDetailsRequest: SubmitCardDetailsRequest) : Call<SubmitCardDetailsResponse>
+    @POST("/v1/checkout/checkout-card-otp")
+    fun submitOTPDetails(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
 }

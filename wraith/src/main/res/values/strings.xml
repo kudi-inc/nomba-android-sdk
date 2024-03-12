@@ -37,7 +37,7 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="your_payment_has_been_confirmed_successfully">Your Payment has been\nconfirmed successfully</string>
-    <string name="your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you">Your payment of ₦ %1$f to %2$s has been confirmed. You will now be redirected to your merchant’s app. Thank you</string>
+    <string name="your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you">Your payment of ₦ %1$s to %2$s has been confirmed. You will now be redirected to your merchant’s app. Thank you</string>
     <string name="please_wait_we_are_confirming_your_payment_it_might_take_a_few_minutes">Please wait. We are confirming your payment, It might take a few minutes…</string>
     <string name="wait_time">Wait time</string>
     <string name="transaction_taking_long">This transaction has taken longer than usual? Kindly try again or get help, to continue. Thank you</string>

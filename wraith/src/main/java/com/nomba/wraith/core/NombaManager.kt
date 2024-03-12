@@ -19,6 +19,8 @@ import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
 import com.nomba.wraith.core.api.models.submitcard.DeviceInformation
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsRequest
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsResponse
+import com.nomba.wraith.core.api.models.submitotp.SubmitOTPRequest
+import com.nomba.wraith.core.api.models.submitotp.SubmitOTPResponse
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusRequest
 import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import com.nomba.wraith.core.enums.DisplayViewState
@@ -27,6 +29,7 @@ import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
+import com.nomba.wraith.ui.shelters.card.CardOTPShelter
 import com.nomba.wraith.ui.shelters.card.CardPinShelter
 import com.nomba.wraith.ui.shelters.card.CardShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
@@ -60,6 +63,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerName : String = "Wasiu Jackson"
 
     private var networkManager = NetworkManager()
+    var otpMessage : String = ""
+    var transactionID : String = ""
     private val clipboardManager = activity.get()?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
     lateinit var cardObject: CardObject
@@ -88,6 +93,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var successShelter: SuccessShelter
     private lateinit var cardPinShelter: CardPinShelter
     private lateinit var cardLoadingShelter: CardLoadingShelter
+    private lateinit var cardOTPShelter: CardOTPShelter
 
     var utils = Utils()
 
@@ -195,6 +201,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         cardShelter = CardShelter(this, activityMainViewBinding.cardView)
         cardPinShelter = CardPinShelter(this, activityMainViewBinding.cardPinView)
         cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
+        cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
     }
 
     fun showPaymentView(){
@@ -299,17 +306,7 @@ private fun fetchBanksForTransfer(){
                     paymentOptionsShelter.hideShelter()
                     transferShelter.showShelter()
                 }
-//                    else if (post?.code == "400") {
-//                        Log.e("Error Response", post.toString())
-//                        val description = post.description
-//                        if (description.contains("INTERNAL: Unable to find Order for", ignoreCase = true)){
-//                            createOrder()
-//                        }
-//                    }
             } else {
-//                    Log.e("Error", "Error Transfer")
-//                    Log.e("Error", response.toString())
-//                    Log.e("Error", response.code().toString())
                 // Handle error
                 hideLoader()
             }
@@ -356,6 +353,33 @@ private fun fetchBanksForTransfer(){
         })
     }
 
+    fun submitOTPDetails(otpText : String){
+        hideKeyboard()
+        cardOTPShelter.hideShelter()
+        cardLoadingShelter.showShelter()
+        networkManager.submitOTPDetails(SubmitOTPRequest(orderReference, otpText, transactionID)).enqueue(object : Callback<SubmitOTPResponse> {
+            override fun onResponse(call: Call<SubmitOTPResponse>, response: Response<SubmitOTPResponse>) {
+                if (response.isSuccessful) {
+                    val post = response.body()
+                    Log.e("Success Response", post.toString())
+                    if (post?.code == "00"){
+                        if (post.data.status == "true") {
+                            //show OTP screen
+                            cardLoadingShelter.hideShelter()
+                            successShelter.showShelter()
+                        }
+                    }
+                } else {
+                    cardLoadingShelter.hideShelter()
+                }
+            }
+            override fun onFailure(call: Call<SubmitOTPResponse>, t: Throwable) {
+                // Handle failure
+                cardLoadingShelter.hideShelter()
+            }
+        })
+    }
+
     fun submitCardDetails(){
         hideKeyboard()
         cardPinShelter.hideShelter()
@@ -380,15 +404,22 @@ private fun fetchBanksForTransfer(){
                     val post = response.body()
                     Log.e("Success Response", post.toString())
                     if (post?.code == "00"){
-                        if (post.data.responseCode == "T0") {
-                            //show OTP screen
-                            cardLoadingShelter.hideShelter()
-                        }  else if (post.data.responseCode == "S0") {
-                            //show 3Ds screen
-                            cardLoadingShelter.hideShelter()
-                        } else if (post.data.responseCode == "00") {
-                            cardLoadingShelter.hideShelter()
-                            successShelter.showShelter()
+                        when (post.data.responseCode) {
+                            "T0" -> {
+                                //show OTP screen
+                                otpMessage = post.data.message
+                                transactionID = post.data.transactionId
+                                cardLoadingShelter.hideShelter()
+                                cardOTPShelter.showShelter()
+                            }
+                            "S0" -> {
+                                //show 3Ds screen
+                                cardLoadingShelter.hideShelter()
+                            }
+                            "00" -> {
+                                cardLoadingShelter.hideShelter()
+                                successShelter.showShelter()
+                            }
                         }
                     }
                 } else {
