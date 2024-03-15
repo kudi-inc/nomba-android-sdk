@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         // show the SDK when you want to make a purchase
         button.setOnClickListener {
+
             nombaManager.showPaymentView()
         }
 
