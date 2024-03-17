@@ -21,7 +21,7 @@ Accept payments in your app by bank transfer or card
   <img src="/ytscreens/7.png" width="24%" />
   <img src="/ytscreens/8.png" width="24%" />
 </p>
-
+<br>
 
 
 ## 🚀 Getting Started
@@ -43,7 +43,7 @@ Add to your project build.gradle file, the Nomba Android SDK
 ```
 implementation("com.github.kudi-inc:nomba-android-sdk:1.0.0")
 ```
-
+<br>
 
 
 
@@ -94,7 +94,7 @@ button.setOnClickListener {
     nombaManager.showPaymentView()
 }
 ```
-
+<br>
 
 
 
@@ -102,7 +102,7 @@ button.setOnClickListener {
 
 If you use the Nomba Android SDK in your project and would like it listed here, simply create a new issue with the title of your app, link to it on the PlayStore and tag it
 with the label 'project'. It would get added here afterwards
-
+<br>
 
 
 
@@ -115,6 +115,7 @@ Clone the repository to get started working on the project.
 ```bash
 git clone https://github.com/kudi-inc/nomba-android-sdk
 ```
+<br>
 
 
 
