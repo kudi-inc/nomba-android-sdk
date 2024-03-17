@@ -161,6 +161,14 @@
         android:id="@+id/card_loading_view"
         layout="@layout/card_loading_view" />
 
+    <include
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/threeds_view"
+        layout="@layout/threeds_view" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"

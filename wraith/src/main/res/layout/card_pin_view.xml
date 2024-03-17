@@ -48,7 +48,7 @@
             style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:cursorVisible="false"
+            android:cursorVisible="true"
             android:textColorHint="@color/mainText"
             android:hint="@string/_0000"
             android:inputType="number"
