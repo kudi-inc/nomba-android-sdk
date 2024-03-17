@@ -8,18 +8,18 @@ Accept payments in your app by bank transfer or card
 <br><br>
 
 <p float="left">
-  <img src="/1.png" width="24%" />
-  <img src="/2.png" width="24%" />
-  <img src="/3.png" width="24%" />
-  <img src="/4.png" width="24%" /> 
+  <img src="/ytscreens/1.png" width="24%" />
+  <img src="/ytscreens/2.png" width="24%" />
+  <img src="/ytscreens/3.png" width="24%" />
+  <img src="/ytscreens/4.png" width="24%" /> 
 </p>
 
 
 <p float="left">
-  <img src="/5.png" width="24%" />
-  <img src="/6.png" width="24%" />
-  <img src="/7.png" width="24%" />
-  <img src="/8.png" width="24%" />
+  <img src="/ytscreens/5.png" width="24%" />
+  <img src="/ytscreens/6.png" width="24%" />
+  <img src="/ytscreens/7.png" width="24%" />
+  <img src="/ytscreens/8.png" width="24%" />
 </p>
 
 
