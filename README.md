@@ -23,6 +23,8 @@ Accept payments in your app by bank transfer or card
 </p>
 
 
+
+
 ## 🚀 Getting Started
 
 Add to your root build.gradle, the JitPack Repository
@@ -42,6 +44,8 @@ Add to your project build.gradle file, the Nomba Android SDK
 ```
 implementation("com.github.kudi-inc:nomba-android-sdk:1.0.0")
 ```
+
+
 
 
 ## 📖 Documentation
@@ -89,10 +93,14 @@ button.setOnClickListener {
 ```
 
 
+
+
 ## 📱 Projects
 
 If you use the Nomba Android SDK in your project and would like it listed here, simply create a new issue with the title of your app, link to it on the PlayStore and tag it
 with the label 'project'. It would get added here afterwards
+
+
 
 
 ## 👨‍💻 Contributing
@@ -104,6 +112,8 @@ Clone the repository to get started working on the project.
 ```bash
 git clone https://github.com/kudi-inc/nomba-android-sdk
 ```
+
+
 
 
 ## ❤️ Acknowledgments
