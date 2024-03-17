@@ -24,7 +24,6 @@ Accept payments in your app by bank transfer or card
 
 
 
-
 ## 🚀 Getting Started
 
 Add to your root build.gradle, the JitPack Repository
@@ -51,11 +50,15 @@ implementation("com.github.kudi-inc:nomba-android-sdk:1.0.0")
 ## 📖 Documentation
 
 All of your interactions with the Nomba Android SDK is done through a singleton, the NombaManager. 
-Initialise it as early as you can, pass the activity (for Context), your Nomba accountID, your Nomba ClientID, your Nomba ClientKey 
+Initialise it as early as you can, pass the activity (for Context), your Nomba accountID, your Nomba ClientID, 
+your Nomba ClientKey (you can get this values from your Nomba Dashboard)
 and the main ViewGroup which would house the NombaManager UI. The ViewGroup should be a constraintLayout or extend from it.    
 
 ```
-val nombaManager = NombaManager.getInstance(this, "293bb9a0-dc25-428d-8f63-d828b9420cd5", clientId = "2e43173e-3e69-4fa2-8168-f4fedbf9a962", clientKey = "GF3G1qY9f2TNZ64Jsin9QY4WJ5FnlCPyu23y716StxUsMR6jXNB0zcZHQEZ1avU1Y+CdgdrzW5zHefMlblXGmQ==", main)
+val nombaManager = NombaManager.getInstance(this, "accountId", 
+clientId = "clientId", 
+clientKey = "clientKey"
+, main)
 ```
 
 NombaManager handles it's own back stack, managing views and UI when it's presented and the back button or back gesture is 
