@@ -51,6 +51,7 @@ interface APIService {
 
     @POST("/v1/checkout/checkout-card-detail")
     fun submitCardDetails(@Header("Authorization") authorization : String, @Body submitCardDetailsRequest: SubmitCardDetailsRequest) : Call<SubmitCardDetailsResponse>
+
     @POST("/v1/checkout/checkout-card-otp")
     fun submitOTPDetails(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
 }

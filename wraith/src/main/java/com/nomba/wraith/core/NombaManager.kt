@@ -408,10 +408,13 @@ private fun fetchBanksForTransfer(){
             , ""
             , "wraith")
         val stringCardDetails = "{\"cardCVV\": " + cardObject.cardCVV + ",\"cardExpiryMonth\": " + cardObject.cardMonth + ",\"cardExpiryYear\": " + cardObject.cardYear + ",\"cardNumber\": \"" + cardObject.cardNumber + "\",\"cardPin\": " + cardObject.cardPin +"}"
+
         val submitCardDetailsRequest = SubmitCardDetailsRequest(cardDetails = stringCardDetails,
             key = "", orderReference = orderReference,
             saveCard = cardObject.saveCard.toString(),
             deviceInformation = deviceInformation)
+        println(submitCardDetailsRequest)
+        println(submitCardDetailsRequest.toString())
         networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
             override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
                 if (response.isSuccessful) {
@@ -427,7 +430,7 @@ private fun fetchBanksForTransfer(){
                                 cardOTPShelter.showShelter()
                             }
                             "T1" -> {
-                                showSnackbar("Card Invalid")
+                                showSnackbar(post.data.message)
                                 cardLoadingShelter.hideShelter()
                                 cardPinShelter.hideShelter()
                                 cardShelter.showShelter()
