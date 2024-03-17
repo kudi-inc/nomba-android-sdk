@@ -55,10 +55,8 @@ your Nomba ClientKey (you can get this values from your Nomba Dashboard)
 and the main ViewGroup which would house the NombaManager UI. The ViewGroup should be a constraintLayout or extend from it.    
 
 ```
-val nombaManager = NombaManager.getInstance(this, "accountId", 
-clientId = "clientId", 
-clientKey = "clientKey"
-, main)
+val nombaManager = NombaManager.getInstance(this, "accountId",  clientId = "clientId", 
+clientKey = "clientKey", main)
 ```
 
 NombaManager handles it's own back stack, managing views and UI when it's presented and the back button or back gesture is 
@@ -101,7 +99,8 @@ button.setOnClickListener {
 ## 📱 Projects
 
 If you use the Nomba Android SDK in your project and would like it listed here, simply create a new issue with the title of your app, link to it on the PlayStore and tag it
-with the label 'project'. It would get added here afterwards
+with the label 'project'. It would get added here afterwards.
+
 <br>
 
 
