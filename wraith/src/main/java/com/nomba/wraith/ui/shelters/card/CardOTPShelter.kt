@@ -17,6 +17,7 @@ class CardOTPShelter(var manager: NombaManager, activityCardOtpViewBinding: Card
         super.showShelter()
         setOnClickListeners()
         layout().contentLabel.text = manager.otpMessage
+        layout().otpView.text?.clear()
     }
 
     private fun setOnClickListeners(){

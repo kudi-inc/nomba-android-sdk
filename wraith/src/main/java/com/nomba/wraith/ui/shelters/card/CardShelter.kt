@@ -33,8 +33,6 @@ class CardShelter(private var manager: NombaManager, activityCardViewBinding: Ca
             R.string.pay_button_label,
             manager.doFormattingAmount()
         )
-
-
     }
 
 
@@ -88,7 +86,8 @@ class CardShelter(private var manager: NombaManager, activityCardViewBinding: Ca
     }
 
     private fun checkIfFillsEmpty(){
-        if (layout().cardNumberText.text.length == 19 && expiryDateRight && layout().cvvText.text.length == 3){
+        println(layout().cardNumberText.text.length)
+        if ((layout().cardNumberText.text.length == 23 || layout().cardNumberText.text.length == 19) && expiryDateRight && layout().cvvText.text.length == 3){
             layout().payBtn.alpha = 1.0F
             layout().payBtn.isEnabled = true
         } else {
