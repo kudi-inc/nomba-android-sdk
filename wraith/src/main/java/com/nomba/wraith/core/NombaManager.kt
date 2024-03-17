@@ -377,7 +377,12 @@ private fun fetchBanksForTransfer(){
                     val post = response.body()
                     Log.e("Success Response", post.toString())
                     if (post?.code == "00"){
-                        if (post.data.status == "true") {
+                        if (post.data.message == "Token Authorization Not Successful. Incorrect Token Supplied"){
+                            showSnackbar(post.data.message)
+                            cardLoadingShelter.hideShelter()
+                            cardPinShelter.hideShelter()
+                            cardOTPShelter.showShelter()
+                        } else if (post.data.status == "true") {
                             //show OTP screen
                             cardLoadingShelter.hideShelter()
                             successShelter.showShelter()
@@ -429,8 +434,9 @@ private fun fetchBanksForTransfer(){
                                 cardLoadingShelter.hideShelter()
                                 cardOTPShelter.showShelter()
                             }
-                            "T1" -> {
+                            "T1", "500" -> {
                                 showSnackbar(post.data.message)
+                                cardOTPShelter.hideShelter()
                                 cardLoadingShelter.hideShelter()
                                 cardPinShelter.hideShelter()
                                 cardShelter.showShelter()

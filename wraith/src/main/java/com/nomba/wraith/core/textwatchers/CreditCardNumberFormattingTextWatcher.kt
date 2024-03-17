@@ -16,7 +16,7 @@ class CreditCardNumberFormattingTextWatcher(var onTextChanged: () -> Unit) : Tex
     override fun afterTextChanged(s: Editable) {
         if (s.toString() != current) {
             val userInput = s.toString().replace(nonDigits,"")
-            if (userInput.length <= 16) {
+            if (userInput.length <= 19) {
                 current = userInput.chunked(4).joinToString(" ")
                 s.filters = arrayOfNulls<InputFilter>(0)
             }
