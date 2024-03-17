@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.snackbar.Snackbar
 import com.nomba.wraith.R
 import com.nomba.wraith.core.api.models.CardObject
 import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
@@ -32,6 +33,7 @@ import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
 import com.nomba.wraith.ui.shelters.card.CardOTPShelter
 import com.nomba.wraith.ui.shelters.card.CardPinShelter
 import com.nomba.wraith.ui.shelters.card.CardShelter
+import com.nomba.wraith.ui.shelters.card.ThreeDSShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
 import com.nomba.wraith.ui.shelters.transfer.SuccessShelter
@@ -61,6 +63,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerEmail : String = "customer-email@gmail.com"
     var customerId : String = UUID.randomUUID().toString()
     var customerName : String = "Wasiu Jackson"
+
 
     private var networkManager = NetworkManager()
     var otpMessage : String = ""
@@ -94,6 +97,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var cardPinShelter: CardPinShelter
     private lateinit var cardLoadingShelter: CardLoadingShelter
     private lateinit var cardOTPShelter: CardOTPShelter
+    private lateinit var threeDSShelter: ThreeDSShelter
 
     var utils = Utils()
 
@@ -207,6 +211,11 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         cardPinShelter = CardPinShelter(this, activityMainViewBinding.cardPinView)
         cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
         cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
+        threeDSShelter = ThreeDSShelter(this, activityMainViewBinding.threedsView)
+    }
+
+    private fun showSnackbar(message: String){
+        Snackbar.make(activityMainViewBinding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     fun showPaymentView(){
@@ -368,7 +377,12 @@ private fun fetchBanksForTransfer(){
                     val post = response.body()
                     Log.e("Success Response", post.toString())
                     if (post?.code == "00"){
-                        if (post.data.status == "true") {
+                        if (post.data.message == "Token Authorization Not Successful. Incorrect Token Supplied"){
+                            showSnackbar(post.data.message)
+                            cardLoadingShelter.hideShelter()
+                            cardPinShelter.hideShelter()
+                            cardOTPShelter.showShelter()
+                        } else if (post.data.status == "true") {
                             //show OTP screen
                             cardLoadingShelter.hideShelter()
                             successShelter.showShelter()
@@ -399,10 +413,13 @@ private fun fetchBanksForTransfer(){
             , ""
             , "wraith")
         val stringCardDetails = "{\"cardCVV\": " + cardObject.cardCVV + ",\"cardExpiryMonth\": " + cardObject.cardMonth + ",\"cardExpiryYear\": " + cardObject.cardYear + ",\"cardNumber\": \"" + cardObject.cardNumber + "\",\"cardPin\": " + cardObject.cardPin +"}"
+
         val submitCardDetailsRequest = SubmitCardDetailsRequest(cardDetails = stringCardDetails,
             key = "", orderReference = orderReference,
             saveCard = cardObject.saveCard.toString(),
             deviceInformation = deviceInformation)
+        println(submitCardDetailsRequest)
+        println(submitCardDetailsRequest.toString())
         networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
             override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
                 if (response.isSuccessful) {
@@ -417,7 +434,15 @@ private fun fetchBanksForTransfer(){
                                 cardLoadingShelter.hideShelter()
                                 cardOTPShelter.showShelter()
                             }
+                            "T1", "500" -> {
+                                showSnackbar(post.data.message)
+                                cardOTPShelter.hideShelter()
+                                cardLoadingShelter.hideShelter()
+                                cardPinShelter.hideShelter()
+                                cardShelter.showShelter()
+                            }
                             "S0" -> {
+                                threeDSShelter.urlToLoad = ""
                                 //show 3Ds screen
                                 cardLoadingShelter.hideShelter()
                             }

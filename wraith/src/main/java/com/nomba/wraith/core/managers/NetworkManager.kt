@@ -79,11 +79,14 @@ class NetworkManager {
     }
 
     fun submitCardDetails(submitCardDetailsRequest: SubmitCardDetailsRequest) : Call<SubmitCardDetailsResponse> {
-        return APIClient.apiService.submitCardDetails(accessToken, submitCardDetailsRequest)
+        println(submitCardDetailsRequest)
+        println(accessToken)
+        return APIClient.apiService.submitCardDetails("Bearer $accessToken", submitCardDetailsRequest)
     }
 
     fun submitOTPDetails(submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse> {
-        return APIClient.apiService.submitOTPDetails(accessToken, submitOTPRequest)
+
+        return APIClient.apiService.submitOTPDetails("Bearer $accessToken", submitOTPRequest)
     }
 
 }
