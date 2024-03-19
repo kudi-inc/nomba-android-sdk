@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/size_20"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/neutral_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/line"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_18"
+        android:id="@+id/holder"
+        android:gravity="center"
+        android:padding="@dimen/size_30"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:layout_height="wrap_content"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="@dimen/size_50"
+            android:src="@drawable/caution"
+            android:layout_marginBottom="@dimen/size_16"
+            android:contentDescription="@string/caution"
+            android:layout_height="@dimen/size_50"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/neutral_ten"
+            android:textSize="@dimen/font_20"
+            android:text="@string/your_payment_failed"
+            android:layout_marginBottom="@dimen/size_4"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content_holder"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/holder"
+        android:padding="@dimen/size_20"
+        android:gravity="center"
+        android:background="@drawable/payment_actions_bg"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/neutral_ten"
+            android:lineSpacingMultiplier="1.2"
+            android:gravity="center"
+            android:id="@+id/content_text"
+            android:textAlignment="center"
+            android:text="@string/the_stars_didn_t_align_just_right"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintTop_toBottomOf="@id/content_holder"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/size_50"
+        android:background="@drawable/positive_button_bg"
+        android:fontFamily="@font/inter_medium"
+        android:padding="@dimen/size_10"
+        android:textColor="@color/mainText"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="@dimen/font_16"
+        android:id="@+id/failure_change_payment_mtd_btn"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:text="@string/change_payment_method"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintTop_toBottomOf="@id/failure_change_payment_mtd_btn"
+        android:layout_marginTop="@dimen/size_20"
+        android:layout_width="match_parent"
+        android:background="@drawable/cancel_border_bg"
+        android:fontFamily="@font/inter_medium"
+        android:padding="@dimen/size_10"
+        android:id="@+id/try_another_card_btn"
+        android:textColor="@color/mainText"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="@dimen/font_16"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:text="@string/try_another_card"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,6 +61,9 @@
     <string name="please_enter_your_4_digit_card_pin_to_complete_transaction">Please enter your 4-digit card PIN to\ncomplete transaction</string>
     <string name="_0000">0000</string>
     <string name="please_wait">Please Wait</string>
+    <string name="your_payment_failed">Your payment failed</string>
+    <string name="the_stars_didn_t_align_just_right">The stars didn\'t align just right</string>
+    <string name="try_another_card">Try another card</string>
 
 
 </resources>

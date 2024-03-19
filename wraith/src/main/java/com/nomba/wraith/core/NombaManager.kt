@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.snackbar.Snackbar
 import com.nomba.wraith.R
 import com.nomba.wraith.core.api.models.CardObject
@@ -31,6 +30,7 @@ import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.enums.PaymentOption
 import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
+import com.nomba.wraith.ui.shelters.FailureShelter
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
 import com.nomba.wraith.ui.shelters.card.CardOTPShelter
@@ -39,7 +39,7 @@ import com.nomba.wraith.ui.shelters.card.CardShelter
 import com.nomba.wraith.ui.shelters.card.ThreeDSShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
-import com.nomba.wraith.ui.shelters.transfer.SuccessShelter
+import com.nomba.wraith.ui.shelters.SuccessShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import retrofit2.Call
@@ -102,31 +102,28 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var cardLoadingShelter: CardLoadingShelter
     private lateinit var cardOTPShelter: CardOTPShelter
     private lateinit var threeDSShelter: ThreeDSShelter
+    private lateinit var failureShelter: FailureShelter
 
     var utils = Utils()
     private val displayMetrics = DisplayMetrics()
     private val windowManager : WindowManager = activity.get()?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
 
-    fun showExitDialog(){
-        activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
-    }
 
-    fun hideExitDialog(){
-        activityMainViewBinding.dialogView.root.visibility = View.GONE
-    }
 
-    fun showLoader(){
-        activityMainViewBinding.loadingView.root.visibility = View.VISIBLE
-    }
-
-    fun hideLoader(){
-        activityMainViewBinding.loadingView.root.visibility = View.GONE
-    }
-
-    fun addToClipboard(textToAdd: CharSequence){
-        val clipData = ClipData.newPlainText("text", textToAdd)
-        clipboardManager.setPrimaryClip(clipData)
+    private fun createAllShelters(){
+        paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
+        transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
+        transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
+        confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
+        getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
+        successShelter = SuccessShelter(this, activityMainViewBinding.successView)
+        failureShelter = FailureShelter(this, activityMainViewBinding.failureView)
+        cardShelter = CardShelter(this, activityMainViewBinding.cardView)
+        cardPinShelter = CardPinShelter(this, activityMainViewBinding.cardPinView)
+        cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
+        cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
+        threeDSShelter = ThreeDSShelter(this, activityMainViewBinding.threedsView)
     }
 
     private fun setUpMainPaymentView()  {
@@ -152,6 +149,27 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         }
 
         parentGroup.get()?.addView(activityMainViewBinding.root)
+    }
+
+    fun showExitDialog(){
+        activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
+    }
+
+    fun hideExitDialog(){
+        activityMainViewBinding.dialogView.root.visibility = View.GONE
+    }
+
+    fun showLoader(){
+        activityMainViewBinding.loadingView.root.visibility = View.VISIBLE
+    }
+
+    fun hideLoader(){
+        activityMainViewBinding.loadingView.root.visibility = View.GONE
+    }
+
+    fun addToClipboard(textToAdd: CharSequence){
+        val clipData = ClipData.newPlainText("text", textToAdd)
+        clipboardManager.setPrimaryClip(clipData)
     }
 
     private fun setOnClickListeners(){
@@ -205,22 +223,22 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
                 displayViewState = DisplayViewState.CARD
             }
             DisplayViewState.CARD_LOADING -> {}
+            DisplayViewState.PAYMENT_FAILTURE -> {
+                cardShelter.hideShelter()
+                failureShelter.hideShelter()
+                paymentOptionsShelter.showShelter()
+                displayViewState = DisplayViewState.PAYMENTOPTIONS
+            }
+            DisplayViewState.SECURE3DS -> {
+                threeDSShelter.hideShelter()
+                cardOTPShelter.hideShelter()
+                cardShelter.showShelter()
+                displayViewState = DisplayViewState.CARD
+            }
         }
     }
 
-    private fun createAllShelters(){
-        paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
-        transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
-        transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
-        confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
-        getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
-        successShelter = SuccessShelter(this, activityMainViewBinding.successTransferView)
-        cardShelter = CardShelter(this, activityMainViewBinding.cardView)
-        cardPinShelter = CardPinShelter(this, activityMainViewBinding.cardPinView)
-        cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
-        cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
-        threeDSShelter = ThreeDSShelter(this, activityMainViewBinding.threedsView)
-    }
+
 
     private fun showSnackbar(message: String){
         Snackbar.make(activityMainViewBinding.root, message, Snackbar.LENGTH_LONG).show()
@@ -234,6 +252,25 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showGetHelpView(){
         getHelpShelter.showShelter()
+    }
+
+    fun changePaymentMethodFromFailureShelter(){
+        failureShelter.hideShelter()
+        cardOTPShelter.hideShelter()
+        cardLoadingShelter.hideShelter()
+        cardPinShelter.hideShelter()
+        cardShelter.hideShelter()
+        paymentOptionsShelter.showShelter()
+        displayViewState = DisplayViewState.PAYMENTOPTIONS
+    }
+
+    fun tryAnotherCardFromFailureShelter(){
+        failureShelter.hideShelter()
+        cardOTPShelter.hideShelter()
+        cardLoadingShelter.hideShelter()
+        cardPinShelter.hideShelter()
+        cardShelter.showShelter()
+        displayViewState = DisplayViewState.CARD
     }
 
     fun showPaymentOptionsView(){
@@ -285,6 +322,10 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
 
+    fun showCardLoadingShelter(){
+        cardLoadingShelter.showShelter()
+    }
+
     fun hideCardLoadingShelter(){
         cardLoadingShelter.hideShelter()
     }
@@ -319,6 +360,14 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     fun waitingForTransferExpired(){
         transferShelter.hideShelter()
         transferExpiredShelter.showShelter()
+    }
+
+    fun getHeight() : Int{
+        return displayMetrics.heightPixels
+    }
+
+    fun getWidth() : Int{
+        return displayMetrics.widthPixels
     }
 
 
@@ -405,7 +454,7 @@ private fun fetchBanksForTransfer(){
                     Log.e("Success Response", post.toString())
                     if (post?.code == "00"){
                         if (post.data.message == "Token Authorization Not Successful. Incorrect Token Supplied"){
-                            showSnackbar(post.data.message)
+                            showSnackbar(post.data.message + "Try Again")
                             cardLoadingShelter.hideShelter()
                             cardPinShelter.hideShelter()
                             cardOTPShelter.showShelter()
@@ -426,21 +475,21 @@ private fun fetchBanksForTransfer(){
         })
     }
 
+
+
     fun submitCardDetails(){
         hideKeyboard()
         cardPinShelter.hideShelter()
         cardLoadingShelter.showShelter()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
 
-        val height = displayMetrics.heightPixels
-        val width = displayMetrics.widthPixels
         val deviceInformation = DeviceInformation("Browser",
             "24",
             "true"
             , "true"
             , "en"
-            , height.toString()
-            , width.toString()
+            , getHeight().toString()
+            , getWidth().toString()
             , "-60"
             , "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
         val stringCardDetails = "{\"cardCVV\": " + cardObject.cardCVV + ",\"cardExpiryMonth\": " + cardObject.cardMonth + ",\"cardExpiryYear\": " + cardObject.cardYear + ",\"cardNumber\": \"" + cardObject.cardNumber + "\",\"cardPin\": " + cardObject.cardPin +"}"
@@ -464,7 +513,7 @@ private fun fetchBanksForTransfer(){
                                 cardOTPShelter.showShelter()
                             }
                             "T1", "500" -> {
-                                showSnackbar(post.data.message)
+                                showSnackbar(post.data.message + " Try Again")
                                 cardOTPShelter.hideShelter()
                                 cardLoadingShelter.hideShelter()
                                 cardPinShelter.hideShelter()
@@ -508,8 +557,13 @@ private fun fetchBanksForTransfer(){
                     Log.e("Error Response", post.toString())
                     if (post?.code == "00"){
                         if (post.data.status == "true") {
+                            cardLoadingShelter.hideShelter()
                             confirmingTransferShelter.hideShelter()
                             successShelter.showShelter()
+                        } else if (post.data.status == "false") {
+                            failureShelter.failureMessage = post.data.message
+                            failureShelter.showShelter()
+                            cardLoadingShelter.hideShelter()
                         }
                     }
                 } else {

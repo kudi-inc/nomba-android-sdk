@@ -2,6 +2,7 @@ package com.nomba.pilgrim
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -19,9 +20,17 @@ class MainActivity : AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.sample_pay_button)
         val main = findViewById<ConstraintLayout>(R.id.main)
+        val amount = findViewById<EditText>(R.id.amount)
+        val email = findViewById<EditText>(R.id.email)
+        val customer = findViewById<EditText>(R.id.name)
+
+        amount.
+
 
         // initialise the Nomba Android SDK aka Wraith
         val nombaManager = NombaManager.getInstance(this, "293bb9a0-dc25-428d-8f63-d828b9420cd5", clientId = "2e43173e-3e69-4fa2-8168-f4fedbf9a962", clientKey = "GF3G1qY9f2TNZ64Jsin9QY4WJ5FnlCPyu23y716StxUsMR6jXNB0zcZHQEZ1avU1Y+CdgdrzW5zHefMlblXGmQ==", main)
+
+
 
         // set up payment values
         nombaManager.paymentAmount = 10.0
