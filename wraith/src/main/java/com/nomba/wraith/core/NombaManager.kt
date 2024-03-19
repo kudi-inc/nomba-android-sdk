@@ -4,12 +4,15 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.snackbar.Snackbar
 import com.nomba.wraith.R
 import com.nomba.wraith.core.api.models.CardObject
@@ -65,6 +68,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerName : String = "Wasiu Jackson"
 
 
+    private var callbackURL : String = "https://wraith/android.sdk/callback"
     private var networkManager = NetworkManager()
     var otpMessage : String = ""
     var transactionID : String = ""
@@ -100,6 +104,9 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var threeDSShelter: ThreeDSShelter
 
     var utils = Utils()
+    private val displayMetrics = DisplayMetrics()
+    private val windowManager : WindowManager = activity.get()?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
 
     fun showExitDialog(){
         activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
@@ -143,6 +150,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
             windowInsets
         }
+
         parentGroup.get()?.addView(activityMainViewBinding.root)
     }
 
@@ -277,11 +285,20 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
 
+    fun hideCardLoadingShelter(){
+        cardLoadingShelter.hideShelter()
+    }
 
 
     fun hideKeyboard(){
         val inputMethodManager = activity.get()?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(activityMainViewBinding.root.windowToken, 0)
+    }
+
+    fun showKeyboard(view: View){
+        val inputMethodManager = activity.get()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(view, 0)
+        //inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     fun showTransferConfirmationView(){
@@ -337,14 +354,14 @@ private fun fetchBanksForTransfer(){
     private fun createOrder(selectedPaymentOption : PaymentOption){
         // the order hasn't been created so create it
         networkManager.createOrder(accountId,
-            CreateOrderRequest(Order(paymentAmount.toString(), callbackUrl = "",
+            CreateOrderRequest(Order(paymentAmount.toString(), callbackUrl = callbackURL,
                 currency = "NGN", customerEmail = customerEmail,
                 orderReference = orderReference, customerId = customerId),
                 tokenizeCard = "true")).enqueue(object : Callback<CreateOrderResponse> {
             override fun onResponse(call: Call<CreateOrderResponse>, response: Response<CreateOrderResponse>) {
                 if (response.isSuccessful) {
                     val post = response.body()
-                    Log.e("Error Response", post.toString())
+                    Log.e("Success Response", post.toString())
                     if (post?.code == "00"){
                         orderReference = post.data.orderReference
                         when (selectedPaymentOption) {
@@ -353,6 +370,16 @@ private fun fetchBanksForTransfer(){
                                 hideLoader()
                                     paymentOptionsShelter.hideShelter()
                                     cardShelter.showShelter()
+                            }
+                        }
+                    } else if (post?.code == "400"){
+                        //order already exists, move on
+                        when (selectedPaymentOption) {
+                            PaymentOption.TRANSFER -> fetchBanksForTransfer()
+                            PaymentOption.CARD -> {
+                                hideLoader()
+                                paymentOptionsShelter.hideShelter()
+                                cardShelter.showShelter()
                             }
                         }
                     }
@@ -403,23 +430,25 @@ private fun fetchBanksForTransfer(){
         hideKeyboard()
         cardPinShelter.hideShelter()
         cardLoadingShelter.showShelter()
-        val deviceInformation = DeviceInformation("android-sdk",
-            "",
-            ""
-            , ""
-            , ""
-            , ""
-            , ""
-            , ""
-            , "wraith")
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        val height = displayMetrics.heightPixels
+        val width = displayMetrics.widthPixels
+        val deviceInformation = DeviceInformation("Browser",
+            "24",
+            "true"
+            , "true"
+            , "en"
+            , height.toString()
+            , width.toString()
+            , "-60"
+            , "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
         val stringCardDetails = "{\"cardCVV\": " + cardObject.cardCVV + ",\"cardExpiryMonth\": " + cardObject.cardMonth + ",\"cardExpiryYear\": " + cardObject.cardYear + ",\"cardNumber\": \"" + cardObject.cardNumber + "\",\"cardPin\": " + cardObject.cardPin +"}"
 
         val submitCardDetailsRequest = SubmitCardDetailsRequest(cardDetails = stringCardDetails,
             key = "", orderReference = orderReference,
             saveCard = cardObject.saveCard.toString(),
             deviceInformation = deviceInformation)
-        println(submitCardDetailsRequest)
-        println(submitCardDetailsRequest.toString())
         networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
             override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
                 if (response.isSuccessful) {
@@ -442,9 +471,13 @@ private fun fetchBanksForTransfer(){
                                 cardShelter.showShelter()
                             }
                             "S0" -> {
-                                threeDSShelter.urlToLoad = ""
                                 //show 3Ds screen
                                 cardLoadingShelter.hideShelter()
+                                threeDSShelter.acsUrl = post.data.secureAuthenticationData.acsUrl
+                                threeDSShelter.jwtToken = post.data.secureAuthenticationData.jwt
+                                threeDSShelter.md = post.data.secureAuthenticationData.md
+                                threeDSShelter.termUrl = post.data.secureAuthenticationData.termUrl
+                                threeDSShelter.showShelter()
                             }
                             "00" -> {
                                 cardLoadingShelter.hideShelter()
@@ -453,11 +486,15 @@ private fun fetchBanksForTransfer(){
                         }
                     }
                 } else {
+                    Log.e("Error Response", response.message())
+                    Log.e("Error Response", response.toString())
                     cardLoadingShelter.hideShelter()
                 }
             }
             override fun onFailure(call: Call<SubmitCardDetailsResponse>, t: Throwable) {
                 // Handle failure
+                Log.e("Error Response 2", t.message!!)
+                Log.e("Error Response 2", t.toString())
                 cardLoadingShelter.hideShelter()
             }
         })

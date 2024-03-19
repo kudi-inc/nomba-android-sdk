@@ -20,6 +20,8 @@ class CardPinShelter(private var manager: NombaManager, activityCardPinViewBindi
         setOnClickListeners()
         manager.displayViewState = DisplayViewState.CARD_PIN
         layout().pinView.text?.clear()
+        layout().pinView.requestFocus()
+        manager.showKeyboard(layout().pinView)
     }
 
     private fun setOnClickListeners(){
