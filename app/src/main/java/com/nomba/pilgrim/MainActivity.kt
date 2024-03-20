@@ -1,5 +1,6 @@
 package com.nomba.pilgrim
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.nomba.wraith.core.NombaManager
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,7 +26,9 @@ class MainActivity : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.email)
         val customer = findViewById<EditText>(R.id.name)
 
-        amount.
+        amount.setText("10.0")
+        email.setText("emeka@bond.com")
+        customer.setText("Emeka Bond")
 
 
         // initialise the Nomba Android SDK aka Wraith
@@ -32,13 +36,15 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        // set up payment values
-        nombaManager.paymentAmount = 10.0
-        nombaManager.customerEmail = "knightbenax@gmail.com"
-        nombaManager.customerName = "Emeka Bond"
+
 
         // show the SDK when you want to make a purchase
         button.setOnClickListener {
+            // set up payment values
+            nombaManager.paymentAmount = amount.text.toString().toDouble()
+            nombaManager.customerEmail = email.text.toString()
+            nombaManager.customerName = customer.text.toString()
+
             nombaManager.showPaymentView()
         }
 

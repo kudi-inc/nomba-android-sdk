@@ -192,7 +192,9 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun handleBackStack(){
         when (displayViewState){
-            DisplayViewState.PAYMENTOPTIONS -> activity.get()?.onBackPressed()
+            DisplayViewState.PAYMENTOPTIONS -> {
+                hidePaymentView()
+            }
             DisplayViewState.TRANSFER -> {
                 transferShelter.hideShelter()
                 paymentOptionsShelter.showShelter()
