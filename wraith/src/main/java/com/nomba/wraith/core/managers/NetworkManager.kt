@@ -79,8 +79,6 @@ class NetworkManager {
     }
 
     fun submitCardDetails(submitCardDetailsRequest: SubmitCardDetailsRequest) : Call<SubmitCardDetailsResponse> {
-        println(submitCardDetailsRequest)
-        println(accessToken)
         return APIClient.apiService.submitCardDetails("Bearer $accessToken", submitCardDetailsRequest)
     }
 

@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:fontFamily="@font/inter_bold"
             android:textColor="@color/neutral_ten"
-            android:textSize="@dimen/font_22"
+            android:textSize="@dimen/font_20"
             android:text="@string/your_payment_has_been_confirmed_successfully"
             android:layout_marginBottom="@dimen/size_4"
             android:layout_height="wrap_content"/>

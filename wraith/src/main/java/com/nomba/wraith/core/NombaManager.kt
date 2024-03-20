@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
@@ -28,6 +30,7 @@ import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.enums.PaymentOption
 import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
+import com.nomba.wraith.ui.shelters.FailureShelter
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
 import com.nomba.wraith.ui.shelters.card.CardOTPShelter
@@ -36,7 +39,7 @@ import com.nomba.wraith.ui.shelters.card.CardShelter
 import com.nomba.wraith.ui.shelters.card.ThreeDSShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
-import com.nomba.wraith.ui.shelters.transfer.SuccessShelter
+import com.nomba.wraith.ui.shelters.SuccessShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import retrofit2.Call
@@ -65,6 +68,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerName : String = "Wasiu Jackson"
 
 
+    private var callbackURL : String = "https://wraith/android.sdk/callback"
     private var networkManager = NetworkManager()
     var otpMessage : String = ""
     var transactionID : String = ""
@@ -98,28 +102,28 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var cardLoadingShelter: CardLoadingShelter
     private lateinit var cardOTPShelter: CardOTPShelter
     private lateinit var threeDSShelter: ThreeDSShelter
+    private lateinit var failureShelter: FailureShelter
 
     var utils = Utils()
+    private val displayMetrics = DisplayMetrics()
+    private val windowManager : WindowManager = activity.get()?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
-    fun showExitDialog(){
-        activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
-    }
 
-    fun hideExitDialog(){
-        activityMainViewBinding.dialogView.root.visibility = View.GONE
-    }
 
-    fun showLoader(){
-        activityMainViewBinding.loadingView.root.visibility = View.VISIBLE
-    }
 
-    fun hideLoader(){
-        activityMainViewBinding.loadingView.root.visibility = View.GONE
-    }
-
-    fun addToClipboard(textToAdd: CharSequence){
-        val clipData = ClipData.newPlainText("text", textToAdd)
-        clipboardManager.setPrimaryClip(clipData)
+    private fun createAllShelters(){
+        paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
+        transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
+        transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
+        confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
+        getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
+        successShelter = SuccessShelter(this, activityMainViewBinding.successView)
+        failureShelter = FailureShelter(this, activityMainViewBinding.failureView)
+        cardShelter = CardShelter(this, activityMainViewBinding.cardView)
+        cardPinShelter = CardPinShelter(this, activityMainViewBinding.cardPinView)
+        cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
+        cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
+        threeDSShelter = ThreeDSShelter(this, activityMainViewBinding.threedsView)
     }
 
     private fun setUpMainPaymentView()  {
@@ -143,7 +147,29 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
             windowInsets
         }
+
         parentGroup.get()?.addView(activityMainViewBinding.root)
+    }
+
+    fun showExitDialog(){
+        activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
+    }
+
+    fun hideExitDialog(){
+        activityMainViewBinding.dialogView.root.visibility = View.GONE
+    }
+
+    fun showLoader(){
+        activityMainViewBinding.loadingView.root.visibility = View.VISIBLE
+    }
+
+    fun hideLoader(){
+        activityMainViewBinding.loadingView.root.visibility = View.GONE
+    }
+
+    fun addToClipboard(textToAdd: CharSequence){
+        val clipData = ClipData.newPlainText("text", textToAdd)
+        clipboardManager.setPrimaryClip(clipData)
     }
 
     private fun setOnClickListeners(){
@@ -166,7 +192,9 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun handleBackStack(){
         when (displayViewState){
-            DisplayViewState.PAYMENTOPTIONS -> activity.get()?.onBackPressed()
+            DisplayViewState.PAYMENTOPTIONS -> {
+                hidePaymentView()
+            }
             DisplayViewState.TRANSFER -> {
                 transferShelter.hideShelter()
                 paymentOptionsShelter.showShelter()
@@ -197,22 +225,22 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
                 displayViewState = DisplayViewState.CARD
             }
             DisplayViewState.CARD_LOADING -> {}
+            DisplayViewState.PAYMENT_FAILTURE -> {
+                cardShelter.hideShelter()
+                failureShelter.hideShelter()
+                paymentOptionsShelter.showShelter()
+                displayViewState = DisplayViewState.PAYMENTOPTIONS
+            }
+            DisplayViewState.SECURE3DS -> {
+                threeDSShelter.hideShelter()
+                cardOTPShelter.hideShelter()
+                cardShelter.showShelter()
+                displayViewState = DisplayViewState.CARD
+            }
         }
     }
 
-    private fun createAllShelters(){
-        paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
-        transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
-        transferExpiredShelter = TransferExpiredShelter(this, activityMainViewBinding.transferExpiredView)
-        confirmingTransferShelter = ConfirmingTransferShelter(this, activityMainViewBinding.confirmingTransferView)
-        getHelpShelter = GetHelpShelter(this, activityMainViewBinding.getHelpView)
-        successShelter = SuccessShelter(this, activityMainViewBinding.successTransferView)
-        cardShelter = CardShelter(this, activityMainViewBinding.cardView)
-        cardPinShelter = CardPinShelter(this, activityMainViewBinding.cardPinView)
-        cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
-        cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
-        threeDSShelter = ThreeDSShelter(this, activityMainViewBinding.threedsView)
-    }
+
 
     private fun showSnackbar(message: String){
         Snackbar.make(activityMainViewBinding.root, message, Snackbar.LENGTH_LONG).show()
@@ -226,6 +254,25 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showGetHelpView(){
         getHelpShelter.showShelter()
+    }
+
+    fun changePaymentMethodFromFailureShelter(){
+        failureShelter.hideShelter()
+        cardOTPShelter.hideShelter()
+        cardLoadingShelter.hideShelter()
+        cardPinShelter.hideShelter()
+        cardShelter.hideShelter()
+        paymentOptionsShelter.showShelter()
+        displayViewState = DisplayViewState.PAYMENTOPTIONS
+    }
+
+    fun tryAnotherCardFromFailureShelter(){
+        failureShelter.hideShelter()
+        cardOTPShelter.hideShelter()
+        cardLoadingShelter.hideShelter()
+        cardPinShelter.hideShelter()
+        cardShelter.showShelter()
+        displayViewState = DisplayViewState.CARD
     }
 
     fun showPaymentOptionsView(){
@@ -277,11 +324,24 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
 
+    fun showCardLoadingShelter(){
+        cardLoadingShelter.showShelter()
+    }
+
+    fun hideCardLoadingShelter(){
+        cardLoadingShelter.hideShelter()
+    }
 
 
     fun hideKeyboard(){
         val inputMethodManager = activity.get()?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(activityMainViewBinding.root.windowToken, 0)
+    }
+
+    fun showKeyboard(view: View){
+        val inputMethodManager = activity.get()?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(view, 0)
+        //inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     fun showTransferConfirmationView(){
@@ -302,6 +362,14 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     fun waitingForTransferExpired(){
         transferShelter.hideShelter()
         transferExpiredShelter.showShelter()
+    }
+
+    fun getHeight() : Int{
+        return displayMetrics.heightPixels
+    }
+
+    fun getWidth() : Int{
+        return displayMetrics.widthPixels
     }
 
 
@@ -337,14 +405,14 @@ private fun fetchBanksForTransfer(){
     private fun createOrder(selectedPaymentOption : PaymentOption){
         // the order hasn't been created so create it
         networkManager.createOrder(accountId,
-            CreateOrderRequest(Order(paymentAmount.toString(), callbackUrl = "",
+            CreateOrderRequest(Order(paymentAmount.toString(), callbackUrl = callbackURL,
                 currency = "NGN", customerEmail = customerEmail,
                 orderReference = orderReference, customerId = customerId),
                 tokenizeCard = "true")).enqueue(object : Callback<CreateOrderResponse> {
             override fun onResponse(call: Call<CreateOrderResponse>, response: Response<CreateOrderResponse>) {
                 if (response.isSuccessful) {
                     val post = response.body()
-                    Log.e("Error Response", post.toString())
+                    Log.e("Success Response", post.toString())
                     if (post?.code == "00"){
                         orderReference = post.data.orderReference
                         when (selectedPaymentOption) {
@@ -353,6 +421,16 @@ private fun fetchBanksForTransfer(){
                                 hideLoader()
                                     paymentOptionsShelter.hideShelter()
                                     cardShelter.showShelter()
+                            }
+                        }
+                    } else if (post?.code == "400"){
+                        //order already exists, move on
+                        when (selectedPaymentOption) {
+                            PaymentOption.TRANSFER -> fetchBanksForTransfer()
+                            PaymentOption.CARD -> {
+                                hideLoader()
+                                paymentOptionsShelter.hideShelter()
+                                cardShelter.showShelter()
                             }
                         }
                     }
@@ -378,7 +456,7 @@ private fun fetchBanksForTransfer(){
                     Log.e("Success Response", post.toString())
                     if (post?.code == "00"){
                         if (post.data.message == "Token Authorization Not Successful. Incorrect Token Supplied"){
-                            showSnackbar(post.data.message)
+                            showSnackbar(post.data.message + "Try Again")
                             cardLoadingShelter.hideShelter()
                             cardPinShelter.hideShelter()
                             cardOTPShelter.showShelter()
@@ -399,27 +477,29 @@ private fun fetchBanksForTransfer(){
         })
     }
 
+
+
     fun submitCardDetails(){
         hideKeyboard()
         cardPinShelter.hideShelter()
         cardLoadingShelter.showShelter()
-        val deviceInformation = DeviceInformation("android-sdk",
-            "",
-            ""
-            , ""
-            , ""
-            , ""
-            , ""
-            , ""
-            , "wraith")
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        val deviceInformation = DeviceInformation("Browser",
+            "24",
+            "true"
+            , "true"
+            , "en"
+            , getHeight().toString()
+            , getWidth().toString()
+            , "-60"
+            , "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
         val stringCardDetails = "{\"cardCVV\": " + cardObject.cardCVV + ",\"cardExpiryMonth\": " + cardObject.cardMonth + ",\"cardExpiryYear\": " + cardObject.cardYear + ",\"cardNumber\": \"" + cardObject.cardNumber + "\",\"cardPin\": " + cardObject.cardPin +"}"
 
         val submitCardDetailsRequest = SubmitCardDetailsRequest(cardDetails = stringCardDetails,
             key = "", orderReference = orderReference,
             saveCard = cardObject.saveCard.toString(),
             deviceInformation = deviceInformation)
-        println(submitCardDetailsRequest)
-        println(submitCardDetailsRequest.toString())
         networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
             override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
                 if (response.isSuccessful) {
@@ -435,16 +515,20 @@ private fun fetchBanksForTransfer(){
                                 cardOTPShelter.showShelter()
                             }
                             "T1", "500" -> {
-                                showSnackbar(post.data.message)
+                                showSnackbar(post.data.message + " Try Again")
                                 cardOTPShelter.hideShelter()
                                 cardLoadingShelter.hideShelter()
                                 cardPinShelter.hideShelter()
                                 cardShelter.showShelter()
                             }
                             "S0" -> {
-                                threeDSShelter.urlToLoad = ""
                                 //show 3Ds screen
                                 cardLoadingShelter.hideShelter()
+                                threeDSShelter.acsUrl = post.data.secureAuthenticationData.acsUrl
+                                threeDSShelter.jwtToken = post.data.secureAuthenticationData.jwt
+                                threeDSShelter.md = post.data.secureAuthenticationData.md
+                                threeDSShelter.termUrl = post.data.secureAuthenticationData.termUrl
+                                threeDSShelter.showShelter()
                             }
                             "00" -> {
                                 cardLoadingShelter.hideShelter()
@@ -453,11 +537,15 @@ private fun fetchBanksForTransfer(){
                         }
                     }
                 } else {
+                    Log.e("Error Response", response.message())
+                    Log.e("Error Response", response.toString())
                     cardLoadingShelter.hideShelter()
                 }
             }
             override fun onFailure(call: Call<SubmitCardDetailsResponse>, t: Throwable) {
                 // Handle failure
+                Log.e("Error Response 2", t.message!!)
+                Log.e("Error Response 2", t.toString())
                 cardLoadingShelter.hideShelter()
             }
         })
@@ -471,8 +559,13 @@ private fun fetchBanksForTransfer(){
                     Log.e("Error Response", post.toString())
                     if (post?.code == "00"){
                         if (post.data.status == "true") {
+                            cardLoadingShelter.hideShelter()
                             confirmingTransferShelter.hideShelter()
                             successShelter.showShelter()
+                        } else if (post.data.status == "false") {
+                            failureShelter.failureMessage = post.data.message
+                            failureShelter.showShelter()
+                            cardLoadingShelter.hideShelter()
                         }
                     }
                 } else {

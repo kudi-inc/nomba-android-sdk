@@ -133,8 +133,16 @@
         app:layout_constraintTop_toBottomOf="@id/top_view"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:id="@+id/success_transfer_view"
-        layout="@layout/success_transfer_view" />
+        android:id="@+id/success_view"
+        layout="@layout/success_view" />
+
+    <include
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/failure_view"
+        layout="@layout/failure_view" />
 
 
     <include
@@ -158,16 +166,16 @@
         app:layout_constraintTop_toBottomOf="@id/top_view"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:id="@+id/card_loading_view"
-        layout="@layout/card_loading_view" />
+        android:id="@+id/threeds_view"
+        layout="@layout/threeds_view" />
 
     <include
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/top_view"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:id="@+id/threeds_view"
-        layout="@layout/threeds_view" />
+        android:id="@+id/card_loading_view"
+        layout="@layout/card_loading_view" />
 
     <LinearLayout
         android:layout_width="match_parent"

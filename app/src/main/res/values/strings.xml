@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Nomba</string>
     <string name="pay_me">Pay Me</string>
+    <string name="amount">Amount</string>
+    <string name="email">Email</string>
+    <string name="customer_name">Customer Name</string>
 </resources>
