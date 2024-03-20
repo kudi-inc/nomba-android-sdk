@@ -33,6 +33,9 @@ class CardShelter(private var manager: NombaManager, activityCardViewBinding: Ca
             R.string.pay_button_label,
             manager.doFormattingAmount()
         )
+        layout().cardNumberText.text.clear()
+        layout().expiryDateText.text.clear()
+        layout().cvvText.text.clear()
     }
 
 
