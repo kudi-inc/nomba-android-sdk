@@ -30,12 +30,12 @@ Add to your root build.gradle, the JitPack Repository
 
 ```
 dependencyResolutionManagement {
-		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-		repositories {
-			mavenCentral()
-			maven { url 'https://jitpack.io' }
-		}
+	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositories {
+		mavenCentral()
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 
 Add to your project build.gradle file, the Nomba Android SDK
