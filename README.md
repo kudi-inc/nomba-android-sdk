@@ -5,6 +5,7 @@ Accept payments in your app by bank transfer or card
 
 [![Platform](/platform.svg)]()
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Pentecost-green.svg?style=flat)](https://android-arsenal.com/details/1/7327)
+[![JitPack](https://jitpack.io/v/kudi-inc/nomba-android-sdk.svg)](https://jitpack.io/#kudi-inc/nomba-android-sdk)
 <br><br>
 
 <p float="left">
@@ -41,7 +42,7 @@ allprojects {
 Add to your project build.gradle file, the Nomba Android SDK
 
 ```
-implementation("com.github.kudi-inc:nomba-android-sdk:1.0.0")
+implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.0")
 ```
 <br>
 
