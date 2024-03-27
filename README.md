@@ -29,19 +29,19 @@ Accept payments in your app by bank transfer or card
 Add to your root build.gradle, the JitPack Repository
 
 ```
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-        ...
-    }
-}
+dependencyResolutionManagement {
+		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+		repositories {
+			mavenCentral()
+			maven { url 'https://jitpack.io' }
+		}
+	}
 ```
 
 Add to your project build.gradle file, the Nomba Android SDK
 
 ```
-implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.0")
+implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.1")
 ```
 <br>
 
