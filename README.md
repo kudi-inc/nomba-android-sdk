@@ -4,7 +4,6 @@ The Nomba Android SDK allows you bring the same great Nomba Checkout experience 
 Accept payments in your app by bank transfer or card
 
 [![Platform](/platform.svg)]()
-[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Pentecost-green.svg?style=flat)](https://android-arsenal.com/details/1/7327)
 [![JitPack](https://jitpack.io/v/kudi-inc/nomba-android-sdk.svg)](https://jitpack.io/#kudi-inc/nomba-android-sdk)
 <br><br>
 
