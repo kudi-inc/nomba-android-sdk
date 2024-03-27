@@ -66,15 +66,16 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-//            fullelease(MavenPublication) {
-//                from components.release
-//                        groupId = '<<group id>>'
-//                artifactId = '<<artifact id>>'
-//                version = '<<version>>'
-//            }
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.kudi-inc"
+            artifactId = "nomba-android-sdk"
+            version = "1.0.1"
+
+            afterEvaluate {
+                from(components["release"])
+            }
         }
     }
 }
