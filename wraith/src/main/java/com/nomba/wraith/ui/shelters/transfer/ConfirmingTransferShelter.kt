@@ -44,7 +44,7 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
         }
 
         resetViews()
-        manager.checkOrderDetails()
+        //manager.checkOrderDetails()
     }
 
     private fun onConfirmationTransferTick(millisUntilFinished: Long){
