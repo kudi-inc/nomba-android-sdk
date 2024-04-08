@@ -108,9 +108,6 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private val displayMetrics = DisplayMetrics()
     private val windowManager : WindowManager = activity.get()?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
-
-
-
     private fun createAllShelters(){
         paymentOptionsShelter = PaymentOptionsShelter(this, activityMainViewBinding.paymentOptions)
         transferShelter = TransferShelter(this, activityMainViewBinding.transferView)
@@ -563,6 +560,7 @@ private fun fetchBanksForTransfer(){
                             confirmingTransferShelter.hideShelter()
                             successShelter.showShelter()
                         } else if (post.data.status == "false") {
+                            confirmingTransferShelter.hideShelter()
                             failureShelter.failureMessage = post.data.message
                             failureShelter.showShelter()
                             cardLoadingShelter.hideShelter()

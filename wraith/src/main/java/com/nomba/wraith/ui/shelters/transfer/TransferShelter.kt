@@ -67,7 +67,6 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
         }
 
 
-
         layout().sentMnyBtn.setOnClickListener{
             manager.showTransferConfirmationView()
         }
