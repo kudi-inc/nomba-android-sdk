@@ -44,7 +44,7 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
         }
 
         resetViews()
-        //manager.checkOrderDetails()
+
     }
 
     private fun onConfirmationTransferTick(millisUntilFinished: Long){
@@ -60,6 +60,10 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
         )
 
         layout().waitingForConfirmationProgress.progress = millisUntilFinished.toInt()
+
+        if (millisUntilFinished == 180000L){
+            manager.checkOrderDetails()
+        }
     }
 
     private fun onConfirmationTransferEnd(){
