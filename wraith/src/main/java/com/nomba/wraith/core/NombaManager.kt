@@ -534,21 +534,17 @@ private fun fetchBanksForTransfer(){
                         }
                     }
                 } else {
-                    Log.e("Error Response", response.message())
-                    Log.e("Error Response", response.toString())
                     cardLoadingShelter.hideShelter()
                 }
             }
             override fun onFailure(call: Call<SubmitCardDetailsResponse>, t: Throwable) {
                 // Handle failure
-                Log.e("Error Response 2", t.message!!)
-                Log.e("Error Response 2", t.toString())
                 cardLoadingShelter.hideShelter()
             }
         })
     }
 
-    fun checkOrderDetails(){
+    fun checkOrderDetails(paymentOption: PaymentOption = PaymentOption.TRANSFER, onSuccessFun: () -> Unit){
         networkManager.checkTransactionOrderStatus(CheckTransactionStatusRequest(orderReference)).enqueue(object : Callback<CheckTransactionStatusResponse> {
             override fun onResponse(call: Call<CheckTransactionStatusResponse>, response: Response<CheckTransactionStatusResponse>) {
                 if (response.isSuccessful) {
@@ -556,10 +552,12 @@ private fun fetchBanksForTransfer(){
                     Log.e("Error Response", post.toString())
                     if (post?.code == "00"){
                         if (post.data.status == "true") {
+                            onSuccessFun()
                             cardLoadingShelter.hideShelter()
                             confirmingTransferShelter.hideShelter()
                             successShelter.showShelter()
-                        } else if (post.data.status == "false") {
+                        }
+                        else if (post.data.status == "false" && paymentOption == PaymentOption.CARD) {
                             confirmingTransferShelter.hideShelter()
                             failureShelter.failureMessage = post.data.message
                             failureShelter.showShelter()
