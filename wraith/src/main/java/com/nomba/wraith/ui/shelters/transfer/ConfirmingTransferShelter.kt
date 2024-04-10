@@ -52,6 +52,8 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
 
     }
 
+
+
     private fun onConfirmationTransferTick(millisUntilFinished: Long){
         val totalSeconds = millisUntilFinished / 1000
         val minutes = totalSeconds / 60

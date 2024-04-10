@@ -321,6 +321,10 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
 
+    fun saveCard(){
+
+    }
+
     fun showCardLoadingShelter(){
         cardLoadingShelter.showShelter()
     }
