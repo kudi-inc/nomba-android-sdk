@@ -56,7 +56,7 @@ interface APIService {
     fun submitOTPDetails(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
 
     @POST("/v1/checkout/checkout-card-otp")
-    fun saveCard(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
+    fun requestOTPForCardSaving(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
 
     @POST("/v1/checkout/checkout-card-otp")
     fun cancelCheckout(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
