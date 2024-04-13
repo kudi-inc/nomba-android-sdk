@@ -72,16 +72,31 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
 
         // check the transfer status at different times
         when (textCount) {
+            "09:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
             "08:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "07:00" -> {
                 manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
             }
             "06:00" -> {
                 manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
             }
+            "05:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
             "04:00" -> {
                 manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
             }
+            "03:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
             "02:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "01:00" -> {
                 manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
             }
         }
