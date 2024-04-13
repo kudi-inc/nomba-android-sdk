@@ -67,8 +67,8 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
         )
 
         layout().waitingForConfirmationTimerView.text = textCount
-
         layout().waitingForConfirmationProgress.progress = millisUntilFinished.toInt()
+
 
         // check the transfer status at different times
         when (textCount) {

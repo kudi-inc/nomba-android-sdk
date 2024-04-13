@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
+import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.enums.PaymentOption
 import com.nomba.wraith.databinding.ThreedsViewBinding
 import java.net.URLEncoder
@@ -30,10 +31,12 @@ class ThreeDSShelter(var manager: NombaManager, activityThreedsViewBinding: Thre
     var callback : String = "https://checkout.nomba.com/callback/"
 
     override fun showShelter() {
+
         super.showShelter()
         setUpValues()
         val postData = "JWT=${URLEncoder.encode(jwtToken, "UTF-8")}&MD=${URLEncoder.encode(md, "UTF-8")}"
         layout().webview.postUrl(acsUrl, postData.toByteArray())
+        manager.displayViewState = DisplayViewState.SECURE3DS
     }
 
     @SuppressLint("SetJavaScriptEnabled")

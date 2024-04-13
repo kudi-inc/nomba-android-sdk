@@ -208,15 +208,18 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             DisplayViewState.PAYMENT_SUCCESS -> activity.get()?.onBackPressed()
             DisplayViewState.CARD -> {
                 cardShelter.hideShelter()
+                cardLoadingShelter.hideShelter()
                 paymentOptionsShelter.showShelter()
                 displayViewState = DisplayViewState.PAYMENTOPTIONS
             }
             DisplayViewState.CARD_PIN -> {
+                cardLoadingShelter.hideShelter()
                 cardPinShelter.hideShelter()
                 cardShelter.showShelter()
                 displayViewState = DisplayViewState.CARD
             }
             DisplayViewState.CARD_OTP -> {
+                cardLoadingShelter.hideShelter()
                 cardOTPShelter.hideShelter()
                 cardShelter.showShelter()
                 displayViewState = DisplayViewState.CARD
@@ -231,6 +234,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             DisplayViewState.SECURE3DS -> {
                 threeDSShelter.hideShelter()
                 cardOTPShelter.hideShelter()
+                cardLoadingShelter.hideShelter()
                 cardShelter.showShelter()
                 displayViewState = DisplayViewState.CARD
             }

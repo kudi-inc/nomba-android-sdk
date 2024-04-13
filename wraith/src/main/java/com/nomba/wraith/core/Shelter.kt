@@ -17,7 +17,6 @@ open class Shelter(layout: ViewBinding) {
     }
 
     open fun hideShelter(){
-        //layout().root.clearFocus()
         layout_data_binding.root.visibility = View.GONE
     }
 
