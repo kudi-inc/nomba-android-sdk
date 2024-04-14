@@ -34,8 +34,6 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
 
         layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
-
-
     }
 
     fun setBankDetails(accountNumber: String, bankName : String, accountName : String){
@@ -67,7 +65,6 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
         }
 
 
-
         layout().sentMnyBtn.setOnClickListener{
             manager.showTransferConfirmationView()
         }
@@ -94,8 +91,9 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
 
     override fun hideShelter() {
         super.hideShelter()
-        waitingForTransferTimer.cancel()
-
+        if (this::waitingForTransferTimer.isInitialized){
+            waitingForTransferTimer.cancel()
+        }
     }
 
 }

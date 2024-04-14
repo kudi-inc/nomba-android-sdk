@@ -8,6 +8,7 @@ import com.nomba.wraith.R
 import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
+import com.nomba.wraith.core.enums.PaymentOption
 import com.nomba.wraith.databinding.ConfirmingTransferViewBinding
 import java.util.Locale
 
@@ -30,36 +31,80 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
             if (manager.displayViewState == DisplayViewState.TRANSFER_CONFIRMATION) {
                 manager.displayViewState = DisplayViewState.TRANSFER_CONFIRMATION_INNER_ONE
                 setUpSecondConfirmationScreen()
-                manager.checkOrderDetails()
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
             } else {
                 manager.displayViewState = DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO
-                manager.checkOrderDetails()
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
             }
         }
 
         layout().getHelpBtn.setOnClickListener {
-            Log.e("Tax", "SET")
+            manager.hideTransferConfirmingView()
+            manager.showGetHelpView()
+        }
+
+        layout().needHelpWithThisTransactionButton.setOnClickListener {
             manager.hideTransferConfirmingView()
             manager.showGetHelpView()
         }
 
         resetViews()
-        manager.checkOrderDetails()
+
     }
+
+
 
     private fun onConfirmationTransferTick(millisUntilFinished: Long){
         val totalSeconds = millisUntilFinished / 1000
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
 
-        layout().waitingForConfirmationTimerView.text = String.format(
+        val textCount = String.format(
             Locale.getDefault(),
             "%02d:%02d",
             minutes,
             seconds,
         )
 
+        layout().waitingForConfirmationTimerView.text = textCount
         layout().waitingForConfirmationProgress.progress = millisUntilFinished.toInt()
+
+
+        // check the transfer status at different times
+        when (textCount) {
+            "09:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "08:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "07:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "06:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "05:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "04:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "03:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "02:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+            "01:00" -> {
+                manager.checkOrderDetails(paymentOption = PaymentOption.TRANSFER, ::endConfirmationTimer)
+            }
+        }
+
+    }
+
+    private fun endConfirmationTimer(){
+        confirmationTimer.cancel()
     }
 
     private fun onConfirmationTransferEnd(){
@@ -120,7 +165,9 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
 
     override fun hideShelter() {
         super.hideShelter()
-        confirmationTimer.cancel()
+        if (this::confirmationTimer.isInitialized){
+            confirmationTimer.cancel()
+        }
     }
 
 }

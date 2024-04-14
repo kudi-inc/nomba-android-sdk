@@ -72,7 +72,6 @@ publishing {
             groupId = "com.github.kudi-inc"
             artifactId = "nomba-android-sdk"
             version = "1.0.1"
-
             afterEvaluate {
                 from(components["release"])
             }

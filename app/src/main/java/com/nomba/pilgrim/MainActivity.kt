@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             nombaManager.paymentAmount = amount.text.toString().toDouble()
             nombaManager.customerEmail = email.text.toString()
             nombaManager.customerName = customer.text.toString()
+            nombaManager.logo = R.drawable.bolt_logo
             nombaManager.showPaymentView()
         }
 
