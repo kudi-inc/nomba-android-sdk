@@ -286,11 +286,14 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun hidePaymentView(){
+
+        cardShelter.hideShelter()
         paymentOptionsShelter.hideShelter()
         activityMainViewBinding.root.visibility = View.GONE
     }
 
     private fun setPaymentValues(){
+        //orderReference = UUID.randomUUID().toString()
         activityMainViewBinding.amountLabel.text = formatPaymentAmount()
         activityMainViewBinding.emailLabel.text = customerEmail
     }
@@ -418,8 +421,10 @@ private fun fetchBanksForTransfer(){
                 if (response.isSuccessful) {
                     val post = response.body()
                     Log.e("Success Response", post.toString())
+                    println(orderReference)
+                    orderReference = post?.data?.orderReference ?: orderReference
                     if (post?.code == "00"){
-                        orderReference = post.data.orderReference
+                        println(orderReference)
                         when (selectedPaymentOption) {
                             PaymentOption.TRANSFER -> fetchBanksForTransfer()
                             PaymentOption.CARD -> {
@@ -469,6 +474,11 @@ private fun fetchBanksForTransfer(){
                             //show OTP screen
                             cardLoadingShelter.hideShelter()
                             successShelter.showShelter()
+                        } else {
+                            showSnackbar(post.data.message + "Try Again")
+                            cardLoadingShelter.hideShelter()
+                            cardPinShelter.hideShelter()
+                            cardOTPShelter.showShelter()
                         }
                     }
                 } else {

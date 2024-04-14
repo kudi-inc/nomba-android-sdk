@@ -34,8 +34,6 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
 
         layout().waitingForTransferProgress.max = waitingForTransferTime.toInt()
         waitingForTransferTimer.start()
-
-
     }
 
     fun setBankDetails(accountNumber: String, bankName : String, accountName : String){
