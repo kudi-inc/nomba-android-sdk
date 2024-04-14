@@ -17,6 +17,10 @@ class SuccessShelter(private var manager: NombaManager, activitySuccessTransferV
         super.showShelter()
         manager.displayViewState = DisplayViewState.PAYMENT_SUCCESS
         layout().successContentText.text = manager.activity.get()?.getString(R.string.your_payment_of_80_400_to_kurukuru_sweets_has_been_confirmed_you_will_now_be_redirected_to_your_merchant_s_site_thank_you, manager.doFormattingAmount(), manager.customerName)
+        layout().closeCheckoutBtn.setOnClickListener {
+            hideShelter()
+            manager.hidePaymentView()
+        }
     }
 
 }

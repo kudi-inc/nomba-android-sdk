@@ -31,11 +31,21 @@
         android:baselineAligned="false">
 
         <LinearLayout
-            android:layout_width="@dimen/size_48"
+            android:layout_width="64dp"
+            android:id="@+id/logo_holder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/logo_placeholder"
-            android:layout_height="@dimen/size_48"/>
+            android:layout_height="@dimen/size_48">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:id="@+id/logo"
+                android:scaleType="centerInside"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/logo" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

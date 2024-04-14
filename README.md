@@ -81,6 +81,7 @@ nombaManager.customerEmail = "knightbenax@gmail.com"
 nombaManager.customerName = "Emeka Bond"
 nombaManager.orderReference = "7dc1558f-dcc3-4cc8-b4cd-6ba8603efcee"
 nombaManager.customerId = "58530bfe-e1f9-405f-b1b0-249910e6a09f"
+nombaManager.logo = R.drawable.logo
 ```
 
 
