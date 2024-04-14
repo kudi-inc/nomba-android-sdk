@@ -286,7 +286,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun hidePaymentView(){
-
+        transferShelter.hideShelter()
         cardShelter.hideShelter()
         paymentOptionsShelter.hideShelter()
         activityMainViewBinding.root.visibility = View.GONE
