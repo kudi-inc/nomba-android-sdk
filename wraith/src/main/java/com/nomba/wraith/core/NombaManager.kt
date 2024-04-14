@@ -66,6 +66,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerEmail : String = "customer-email@gmail.com"
     var customerId : String = UUID.randomUUID().toString()
     var customerName : String = "Wasiu Jackson"
+    var logo : Int? = null
+
 
 
     private var callbackURL : String = "https://wraith/android.sdk/callback"
@@ -296,6 +298,10 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         //orderReference = UUID.randomUUID().toString()
         activityMainViewBinding.amountLabel.text = formatPaymentAmount()
         activityMainViewBinding.emailLabel.text = customerEmail
+        logo?.let {
+            activityMainViewBinding.logo.setImageResource(it)
+            activityMainViewBinding.logoHolder.background = null
+        }
     }
 
     fun formatPaymentAmount(): String {

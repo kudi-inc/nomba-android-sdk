@@ -91,8 +91,9 @@ class TransferShelter(private var manager: NombaManager, activityTransferViewBin
 
     override fun hideShelter() {
         super.hideShelter()
-        waitingForTransferTimer.cancel()
-
+        if (this::waitingForTransferTimer.isInitialized){
+            waitingForTransferTimer.cancel()
+        }
     }
 
 }

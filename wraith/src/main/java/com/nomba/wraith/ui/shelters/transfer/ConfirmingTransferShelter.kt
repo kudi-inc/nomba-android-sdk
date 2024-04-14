@@ -165,7 +165,9 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
 
     override fun hideShelter() {
         super.hideShelter()
-        confirmationTimer.cancel()
+        if (this::confirmationTimer.isInitialized){
+            confirmationTimer.cancel()
+        }
     }
 
 }
