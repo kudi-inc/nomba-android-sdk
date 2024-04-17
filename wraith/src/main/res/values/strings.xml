@@ -64,6 +64,9 @@
     <string name="your_payment_failed">Your payment failed</string>
     <string name="the_stars_didn_t_align_just_right">The stars didn\'t align just right</string>
     <string name="try_another_card">Try another card</string>
+    <string name="enter_phone_number_to_save_your_card_for_future_use">Enter phone number to save your\n card for future use</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="verify">Verify</string>
 
 
 </resources>
