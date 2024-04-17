@@ -130,7 +130,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         app:layout_constraintTop_toBottomOf="@id/verify_btn"
-        android:layout_marginTop="@dimen/size_20"
+        android:layout_marginTop="@dimen/size_30"
         android:layout_width="match_parent"
         android:background="@drawable/cancel_border_bg"
         android:fontFamily="@font/inter_medium"

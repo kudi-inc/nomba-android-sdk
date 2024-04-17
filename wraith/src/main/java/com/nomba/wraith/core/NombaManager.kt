@@ -32,6 +32,7 @@ import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.FailureShelter
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
+import com.nomba.wraith.ui.shelters.SaveCardSuccessShelter
 import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
 import com.nomba.wraith.ui.shelters.card.CardOTPShelter
 import com.nomba.wraith.ui.shelters.card.CardPinShelter
@@ -105,6 +106,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var cardOTPShelter: CardOTPShelter
     private lateinit var threeDSShelter: ThreeDSShelter
     private lateinit var failureShelter: FailureShelter
+    private lateinit var saveCardSuccessShelter: SaveCardSuccessShelter
 
     var utils = Utils()
     private val displayMetrics = DisplayMetrics()
@@ -123,6 +125,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         cardLoadingShelter = CardLoadingShelter(this, activityMainViewBinding.cardLoadingView)
         cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
         threeDSShelter = ThreeDSShelter(this, activityMainViewBinding.threedsView)
+        saveCardSuccessShelter = SaveCardSuccessShelter(this, activityMainViewBinding.saveCardSuccessView)
     }
 
     private fun setUpMainPaymentView()  {
@@ -207,7 +210,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             DisplayViewState.TRANSFER_CONFIRMATION_INNER_ONE -> TODO()
             DisplayViewState.TRANSFER_CONFIRMATION_INNER_TWO -> TODO()
             DisplayViewState.GET_HELP -> TODO()
-            DisplayViewState.PAYMENT_SUCCESS -> activity.get()?.onBackPressed()
+            DisplayViewState.PAYMENT_SUCCESS, DisplayViewState.SAVE_CARD_SUCCESS -> restartAllStates()
             DisplayViewState.CARD -> {
                 cardShelter.hideShelter()
                 cardLoadingShelter.hideShelter()
@@ -288,6 +291,15 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun hidePaymentView(){
+        transferShelter.hideShelter()
+        cardShelter.hideShelter()
+        paymentOptionsShelter.hideShelter()
+        activityMainViewBinding.root.visibility = View.GONE
+    }
+
+    private fun restartAllStates(){
+        successShelter.hideShelter()
+        saveCardSuccessShelter.hideShelter()
         transferShelter.hideShelter()
         cardShelter.hideShelter()
         paymentOptionsShelter.hideShelter()
