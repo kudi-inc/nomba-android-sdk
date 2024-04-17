@@ -67,7 +67,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerId : String = UUID.randomUUID().toString()
     var customerName : String = "Wasiu Jackson"
     var logo : Int? = null
-    private var saveCard : Boolean = false
+    var shouldSaveCard : Boolean = false
 
 
     private var callbackURL : String = "https://wraith/android.sdk/callback"

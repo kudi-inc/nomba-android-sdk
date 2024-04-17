@@ -36,7 +36,7 @@
             android:fontFamily="@font/inter_bold"
             android:textColor="@color/neutral_ten"
             android:textSize="@dimen/font_20"
-            android:text="@string/your_payment_has_been_confirmed_successfully"
+            android:text="@string/phone_number_confirmed"
             android:layout_marginBottom="@dimen/size_4"
             android:layout_height="wrap_content"/>
 
@@ -94,7 +94,7 @@
             android:fontFamily="@font/inter_medium"
             android:textSize="@dimen/font_14"
             android:textColorHint="@color/mainText"
-           android:paddingStart="@dimen/size_14"
+            android:paddingStart="@dimen/size_14"
             android:paddingEnd="@dimen/size_14"
             android:layout_marginTop="@dimen/size_2"
             android:paddingBottom="@dimen/size_14"
@@ -143,12 +143,5 @@
         android:gravity="center"
         android:text="@string/close_checkout"
         android:layout_height="wrap_content"/>
-
-
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -87,8 +87,8 @@ class CardShelter(private var manager: NombaManager, activityCardViewBinding: Ca
           }
         }
 
-        layout().saveCardCheckbox.setOnCheckedChangeListener { button, isChecked ->
-
+        layout().saveCardCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            manager.shouldSaveCard = isChecked
         }
     }
 

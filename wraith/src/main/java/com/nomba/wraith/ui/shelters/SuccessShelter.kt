@@ -1,5 +1,6 @@
 package com.nomba.wraith.ui.shelters
 
+import android.view.View
 import com.nomba.wraith.R
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
@@ -21,6 +22,22 @@ class SuccessShelter(private var manager: NombaManager, activitySuccessTransferV
             hideShelter()
             manager.hidePaymentView()
         }
+
+        if (manager.shouldSaveCard){
+            showVerifyCardBlock()
+        } else {
+            hideVerifyCardBlock()
+        }
+    }
+
+    private fun showVerifyCardBlock(){
+        layout().verifyHolder.visibility = View.VISIBLE
+        layout().verifyBtn.visibility = View.VISIBLE
+    }
+
+    private fun hideVerifyCardBlock(){
+        layout().verifyHolder.visibility = View.GONE
+        layout().verifyBtn.visibility = View.GONE
     }
 
 }

@@ -18,6 +18,8 @@
     <string name="pay_label">₦%1$s</string>
     <string name="pay_button_label">Pay ₦%1$s</string>
     <string name="opt_text">Enter the One Time Password (OTP)\nsent to %1$s to verify it</string>
+    <string name="save_opt_text">Enter the One Time Password (OTP)\nsent to %1$s</string>
+    <string name="save_resend_otp">Resend OTP in %1$s secs</string>
     <string name="use_this_account_only_for_this_transaction">Use this account only for this transaction</string>
     <string name="change_payment_method">Change payment method</string>
     <string name="i_have_sent_the_money">I have sent the money</string>
@@ -67,6 +69,8 @@
     <string name="enter_phone_number_to_save_your_card_for_future_use">Enter phone number to save your\n card for future use</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="verify">Verify</string>
+    <string name="change_phone_number">Change Phone Number</string>
+    <string name="phone_number_confirmed">Phone number confirmed!</string>
 
 
 </resources>
