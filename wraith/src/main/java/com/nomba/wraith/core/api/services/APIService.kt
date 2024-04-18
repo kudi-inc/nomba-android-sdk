@@ -9,6 +9,10 @@ import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountRes
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
 import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenRequest
 import com.nomba.wraith.core.api.models.refreshtoken.RefreshTokenResponse
+import com.nomba.wraith.core.api.models.savecard.SaveCardOtpRequest
+import com.nomba.wraith.core.api.models.savecard.SaveCardOtpResponse
+import com.nomba.wraith.core.api.models.savecardsubmitotp.SaveCardSubmitOtpRequest
+import com.nomba.wraith.core.api.models.savecardsubmitotp.SaveCardSubmitOtpResponse
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsRequest
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsResponse
 import com.nomba.wraith.core.api.models.submitotp.SubmitOTPRequest
@@ -55,8 +59,11 @@ interface APIService {
     @POST("/v1/checkout/checkout-card-otp")
     fun submitOTPDetails(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
 
-    @POST("/v1/checkout/checkout-card-otp")
-    fun requestOTPForCardSaving(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>
+    @POST("/v1/checkout/user-card/auth")
+    fun requestOTPForCardSaving(@Header("Authorization") authorization : String, @Body saveCardOtpRequest: SaveCardOtpRequest) : Call<SaveCardOtpResponse>
+
+    @POST("/v1/checkout/user-card")
+    fun submitOTPForCardSaving(@Header("Authorization") authorization : String, @Body saveCardSubmitOTPRequest: SaveCardSubmitOtpRequest) : Call<SaveCardSubmitOtpResponse>
 
     @POST("/v1/checkout/checkout-card-otp")
     fun cancelCheckout(@Header("Authorization") authorization : String, @Body submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse>

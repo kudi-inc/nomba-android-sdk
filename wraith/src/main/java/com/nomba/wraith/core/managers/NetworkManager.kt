@@ -8,6 +8,10 @@ import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
 import com.nomba.wraith.core.api.models.createorder.CreateOrderResponse
 import com.nomba.wraith.core.api.models.fetchparentaccount.FetchParentAccountResponse
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
+import com.nomba.wraith.core.api.models.savecard.SaveCardOtpRequest
+import com.nomba.wraith.core.api.models.savecard.SaveCardOtpResponse
+import com.nomba.wraith.core.api.models.savecardsubmitotp.SaveCardSubmitOtpRequest
+import com.nomba.wraith.core.api.models.savecardsubmitotp.SaveCardSubmitOtpResponse
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsRequest
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsResponse
 import com.nomba.wraith.core.api.models.submitotp.SubmitOTPRequest
@@ -82,8 +86,16 @@ class NetworkManager {
         return APIClient.apiService.submitCardDetails("Bearer $accessToken", submitCardDetailsRequest)
     }
 
-    fun submitOTPDetails(submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse> {
+    fun requestOTPForCardSaving(saveCardOtpRequest: SaveCardOtpRequest) : Call<SaveCardOtpResponse> {
+        return APIClient.apiService.requestOTPForCardSaving("Bearer $accessToken", saveCardOtpRequest)
+    }
 
+
+    fun submitOTPForCardSaving(saveCardSubmitOtpRequest: SaveCardSubmitOtpRequest) : Call<SaveCardSubmitOtpResponse> {
+        return APIClient.apiService.submitOTPForCardSaving("Bearer $accessToken", saveCardSubmitOtpRequest)
+    }
+
+    fun submitOTPDetails(submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse> {
         return APIClient.apiService.submitOTPDetails("Bearer $accessToken", submitOTPRequest)
     }
 
