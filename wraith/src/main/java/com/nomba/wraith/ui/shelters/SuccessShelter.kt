@@ -1,6 +1,7 @@
 package com.nomba.wraith.ui.shelters
 
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import com.nomba.wraith.R
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
@@ -23,6 +24,8 @@ class SuccessShelter(private var manager: NombaManager, activitySuccessTransferV
             manager.hidePaymentView()
         }
 
+        setListeners()
+
         if (manager.shouldSaveCard){
             showVerifyCardBlock()
         } else {
@@ -38,6 +41,28 @@ class SuccessShelter(private var manager: NombaManager, activitySuccessTransferV
     private fun hideVerifyCardBlock(){
         layout().verifyHolder.visibility = View.GONE
         layout().verifyBtn.visibility = View.GONE
+    }
+
+    private fun setListeners(){
+        layout().phoneNumberText.addTextChangedListener {
+            checkIfFillsEmpty()
+        }
+
+        layout().verifyBtn.setOnClickListener {
+            manager.otpPhoneNumber = layout().phoneNumberText.text.toString()
+            manager.requestOTPForCardSaving()
+
+        }
+    }
+
+    private fun checkIfFillsEmpty(){
+        if (layout().phoneNumberText.text.length == 11){
+            layout().verifyBtn.alpha = 1.0F
+            layout().verifyBtn.isEnabled = true
+        } else {
+            layout().verifyBtn.alpha = .5F
+            layout().verifyBtn.isEnabled = false
+        }
     }
 
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/size_20"
+    android:background="@color/paymentBackground"
     android:layout_height="match_parent">
 
     <View
@@ -72,7 +73,8 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_marginTop="@dimen/size_40"
             android:layout_width="match_parent"
-            android:id="@+id/cancel_button"
+            android:id="@+id/resend_button"
+            android:enabled="false"
             android:fontFamily="@font/inter_medium"
             android:padding="@dimen/size_10"
             android:textColor="@color/mainText"

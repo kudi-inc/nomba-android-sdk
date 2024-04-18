@@ -22,7 +22,11 @@ class SaveCardSuccessShelter(private var manager: NombaManager, activitySaveCard
             manager.hidePaymentView()
         }
 
+
+
     }
+
+
 
 
 }

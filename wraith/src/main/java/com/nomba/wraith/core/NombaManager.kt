@@ -19,6 +19,10 @@ import com.nomba.wraith.core.api.models.createorder.CreateOrderRequest
 import com.nomba.wraith.core.api.models.createorder.CreateOrderResponse
 import com.nomba.wraith.core.api.models.createorder.Order
 import com.nomba.wraith.core.api.models.flashaccount.FlashAccountResponse
+import com.nomba.wraith.core.api.models.savecard.SaveCardOtpRequest
+import com.nomba.wraith.core.api.models.savecard.SaveCardOtpResponse
+import com.nomba.wraith.core.api.models.savecardsubmitotp.SaveCardSubmitOtpRequest
+import com.nomba.wraith.core.api.models.savecardsubmitotp.SaveCardSubmitOtpResponse
 import com.nomba.wraith.core.api.models.submitcard.DeviceInformation
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsRequest
 import com.nomba.wraith.core.api.models.submitcard.SubmitCardDetailsResponse
@@ -32,6 +36,7 @@ import com.nomba.wraith.core.managers.NetworkManager
 import com.nomba.wraith.databinding.MainViewBinding
 import com.nomba.wraith.ui.shelters.FailureShelter
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
+import com.nomba.wraith.ui.shelters.SaveCardOtpShelter
 import com.nomba.wraith.ui.shelters.SaveCardSuccessShelter
 import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
 import com.nomba.wraith.ui.shelters.card.CardOTPShelter
@@ -69,6 +74,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerName : String = "Wasiu Jackson"
     var logo : Int? = null
     var shouldSaveCard : Boolean = false
+    var otpPhoneNumber : String = ""
 
 
     private var callbackURL : String = "https://wraith/android.sdk/callback"
@@ -92,7 +98,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         }
     }
 
-    //private lateinit var clientKey : String
+    //Shelters
     private lateinit var activityMainViewBinding : MainViewBinding
     private lateinit var paymentOptionsShelter: PaymentOptionsShelter
     private lateinit var transferShelter: TransferShelter
@@ -107,6 +113,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     private lateinit var threeDSShelter: ThreeDSShelter
     private lateinit var failureShelter: FailureShelter
     private lateinit var saveCardSuccessShelter: SaveCardSuccessShelter
+    private lateinit var saveCardOtpShelter: SaveCardOtpShelter
 
     var utils = Utils()
     private val displayMetrics = DisplayMetrics()
@@ -126,6 +133,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         cardOTPShelter = CardOTPShelter(this, activityMainViewBinding.cardOtpView)
         threeDSShelter = ThreeDSShelter(this, activityMainViewBinding.threedsView)
         saveCardSuccessShelter = SaveCardSuccessShelter(this, activityMainViewBinding.saveCardSuccessView)
+        saveCardOtpShelter = SaveCardOtpShelter(this, activityMainViewBinding.saveCardOtpView)
     }
 
     private fun setUpMainPaymentView()  {
@@ -243,6 +251,10 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
                 cardShelter.showShelter()
                 displayViewState = DisplayViewState.CARD
             }
+            DisplayViewState.SAVE_CARD_OTP -> {
+                saveCardOtpShelter.hideShelter()
+                successShelter.showShelter()
+            }
         }
     }
 
@@ -336,6 +348,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showCardView(){
+        //saveCardOtpShelter.showShelter()
         showLoader()
         networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
     }
@@ -352,6 +365,12 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showCardLoadingShelter(){
         cardLoadingShelter.showShelter()
+    }
+
+
+    fun goBackToChangeNumberForSaveCardOtp(){
+        saveCardOtpShelter.hideShelter()
+        successShelter.showShelter()
     }
 
     fun hideCardLoadingShelter(){
@@ -427,6 +446,66 @@ private fun fetchBanksForTransfer(){
 }
 
 
+    fun requestOTPForCardSaving(){
+        hideKeyboard()
+        successShelter.hideShelter()
+        saveCardOtpShelter.hideShelter()
+        showLoader()
+
+        networkManager.requestOTPForCardSaving(SaveCardOtpRequest(orderReference, otpPhoneNumber)).enqueue(object : Callback<SaveCardOtpResponse> {
+            override fun onResponse(call: Call<SaveCardOtpResponse>, response: Response<SaveCardOtpResponse>) {
+                if (response.isSuccessful) {
+                    hideLoader()
+                    val post = response.body()
+                    Log.e("Success Response", post.toString())
+                    if (post?.code == "00"){
+                        //show OTP entry view
+                        saveCardOtpShelter.showShelter()
+                    } else {
+                        successShelter.showShelter()
+                        showSnackbar(post?.data?.message + "Try Again")
+                    }
+                } else {
+                    hideLoader()
+                }
+            }
+            override fun onFailure(call: Call<SaveCardOtpResponse>, t: Throwable) {
+                // Handle failure
+                hideLoader()
+            }
+        })
+    }
+
+    fun submitOtpForCardSaving(otpText: String){
+        hideKeyboard()
+        saveCardOtpShelter.hideShelter()
+        showLoader()
+
+        networkManager.submitOTPForCardSaving(SaveCardSubmitOtpRequest(orderReference, otpText, otpPhoneNumber)).enqueue(object : Callback<SaveCardSubmitOtpResponse> {
+            override fun onResponse(call: Call<SaveCardSubmitOtpResponse>, response: Response<SaveCardSubmitOtpResponse>) {
+                if (response.isSuccessful) {
+                    hideLoader()
+                    val post = response.body()
+                    Log.e("Success Response", post.toString())
+                    if (post?.code == "00"){
+                        //show OTP entry view
+                        saveCardSuccessShelter.showShelter()
+                    } else {
+                        saveCardOtpShelter.showShelter()
+                        showSnackbar(post?.data?.message + "Try Again")
+
+                    }
+                } else {
+                    hideLoader()
+                }
+            }
+            override fun onFailure(call: Call<SaveCardSubmitOtpResponse>, t: Throwable) {
+                // Handle failure
+                hideLoader()
+            }
+        })
+    }
+
 
     private fun createOrder(selectedPaymentOption : PaymentOption){
         // the order hasn't been created so create it
@@ -489,7 +568,6 @@ private fun fetchBanksForTransfer(){
                             cardPinShelter.hideShelter()
                             cardOTPShelter.showShelter()
                         } else if (post.data.status == "true") {
-                            //show OTP screen
                             cardLoadingShelter.hideShelter()
                             successShelter.showShelter()
                         } else {

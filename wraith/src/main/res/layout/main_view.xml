@@ -159,6 +159,14 @@
         app:layout_constraintTop_toBottomOf="@id/top_view"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:id="@+id/save_card_otp_view"
+        layout="@layout/save_card_otp_view" />
+
+    <include
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/failure_view"
         layout="@layout/failure_view" />
 
