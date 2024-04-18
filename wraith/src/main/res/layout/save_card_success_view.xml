@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/size_20"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/neutral_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/line"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_18"
+        android:id="@+id/holder"
+        android:gravity="center"
+        android:padding="@dimen/size_20"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:layout_height="wrap_content"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/check_success"
+            android:layout_marginBottom="@dimen/size_16"
+            android:contentDescription="@string/caution"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/neutral_ten"
+            android:textSize="@dimen/font_20"
+            android:text="@string/phone_number_confirmed"
+            android:layout_marginBottom="@dimen/size_4"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content_holder"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/holder"
+        android:padding="@dimen/size_20"
+        android:gravity="center"
+        android:background="@drawable/payment_actions_bg"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/neutral_ten"
+            android:lineSpacingMultiplier="1.2"
+            android:gravity="center"
+            android:id="@+id/success_content_text"
+            android:textAlignment="center"
+            android:text="@string/your_card_has_been_securely_saved_and_it_will_be_avaliable_for_your_next_checkout_with_1_s_you_will_now_be_redirected_to_your_merchant_s_app_thank_you"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintTop_toBottomOf="@id/content_holder"
+        android:layout_marginTop="@dimen/size_40"
+        android:layout_width="match_parent"
+        android:background="@drawable/cancel_border_bg"
+        android:fontFamily="@font/inter_medium"
+        android:padding="@dimen/size_10"
+        android:id="@+id/close_checkout_btn"
+        android:textColor="@color/mainText"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="@dimen/font_16"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:text="@string/close_checkout"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

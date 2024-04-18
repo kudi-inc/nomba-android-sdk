@@ -86,6 +86,10 @@ class CardShelter(private var manager: NombaManager, activityCardViewBinding: Ca
               checkIfFillsEmpty()
           }
         }
+
+        layout().saveCardCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            manager.shouldSaveCard = isChecked
+        }
     }
 
     private fun checkIfFillsEmpty(){
