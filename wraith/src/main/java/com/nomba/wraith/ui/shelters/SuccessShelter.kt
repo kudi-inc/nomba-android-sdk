@@ -53,6 +53,21 @@ class SuccessShelter(private var manager: NombaManager, activitySuccessTransferV
             manager.requestOTPForCardSaving()
 
         }
+
+        //we use this to add a padding to the constraintalayout parent,
+        //so that the view can be scrollable or not
+        layout().phoneNumberText.setOnFocusChangeListener { v, hasFocus ->
+            if (v.hasFocus()){
+                println("Focus First")
+            }
+            if (hasFocus){
+                manager.hideAttribution()
+                println("Focus")
+            } else {
+                manager.showAttribution()
+                println("Focus Not")
+            }
+        }
     }
 
     private fun checkIfFillsEmpty(){

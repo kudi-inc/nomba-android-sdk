@@ -73,7 +73,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerId : String = UUID.randomUUID().toString()
     var customerName : String = "Wasiu Jackson"
     var logo : Int? = null
-    var shouldSaveCard : Boolean = false
+    var shouldSaveCard : Boolean = true
     var otpPhoneNumber : String = ""
 
 
@@ -198,6 +198,23 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             hideExitDialog()
             hidePaymentView()
         }
+
+        //Detect when activity is shown or not
+        activity.get()?.addKeyboardToggleListener {shown ->
+            if (shown){
+                hideAttribution()
+            } else {
+                showAttribution()
+            }
+        }
+    }
+
+    fun hideAttribution(){
+        activityMainViewBinding.attribution.visibility = View.GONE
+    }
+
+    fun showAttribution(){
+        activityMainViewBinding.attribution.visibility = View.VISIBLE
     }
 
     fun handleBackStack(){
@@ -348,9 +365,9 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showCardView(){
-        //saveCardOtpShelter.showShelter()
-        showLoader()
-        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
+        successShelter.showShelter()
+        //showLoader()
+        //networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
     }
 
     fun showCardPinView(){
@@ -578,12 +595,20 @@ private fun fetchBanksForTransfer(){
                         }
                     }
                 } else {
+                    showSnackbar(response.errorBody().toString() + "Try Again")
+                    cardPinShelter.hideShelter()
+                    cardOTPShelter.hideShelter()
                     cardLoadingShelter.hideShelter()
+                    cardShelter.showShelter()
                 }
             }
             override fun onFailure(call: Call<SubmitOTPResponse>, t: Throwable) {
                 // Handle failure
+                showSnackbar(t.message + "Try Again")
+                cardPinShelter.hideShelter()
+                cardOTPShelter.hideShelter()
                 cardLoadingShelter.hideShelter()
+                cardShelter.showShelter()
             }
         })
     }
@@ -687,6 +712,16 @@ private fun fetchBanksForTransfer(){
                 hideLoader()
             }
         })
+    }
+
+
+    fun Activity.addKeyboardToggleListener(onKeyboardToggleAction: (shown: Boolean) -> Unit): KeyboardToggleListener? {
+        val root = findViewById<View>(android.R.id.content)
+        val listener = KeyboardToggleListener(root, onKeyboardToggleAction)
+        return root?.viewTreeObserver?.run {
+            addOnGlobalLayoutListener(listener)
+            listener
+        }
     }
 
 

@@ -21,6 +21,7 @@ class SaveCardOtpShelter(var manager: NombaManager, activitySaveCardOtpViewBindi
 
     override fun showShelter() {
         super.showShelter()
+        layout().contentLabel.text = manager.activity.get()?.getString(R.string.save_opt_text, manager.otpPhoneNumber)
         manager.displayViewState = DisplayViewState.SAVE_CARD_OTP
         startTimer()
         setListeners()
@@ -42,7 +43,7 @@ class SaveCardOtpShelter(var manager: NombaManager, activitySaveCardOtpViewBindi
         }
 
         layout().changeNumberBtn.setOnClickListener {
-
+manager.goBackToChangeNumberForSaveCardOtp()
         }
 
         layout().otpView.addTextChangedListener(object : TextWatcher {
