@@ -71,7 +71,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.kudi-inc"
             artifactId = "nomba-android-sdk"
-            version = "1.0.3"
+            version = "1.0.4"
             afterEvaluate {
                 from(components["release"])
             }
