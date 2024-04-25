@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.email)
         val customer = findViewById<EditText>(R.id.name)
 
+
+
         amount.setText("10.0")
         email.setText("emeka@bond.com")
         customer.setText("Emeka Bond")

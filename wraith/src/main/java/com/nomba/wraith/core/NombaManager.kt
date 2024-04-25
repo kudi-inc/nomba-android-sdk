@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import com.nomba.wraith.R
 import com.nomba.wraith.core.api.models.CardObject
@@ -38,6 +41,7 @@ import com.nomba.wraith.ui.shelters.FailureShelter
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.SaveCardOtpShelter
 import com.nomba.wraith.ui.shelters.SaveCardSuccessShelter
+import com.nomba.wraith.ui.shelters.SuccessShelter
 import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
 import com.nomba.wraith.ui.shelters.card.CardOTPShelter
 import com.nomba.wraith.ui.shelters.card.CardPinShelter
@@ -45,7 +49,6 @@ import com.nomba.wraith.ui.shelters.card.CardShelter
 import com.nomba.wraith.ui.shelters.card.ThreeDSShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
-import com.nomba.wraith.ui.shelters.SuccessShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import retrofit2.Call
@@ -198,6 +201,51 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             hideExitDialog()
             hidePaymentView()
         }
+
+        //hide attribution when soft keyboard shown. Also add margin to success screen
+        //shelter when the keyboard is shown and remove when it's hidden
+        //this allows the user to scroll the view freely when the keyboard is visible
+        val activityRootView: View = activityMainViewBinding.root
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener {
+            val r = Rect()
+            activityRootView.getWindowVisibleDisplayFrame(r)
+            //Get keyboard height
+            val insets = activity.get()?.window?.decorView
+                ?.let { ViewCompat.getRootWindowInsets(it) }
+            val statusBarSize = insets?.systemWindowInsetTop ?: 0
+            val navBarSize = insets?.systemWindowInsetBottom ?: 0
+            val keyboardHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 500
+            var heightDiff: Int = activityRootView.getRootView().height - (r.bottom - r.top)
+            heightDiff = heightDiff - statusBarSize - navBarSize
+            if (heightDiff >= keyboardHeight) {
+                //keyboard is visible
+                showAttribution()
+                if (displayViewState == DisplayViewState.PAYMENT_SUCCESS){
+                    val bottomParam = successShelter.layout().parent.layoutParams as ViewGroup.MarginLayoutParams
+                    bottomParam.setMargins(0, 0,0, 0)
+                    successShelter.layout().parent.layoutParams = bottomParam
+                }
+            } else {
+                //keyboard is hidden
+                hideAttribution()
+                if (displayViewState == DisplayViewState.PAYMENT_SUCCESS){
+                    val bottomParam = successShelter.layout().parent.layoutParams as ViewGroup.MarginLayoutParams
+                    bottomParam.setMargins(0, 0,0, keyboardHeight + 300)
+                    successShelter.layout().parent.layoutParams = bottomParam
+                }
+
+            }
+        }
+
+
+    }
+
+    fun hideAttribution(){
+        activityMainViewBinding.attribution.visibility = View.GONE
+    }
+
+    fun showAttribution(){
+        activityMainViewBinding.attribution.visibility = View.VISIBLE
     }
 
     fun handleBackStack(){
@@ -348,7 +396,6 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showCardView(){
-        //saveCardOtpShelter.showShelter()
         showLoader()
         networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
     }
@@ -578,12 +625,20 @@ private fun fetchBanksForTransfer(){
                         }
                     }
                 } else {
+                    showSnackbar(response.errorBody().toString() + "Try Again")
+                    cardPinShelter.hideShelter()
+                    cardOTPShelter.hideShelter()
                     cardLoadingShelter.hideShelter()
+                    cardShelter.showShelter()
                 }
             }
             override fun onFailure(call: Call<SubmitOTPResponse>, t: Throwable) {
                 // Handle failure
+                showSnackbar(t.message + "Try Again")
+                cardPinShelter.hideShelter()
+                cardOTPShelter.hideShelter()
                 cardLoadingShelter.hideShelter()
+                cardShelter.showShelter()
             }
         })
     }
@@ -613,6 +668,7 @@ private fun fetchBanksForTransfer(){
             deviceInformation = deviceInformation)
         networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
             override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
+                Log.e("Error Response", response.toString())
                 if (response.isSuccessful) {
                     val post = response.body()
                     Log.e("Success Response", post.toString())
@@ -644,16 +700,27 @@ private fun fetchBanksForTransfer(){
                             "00" -> {
                                 cardLoadingShelter.hideShelter()
                                 successShelter.showShelter()
+                            } else -> {
+                            showSnackbar(post.data.message + "Try Again")
+                            cardLoadingShelter.hideShelter()
+                            cardPinShelter.hideShelter()
+                            cardShelter.showShelter()
                             }
                         }
                     }
                 } else {
+                    showSnackbar(response.errorBody().toString() + "Try Again")
                     cardLoadingShelter.hideShelter()
+                    cardPinShelter.hideShelter()
+                    cardShelter.showShelter()
                 }
             }
             override fun onFailure(call: Call<SubmitCardDetailsResponse>, t: Throwable) {
                 // Handle failure
+                showSnackbar(t.message + "Try Again")
                 cardLoadingShelter.hideShelter()
+                cardPinShelter.hideShelter()
+                cardShelter.showShelter()
             }
         })
     }
