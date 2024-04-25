@@ -76,7 +76,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerId : String = UUID.randomUUID().toString()
     var customerName : String = "Wasiu Jackson"
     var logo : Int? = null
-    var shouldSaveCard : Boolean = true
+    var shouldSaveCard : Boolean = false
     var otpPhoneNumber : String = ""
 
 
@@ -212,14 +212,28 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             //Get keyboard height
             val insets = activity.get()?.window?.decorView
                 ?.let { ViewCompat.getRootWindowInsets(it) }
+            val statusBarSize = insets?.systemWindowInsetTop ?: 0
+            val navBarSize = insets?.systemWindowInsetBottom ?: 0
             val keyboardHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 500
-            val heightDiff: Int = activityRootView.getRootView().height - (r.bottom - r.top)
-            if (heightDiff > keyboardHeight) {
+            var heightDiff: Int = activityRootView.getRootView().height - (r.bottom - r.top)
+            heightDiff = heightDiff - statusBarSize - navBarSize
+            if (heightDiff >= keyboardHeight) {
                 //keyboard is visible
-                hideAttribution()
+                showAttribution()
+                if (displayViewState == DisplayViewState.PAYMENT_SUCCESS){
+                    val bottomParam = successShelter.layout().parent.layoutParams as ViewGroup.MarginLayoutParams
+                    bottomParam.setMargins(0, 0,0, 0)
+                    successShelter.layout().parent.layoutParams = bottomParam
+                }
             } else {
                 //keyboard is hidden
-                showAttribution()
+                hideAttribution()
+                if (displayViewState == DisplayViewState.PAYMENT_SUCCESS){
+                    val bottomParam = successShelter.layout().parent.layoutParams as ViewGroup.MarginLayoutParams
+                    bottomParam.setMargins(0, 0,0, keyboardHeight + 300)
+                    successShelter.layout().parent.layoutParams = bottomParam
+                }
+
             }
         }
 
@@ -382,9 +396,9 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showCardView(){
-        successShelter.showShelter()
-        //showLoader()
-        //networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
+        //successShelter.showShelter()
+        showLoader()
+        networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
     }
 
     fun showCardPinView(){

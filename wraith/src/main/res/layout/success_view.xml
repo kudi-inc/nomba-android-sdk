@@ -16,6 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginBottom="400dp"
+            android:id="@+id/parent"
             android:layout_width="match_parent"
             android:padding="@dimen/size_20"
             android:background="@color/paymentBackground"
