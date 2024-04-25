@@ -396,7 +396,6 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showCardView(){
-        //successShelter.showShelter()
         showLoader()
         networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
     }
@@ -669,6 +668,7 @@ private fun fetchBanksForTransfer(){
             deviceInformation = deviceInformation)
         networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
             override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
+                Log.e("Error Response", response.toString())
                 if (response.isSuccessful) {
                     val post = response.body()
                     Log.e("Success Response", post.toString())
@@ -700,16 +700,27 @@ private fun fetchBanksForTransfer(){
                             "00" -> {
                                 cardLoadingShelter.hideShelter()
                                 successShelter.showShelter()
+                            } else -> {
+                            showSnackbar(post.data.message + "Try Again")
+                            cardLoadingShelter.hideShelter()
+                            cardPinShelter.hideShelter()
+                            cardShelter.showShelter()
                             }
                         }
                     }
                 } else {
+                    showSnackbar(response.errorBody().toString() + "Try Again")
                     cardLoadingShelter.hideShelter()
+                    cardPinShelter.hideShelter()
+                    cardShelter.showShelter()
                 }
             }
             override fun onFailure(call: Call<SubmitCardDetailsResponse>, t: Throwable) {
                 // Handle failure
+                showSnackbar(t.message + "Try Again")
                 cardLoadingShelter.hideShelter()
+                cardPinShelter.hideShelter()
+                cardShelter.showShelter()
             }
         })
     }
