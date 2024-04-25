@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import com.nomba.wraith.R
 import com.nomba.wraith.core.api.models.CardObject
@@ -38,6 +41,7 @@ import com.nomba.wraith.ui.shelters.FailureShelter
 import com.nomba.wraith.ui.shelters.PaymentOptionsShelter
 import com.nomba.wraith.ui.shelters.SaveCardOtpShelter
 import com.nomba.wraith.ui.shelters.SaveCardSuccessShelter
+import com.nomba.wraith.ui.shelters.SuccessShelter
 import com.nomba.wraith.ui.shelters.card.CardLoadingShelter
 import com.nomba.wraith.ui.shelters.card.CardOTPShelter
 import com.nomba.wraith.ui.shelters.card.CardPinShelter
@@ -45,7 +49,6 @@ import com.nomba.wraith.ui.shelters.card.CardShelter
 import com.nomba.wraith.ui.shelters.card.ThreeDSShelter
 import com.nomba.wraith.ui.shelters.transfer.ConfirmingTransferShelter
 import com.nomba.wraith.ui.shelters.transfer.GetHelpShelter
-import com.nomba.wraith.ui.shelters.SuccessShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferExpiredShelter
 import com.nomba.wraith.ui.shelters.transfer.TransferShelter
 import retrofit2.Call
@@ -199,14 +202,28 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             hidePaymentView()
         }
 
-        //Detect when activity is shown or not
-        activity.get()?.addKeyboardToggleListener {shown ->
-            if (shown){
+        //hide attribution when soft keyboard shown. Also add margin to success screen
+        //shelter when the keyboard is shown and remove when it's hidden
+        //this allows the user to scroll the view freely when the keyboard is visible
+        val activityRootView: View = activityMainViewBinding.root
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener {
+            val r = Rect()
+            activityRootView.getWindowVisibleDisplayFrame(r)
+            //Get keyboard height
+            val insets = activity.get()?.window?.decorView
+                ?.let { ViewCompat.getRootWindowInsets(it) }
+            val keyboardHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 500
+            val heightDiff: Int = activityRootView.getRootView().height - (r.bottom - r.top)
+            if (heightDiff > keyboardHeight) {
+                //keyboard is visible
                 hideAttribution()
             } else {
+                //keyboard is hidden
                 showAttribution()
             }
         }
+
+
     }
 
     fun hideAttribution(){
@@ -712,16 +729,6 @@ private fun fetchBanksForTransfer(){
                 hideLoader()
             }
         })
-    }
-
-
-    fun Activity.addKeyboardToggleListener(onKeyboardToggleAction: (shown: Boolean) -> Unit): KeyboardToggleListener? {
-        val root = findViewById<View>(android.R.id.content)
-        val listener = KeyboardToggleListener(root, onKeyboardToggleAction)
-        return root?.viewTreeObserver?.run {
-            addOnGlobalLayoutListener(listener)
-            listener
-        }
     }
 
 
