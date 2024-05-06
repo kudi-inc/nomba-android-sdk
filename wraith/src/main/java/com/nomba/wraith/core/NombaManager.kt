@@ -472,7 +472,6 @@ private fun fetchBanksForTransfer(){
             if (response.isSuccessful) {
                 // Handle the retrieved post data
                 val post = response.body()
-                Log.e("Error Response", post.toString())
                 hideLoader()
                 if (post?.code == "00"){
                     transferShelter.setBankDetails(post.data.accountNumber, post.data.bankName, post.data.accountName)
@@ -482,11 +481,13 @@ private fun fetchBanksForTransfer(){
                 }
             } else {
                 // Handle error
+                showSnackbar(response.errorBody().toString() + " Try Again")
                 hideLoader()
             }
         }
         override fun onFailure(call: Call<FlashAccountResponse>, t: Throwable) {
             // Handle failure
+            showSnackbar(t.message + " Try Again")
             hideLoader()
         }
     })
@@ -513,11 +514,13 @@ private fun fetchBanksForTransfer(){
                         showSnackbar(post?.data?.message + "Try Again")
                     }
                 } else {
+                    showSnackbar(response.errorBody().toString() + " Try Again")
                     hideLoader()
                 }
             }
             override fun onFailure(call: Call<SaveCardOtpResponse>, t: Throwable) {
                 // Handle failure
+                showSnackbar(t.message + " Try Again")
                 hideLoader()
             }
         })
@@ -543,11 +546,13 @@ private fun fetchBanksForTransfer(){
 
                     }
                 } else {
+                    showSnackbar(response.errorBody().toString() + " Try Again")
                     hideLoader()
                 }
             }
             override fun onFailure(call: Call<SaveCardSubmitOtpResponse>, t: Throwable) {
                 // Handle failure
+                showSnackbar(t.message + " Try Again")
                 hideLoader()
             }
         })
@@ -564,11 +569,8 @@ private fun fetchBanksForTransfer(){
             override fun onResponse(call: Call<CreateOrderResponse>, response: Response<CreateOrderResponse>) {
                 if (response.isSuccessful) {
                     val post = response.body()
-                    Log.e("Success Response", post.toString())
-                    println(orderReference)
                     orderReference = post?.data?.orderReference ?: orderReference
                     if (post?.code == "00"){
-                        println(orderReference)
                         when (selectedPaymentOption) {
                             PaymentOption.TRANSFER -> fetchBanksForTransfer()
                             PaymentOption.CARD -> {
@@ -589,11 +591,13 @@ private fun fetchBanksForTransfer(){
                         }
                     }
                 } else {
+                    showSnackbar(response.errorBody().toString() + "Try Again")
                     hideLoader()
                 }
             }
             override fun onFailure(call: Call<CreateOrderResponse>, t: Throwable) {
                 // Handle failure
+                showSnackbar(t.message + "Try Again")
                 hideLoader()
             }
         })
