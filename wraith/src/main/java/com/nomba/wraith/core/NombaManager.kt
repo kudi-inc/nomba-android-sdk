@@ -206,7 +206,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         //shelter when the keyboard is shown and remove when it's hidden
         //this allows the user to scroll the view freely when the keyboard is visible
         val activityRootView: View = activityMainViewBinding.root
-        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener {
+        activityRootView.viewTreeObserver.addOnGlobalLayoutListener {
             val r = Rect()
             activityRootView.getWindowVisibleDisplayFrame(r)
             //Get keyboard height
@@ -215,7 +215,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
             val statusBarSize = insets?.systemWindowInsetTop ?: 0
             val navBarSize = insets?.systemWindowInsetBottom ?: 0
             val keyboardHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 500
-            var heightDiff: Int = activityRootView.getRootView().height - (r.bottom - r.top)
+            var heightDiff: Int = activityRootView.rootView.height - (r.bottom - r.top)
             heightDiff = heightDiff - statusBarSize - navBarSize
             if (heightDiff >= keyboardHeight) {
                 //keyboard is visible
@@ -391,11 +391,13 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showTransferView(){
+        shouldSaveCard = false
         showLoader()
         networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.TRANSFER, ::createOrder)
     }
 
     fun showCardView(){
+        shouldSaveCard = false
         showLoader()
         networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.CARD, ::createOrder)
     }
@@ -627,6 +629,11 @@ private fun fetchBanksForTransfer(){
                             cardPinShelter.hideShelter()
                             cardOTPShelter.showShelter()
                         }
+                    } else if (post?.code == "400"){
+                        if (post.data.message.contains("already completed.")){
+                            cardLoadingShelter.hideShelter()
+                            successShelter.showShelter()
+                        }
                     }
                 } else {
                     showSnackbar(response.errorBody().toString() + "Try Again")
@@ -672,7 +679,7 @@ private fun fetchBanksForTransfer(){
             deviceInformation = deviceInformation)
         networkManager.submitCardDetails(submitCardDetailsRequest).enqueue(object : Callback<SubmitCardDetailsResponse> {
             override fun onResponse(call: Call<SubmitCardDetailsResponse>, response: Response<SubmitCardDetailsResponse>) {
-                Log.e("Error Response", response.toString())
+                //Log.e("Error Response", response.toString())
                 if (response.isSuccessful) {
                     val post = response.body()
                     Log.e("Success Response", post.toString())
@@ -705,10 +712,10 @@ private fun fetchBanksForTransfer(){
                                 cardLoadingShelter.hideShelter()
                                 successShelter.showShelter()
                             } else -> {
-                            showSnackbar(post.data.message + "Try Again")
-                            cardLoadingShelter.hideShelter()
-                            cardPinShelter.hideShelter()
-                            cardShelter.showShelter()
+                                showSnackbar(post.data.message + "Try Again")
+                                cardLoadingShelter.hideShelter()
+                                cardPinShelter.hideShelter()
+                                cardShelter.showShelter()
                             }
                         }
                     }
