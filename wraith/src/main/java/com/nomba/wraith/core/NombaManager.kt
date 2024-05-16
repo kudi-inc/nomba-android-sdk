@@ -439,8 +439,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     }
 
     fun showTransferConfirmationView(){
-        transferShelter.hideShelter()
         confirmingTransferShelter.showShelter()
+        transferShelter.hideShelter()
     }
 
     fun changePaymentFromTransfer(){

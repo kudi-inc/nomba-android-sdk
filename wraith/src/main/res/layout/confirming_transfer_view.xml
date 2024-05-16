@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/size_20"
+    android:background="@color/paymentBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
