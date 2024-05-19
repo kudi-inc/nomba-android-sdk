@@ -26,6 +26,7 @@ class CardShelter(private var manager: NombaManager, activityCardViewBinding: Ca
     var expiryDateRight : Boolean = false
 
     override fun showShelter() {
+        layout().saveCardCheckbox.isChecked = manager.shouldSaveCard
         super.showShelter()
         setOnClickListeners()
         manager.displayViewState = DisplayViewState.CARD
