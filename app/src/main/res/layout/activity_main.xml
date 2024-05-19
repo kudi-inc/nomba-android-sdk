@@ -53,7 +53,7 @@
             android:layout_marginTop="@dimen/size_20"
             android:autofillHints=""
             android:id="@+id/name"
-            android:inputType="numberDecimal"
+            android:inputType="textCapSentences"
             android:textColorHint="@color/mainText"
             android:layout_width="match_parent"
             android:background="@color/white"
