@@ -33,7 +33,7 @@ dependencyResolutionManagement {
 	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 	repositories {
 		mavenCentral()
-		maven { url 'https://jitpack.io' }
+		maven { url = uri("https://jitpack.io") }
 	}
 }
 ```
@@ -41,7 +41,7 @@ dependencyResolutionManagement {
 Add to your project build.gradle file, the Nomba Android SDK
 
 ```
-implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.2")
+implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.3")
 ```
 <br>
 

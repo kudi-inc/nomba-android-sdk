@@ -32,13 +32,8 @@ class MainActivity : AppCompatActivity() {
         email.setText("emeka@bond.com")
         customer.setText("Emeka Bond")
 
-
         // initialise the Nomba Android SDK aka Wraith
         val nombaManager = NombaManager.getInstance(this, "293bb9a0-dc25-428d-8f63-d828b9420cd5", clientId = "2e43173e-3e69-4fa2-8168-f4fedbf9a962", clientKey = "GF3G1qY9f2TNZ64Jsin9QY4WJ5FnlCPyu23y716StxUsMR6jXNB0zcZHQEZ1avU1Y+CdgdrzW5zHefMlblXGmQ==", main)
-
-
-
-
 
         // show the SDK when you want to make a purchase
         button.setOnClickListener {
