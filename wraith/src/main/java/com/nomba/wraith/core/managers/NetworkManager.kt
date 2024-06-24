@@ -38,9 +38,11 @@ class NetworkManager {
         if (this::accessToken.isInitialized || this::refreshToken.isInitialized){
             onAccessTokenGottenFun(selectedPaymentOption)
         } else {
-            APIClient.apiService.obtainAccessToken(accountId = accountId, accessTokenRequest = AccessTokenRequest(grant_type = "client_credentials",
+            val accessTokenRequest = AccessTokenRequest(grant_type = "client_credentials",
                 client_id = clientId,
-                client_secret = clientKey)).enqueue(object : Callback<AccessTokenResponse> {
+                client_secret = clientKey)
+            println(accessTokenRequest)
+            APIClient.apiService.obtainAccessToken(accountId = accountId, accessTokenRequest = accessTokenRequest).enqueue(object : Callback<AccessTokenResponse> {
                 override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
                     if (response.isSuccessful) {
                         val post = response.body()

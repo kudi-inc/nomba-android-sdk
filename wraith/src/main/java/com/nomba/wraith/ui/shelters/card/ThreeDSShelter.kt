@@ -89,7 +89,7 @@ class ThreeDSShelter(var manager: NombaManager, activityThreedsViewBinding: Thre
                     if (callback in url) {
                         hideShelter()
                         manager.showCardLoadingShelter()
-                        manager.checkOrderDetails(paymentOption = PaymentOption.CARD, {})
+                        manager.checkOrderDetails(paymentOption = PaymentOption.CARD) {}
 
                     }
                 }
