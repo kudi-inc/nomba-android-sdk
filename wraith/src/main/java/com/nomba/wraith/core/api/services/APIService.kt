@@ -49,7 +49,6 @@ interface APIService {
     @POST("/v1/checkout/order")
     fun createAnOrder(@Header("accountId") accountId : String, @Header("Authorization") authorization : String, @Body createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse>
 
-
     @POST("/v1/checkout/confirm-transaction-receipt")
     fun checkTransactionOrderStatus(@Header("Authorization") authorization : String, @Body checkTransactionStatusRequest: CheckTransactionStatusRequest) :Call<CheckTransactionStatusResponse>
 
