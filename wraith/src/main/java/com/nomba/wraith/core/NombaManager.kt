@@ -248,6 +248,10 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         activityMainViewBinding.attribution.visibility = View.VISIBLE
     }
 
+    var transactionCallback: ( CheckTransactionStatusResponse)->Unit=fun (CheckTransactionStatusResponse){
+
+    }
+
     fun handleBackStack(){
         when (displayViewState){
             DisplayViewState.PAYMENTOPTIONS -> {
@@ -395,6 +399,8 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         showLoader()
         networkManager.getAccessToken(accountId = accountId, clientId = clientId, clientKey = clientKey, PaymentOption.TRANSFER, ::createOrder)
     }
+
+
 
     fun showCardView(){
         shouldSaveCard = false
@@ -736,7 +742,7 @@ private fun fetchBanksForTransfer(){
         })
     }
 
-    fun checkOrderDetails(paymentOption: PaymentOption = PaymentOption.TRANSFER, onSuccessFun: () -> Unit){
+    fun checkOrderDetails(paymentOption: PaymentOption = PaymentOption.TRANSFER, onSuccessFun: (CheckTransactionStatusResponse) -> Unit){
         networkManager.checkTransactionOrderStatus(CheckTransactionStatusRequest(orderReference)).enqueue(object : Callback<CheckTransactionStatusResponse> {
             override fun onResponse(call: Call<CheckTransactionStatusResponse>, response: Response<CheckTransactionStatusResponse>) {
                 if (response.isSuccessful) {
@@ -744,7 +750,7 @@ private fun fetchBanksForTransfer(){
                     Log.e("Error Response", post.toString())
                     if (post?.code == "00"){
                         if (post.data.status == "true") {
-                            onSuccessFun()
+                            onSuccessFun(post)
                             cardLoadingShelter.hideShelter()
                             confirmingTransferShelter.hideShelter()
                             successShelter.showShelter()
