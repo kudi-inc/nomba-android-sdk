@@ -41,7 +41,7 @@ dependencyResolutionManagement {
 Add to your project build.gradle file, the Nomba Android SDK
 
 ```
-implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.4")
+implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.5")
 ```
 <br>
 
