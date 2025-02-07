@@ -8,6 +8,7 @@ import com.nomba.wraith.R
 import com.nomba.wraith.core.enums.DisplayViewState
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter
+import com.nomba.wraith.core.api.models.transationstatus.CheckTransactionStatusResponse
 import com.nomba.wraith.core.enums.PaymentOption
 import com.nomba.wraith.databinding.ConfirmingTransferViewBinding
 import java.util.Locale
@@ -103,8 +104,9 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
 
     }
 
-    private fun endConfirmationTimer(){
+    private fun endConfirmationTimer( response:CheckTransactionStatusResponse){
         confirmationTimer.cancel()
+        manager.transactionCallback=fun(response){}
     }
 
     private fun onConfirmationTransferEnd(){

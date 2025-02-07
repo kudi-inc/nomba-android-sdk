@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             nombaManager.customerName = customer.text.toString()
             nombaManager.logo = R.drawable.bolt_logo
             nombaManager.showPaymentView()
+//            nombaManager.callback
         }
 
         val callback: OnBackPressedCallback =
