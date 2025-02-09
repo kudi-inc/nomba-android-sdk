@@ -61,7 +61,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 //    implementation(project(":wraith"))
-    implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.3")
+    implementation("com.github.kudi-inc:nomba-android-sdk:v1.0.5")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

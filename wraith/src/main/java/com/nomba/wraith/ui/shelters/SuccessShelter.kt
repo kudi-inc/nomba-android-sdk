@@ -22,6 +22,9 @@ class SuccessShelter(private var manager: NombaManager, activitySuccessTransferV
         layout().closeCheckoutBtn.setOnClickListener {
             hideShelter()
             manager.hidePaymentView()
+            if (manager.transactionResponse!=null) {
+                manager.transactionCallback(manager.transactionResponse!!)
+            }
         }
 
         setListeners()

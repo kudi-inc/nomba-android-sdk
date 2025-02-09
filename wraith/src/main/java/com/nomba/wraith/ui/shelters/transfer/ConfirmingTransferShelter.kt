@@ -104,9 +104,11 @@ class ConfirmingTransferShelter(private var manager: NombaManager, activityConfi
 
     }
 
-    private fun endConfirmationTimer( response:CheckTransactionStatusResponse){
+    private fun endConfirmationTimer(){
         confirmationTimer.cancel()
-        manager.transactionCallback=fun(response){}
+        if (manager.transactionResponse!=null) {
+            manager.transactionCallback(manager.transactionResponse!!)
+        }
     }
 
     private fun onConfirmationTransferEnd(){

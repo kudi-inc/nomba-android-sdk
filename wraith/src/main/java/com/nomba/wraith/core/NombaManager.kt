@@ -78,6 +78,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var logo : Int? = null
     var shouldSaveCard : Boolean = false
     var otpPhoneNumber : String = ""
+    var transactionCallback: (CheckTransactionStatusResponse)->Unit = fun(CheckTransactionStatusResponse){}
 
 
     private var callbackURL : String = "https://wraith/android.sdk/callback"
@@ -246,10 +247,6 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
 
     fun showAttribution(){
         activityMainViewBinding.attribution.visibility = View.VISIBLE
-    }
-
-    var transactionCallback: ( CheckTransactionStatusResponse)->Unit=fun (CheckTransactionStatusResponse){
-
     }
 
     fun handleBackStack(){
@@ -742,15 +739,18 @@ private fun fetchBanksForTransfer(){
         })
     }
 
-    fun checkOrderDetails(paymentOption: PaymentOption = PaymentOption.TRANSFER, onSuccessFun: (CheckTransactionStatusResponse) -> Unit){
+    var transactionResponse: CheckTransactionStatusResponse? =null
+
+    fun checkOrderDetails(paymentOption: PaymentOption = PaymentOption.TRANSFER, onSuccessFun: () -> Unit){
         networkManager.checkTransactionOrderStatus(CheckTransactionStatusRequest(orderReference)).enqueue(object : Callback<CheckTransactionStatusResponse> {
             override fun onResponse(call: Call<CheckTransactionStatusResponse>, response: Response<CheckTransactionStatusResponse>) {
+                transactionResponse=response.body()
                 if (response.isSuccessful) {
                     val post = response.body()
                     Log.e("Error Response", post.toString())
                     if (post?.code == "00"){
                         if (post.data.status == "true") {
-                            onSuccessFun(post)
+                            onSuccessFun()
                             cardLoadingShelter.hideShelter()
                             confirmingTransferShelter.hideShelter()
                             successShelter.showShelter()
