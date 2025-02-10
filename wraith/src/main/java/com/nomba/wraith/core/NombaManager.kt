@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.util.Log
@@ -75,7 +76,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
     var customerEmail : String = "customer-email@gmail.com"
     var customerId : String = UUID.randomUUID().toString()
     var customerName : String = "Wasiu Jackson"
-    var logo : Int? = null
+    var logo : Bitmap? = null
     var shouldSaveCard : Boolean = false
     var otpPhoneNumber : String = ""
     var transactionCallback: (CheckTransactionStatusResponse)->Unit = fun(CheckTransactionStatusResponse){}
@@ -372,7 +373,7 @@ open class NombaManager private constructor (var activity: WeakReference<Activit
         activityMainViewBinding.amountLabel.text = formatPaymentAmount()
         activityMainViewBinding.emailLabel.text = customerEmail
         logo?.let {
-            activityMainViewBinding.logo.setImageResource(it)
+            activityMainViewBinding.logo.setImageBitmap(it)
             activityMainViewBinding.logoHolder.background = null
         }
     }
