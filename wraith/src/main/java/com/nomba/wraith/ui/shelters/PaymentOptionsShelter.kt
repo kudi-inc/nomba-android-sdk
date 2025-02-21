@@ -1,5 +1,6 @@
 package com.nomba.wraith.ui.shelters
 
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import com.nomba.wraith.core.NombaManager
 import com.nomba.wraith.core.Shelter

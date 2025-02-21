@@ -62,19 +62,37 @@
             android:minHeight="@dimen/size_0"
             android:layout_height="wrap_content"/>
 
+        <ImageView
+            android:layout_width="@dimen/size_70"
+            android:layout_marginTop="@dimen/size_20"
+            android:id="@+id/logo"
+            android:scaleType="centerInside"
+            android:layout_height="@dimen/size_50"
+            android:contentDescription="@string/logo" />
+
     </LinearLayout>
 
     <Button
+        android:id="@+id/sample_pay_button"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="164dp"
+        android:padding="@dimen/size_20"
         android:text="@string/pay_me"
         android:textSize="@dimen/font_20"
-        android:padding="@dimen/size_20"
-        android:layout_marginEnd="@dimen/size_30"
-        android:layout_marginStart="@dimen/size_30"
-        android:id="@+id/sample_pay_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/size_40"
-        android:layout_height="wrap_content"/>
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/close_pay_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:padding="@dimen/size_20"
+        android:text="close"
+        android:textSize="@dimen/font_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
