@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         nombaManager?.showPaymentView()
         nombaManager?.transactionCallback = fun(response){
             val resultIntent = Intent()
-//            val jsonString = Gson().toJson(response)
-            resultIntent.putExtra("result", "jsonString")
+            val jsonString = Gson().toJson(response)
+            resultIntent.putExtra("result", jsonString)
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
         }
@@ -61,12 +61,10 @@ class MainActivity : AppCompatActivity() {
 
         cancelButton.setOnClickListener {
             val resultIntent = this.intent
-
             resultIntent.putExtra("result", "")
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             setResult(Activity.RESULT_CANCELED, resultIntent)
             finish()
-
         }
 
         val callback: OnBackPressedCallback =
@@ -89,11 +87,6 @@ class MainActivity : AppCompatActivity() {
             nombaManager?.endInstance()
         }
 
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("Second-MainActivity-Stop","E don Stop")
     }
 
 

@@ -433,26 +433,14 @@ open class NombaManager private constructor(
     fun showTransferView() {
         shouldSaveCard = false
         showLoader()
-        networkManager.getAccessToken(
-            accountId = accountId,
-            clientId = clientId,
-            clientKey = clientKey,
-            PaymentOption.TRANSFER,
-            ::createOrder
-        )
+        createOrder(PaymentOption.TRANSFER)
     }
 
 
     fun showCardView() {
         shouldSaveCard = false
         showLoader()
-        networkManager.getAccessToken(
-            accountId = accountId,
-            clientId = clientId,
-            clientKey = clientKey,
-            PaymentOption.CARD,
-            ::createOrder
-        )
+        createOrder(PaymentOption.CARD)
     }
 
     fun showCardPinView() {
@@ -644,6 +632,7 @@ open class NombaManager private constructor(
         // the order hasn't been created so create it
         networkManager.createOrder(
             accountId,
+            clientId,
             CreateOrderRequest(
                 Order(
                     paymentAmount.toString(), callbackUrl = callbackURL,
