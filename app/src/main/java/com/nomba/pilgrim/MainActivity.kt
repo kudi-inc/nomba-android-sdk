@@ -36,9 +36,8 @@ class MainActivity : AppCompatActivity() {
         amount.setText("10.0")
         email.setText("emeka@bond.com")
         customer.setText("Emeka Bond")
-        Log.d("NombaManager","Manager before")
         // initialise the Nomba Android SDK aka Wraith
-        nombaManager = NombaManager.getInstance(this, "293bb9a0-dc25-428d-8f63-d828b9420cd5", clientId = "2e43173e-3e69-4fa2-8168-f4fedbf9a962", clientKey = "GF3G1qY9f2TNZ64Jsin9QY4WJ5FnlCPyu23y716StxUsMR6jXNB0zcZHQEZ1avU1Y+CdgdrzW5zHefMlblXGmQ==", main)
+        nombaManager = NombaManager.getInstance(this, "293bb9a0-dc25-428d-8f63-d828b9420cd5", clientId = "2e43173e-3e69-4fa2-8168-f4fedbf9a962",main)
         nombaManager?.paymentAmount = amount.text.toString().toDouble()
         nombaManager?.customerEmail = email.text.toString()
         nombaManager?.customerName = customer.text.toString()
@@ -46,8 +45,8 @@ class MainActivity : AppCompatActivity() {
         nombaManager?.showPaymentView()
         nombaManager?.transactionCallback = fun(response){
             val resultIntent = Intent()
-            val jsonString = Gson().toJson(response)
-            resultIntent.putExtra("result", jsonString)
+//            val jsonString = Gson().toJson(response)
+            resultIntent.putExtra("result", "jsonString")
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
         }
