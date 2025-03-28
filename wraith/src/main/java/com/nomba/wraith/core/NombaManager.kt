@@ -59,13 +59,12 @@ import java.lang.ref.WeakReference
 import java.text.NumberFormat
 import java.util.UUID
 
-
+var dev_mode = false;
 // pass the activity and parentGroup as weakreferences to avoid memory leak
 open class NombaManager private constructor(
     var activity: WeakReference<Activity>,
     private var accountId: String,
     var clientId: String,
-    var clientKey: String,
     private var parentGroup: WeakReference<ConstraintLayout>
 ) {
 
@@ -106,7 +105,6 @@ open class NombaManager private constructor(
             activity: Activity,
             accountId: String,
             clientId: String,
-            clientKey: String,
             parentGroup: ConstraintLayout
         ): NombaManager {
             return instance ?: synchronized(this) {
@@ -114,7 +112,6 @@ open class NombaManager private constructor(
                     WeakReference(activity),
                     accountId,
                     clientId,
-                    clientKey,
                     WeakReference(parentGroup)
                 ).also { instance = it }
             }
@@ -433,26 +430,14 @@ open class NombaManager private constructor(
     fun showTransferView() {
         shouldSaveCard = false
         showLoader()
-        networkManager.getAccessToken(
-            accountId = accountId,
-            clientId = clientId,
-            clientKey = clientKey,
-            PaymentOption.TRANSFER,
-            ::createOrder
-        )
+        createOrder(PaymentOption.TRANSFER)
     }
 
 
     fun showCardView() {
         shouldSaveCard = false
         showLoader()
-        networkManager.getAccessToken(
-            accountId = accountId,
-            clientId = clientId,
-            clientKey = clientKey,
-            PaymentOption.CARD,
-            ::createOrder
-        )
+        createOrder(PaymentOption.CARD)
     }
 
     fun showCardPinView() {
@@ -644,6 +629,7 @@ open class NombaManager private constructor(
         // the order hasn't been created so create it
         networkManager.createOrder(
             accountId,
+            clientId,
             CreateOrderRequest(
                 Order(
                     paymentAmount.toString(), callbackUrl = callbackURL,

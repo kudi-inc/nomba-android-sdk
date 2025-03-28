@@ -34,71 +34,71 @@ class NetworkManager {
 
     //first call to server, if accessToken is not initialised, fetch access token and save it
     //if initialised, just make a trip with the account instead
-    fun getAccessToken(accountId: String, clientId: String, clientKey: String, selectedPaymentOption : PaymentOption, onAccessTokenGottenFun: (selectedPaymentOption : PaymentOption) -> Unit,) {
-        if (this::accessToken.isInitialized || this::refreshToken.isInitialized){
-            onAccessTokenGottenFun(selectedPaymentOption)
-        } else {
-            val accessTokenRequest = AccessTokenRequest(grant_type = "client_credentials",
-                client_id = clientId,
-                client_secret = clientKey)
-            println(accessTokenRequest)
-            APIClient.apiService.obtainAccessToken(accountId = accountId, accessTokenRequest = accessTokenRequest).enqueue(object : Callback<AccessTokenResponse> {
-                override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
-                    if (response.isSuccessful) {
-                        val post = response.body()
-                        accessToken = post!!.data.access_token
-                        refreshToken = post.data.refresh_token
-                        Log.e("Success", "Gotten Token")
-                        onAccessTokenGottenFun(selectedPaymentOption)
-                        // Handle the retrieved post data
-                    } else {
-                        Log.e("Error", "Error Access Token")
-                        Log.e("Error", response.toString())
-                        Log.e("Error", response.code().toString())
-                        // Handle error
-                        accessToken = ""
-                        refreshToken = ""
-                    }
-                }
-                override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
-                    // Handle failure
-
-                }
-            })
-        }
-    }
+//    fun getAccessToken(accountId: String, clientId: String, clientKey: String, selectedPaymentOption : PaymentOption, onAccessTokenGottenFun: (selectedPaymentOption : PaymentOption) -> Unit,) {
+//        if (this::accessToken.isInitialized || this::refreshToken.isInitialized){
+//            onAccessTokenGottenFun(selectedPaymentOption)
+//        } else {
+//            val accessTokenRequest = AccessTokenRequest(grant_type = "client_credentials",
+//                client_id = clientId,
+//                client_secret = clientKey)
+//            println(accessTokenRequest)
+//            APIClient.apiService.obtainAccessToken(accountId = accountId, accessTokenRequest = accessTokenRequest).enqueue(object : Callback<AccessTokenResponse> {
+//                override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
+//                    if (response.isSuccessful) {
+//                        val post = response.body()
+//                        accessToken = post!!.data.access_token
+//                        refreshToken = post.data.refresh_token
+//                        Log.e("Success", "Gotten Token")
+//                        onAccessTokenGottenFun(selectedPaymentOption)
+//                        // Handle the retrieved post data
+//                    } else {
+//                        Log.e("Error", "Error Access Token")
+//                        Log.e("Error", response.toString())
+//                        Log.e("Error", response.code().toString())
+//                        // Handle error
+//                        accessToken = ""
+//                        refreshToken = ""
+//                    }
+//                }
+//                override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
+//                    // Handle failure
+//
+//                }
+//            })
+//        }
+//    }
 
     fun fetchAccount(accountId: String) : Call<FetchParentAccountResponse> {
         return APIClient.apiService.getParentBankAccount(authorization = accessToken, accountId = accountId)
     }
 
     fun getFlashAccount(orderReference: String) : Call<FlashAccountResponse> {
-        return APIClient.apiService.getFlashBankAccount(accessToken, orderReference)
+        return APIClient.apiService.getFlashBankAccount(orderReference)
     }
 
-    fun createOrder(accountId: String, createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse> {
-        return APIClient.apiService.createAnOrder(accountId, accessToken, createOrderRequest)
+    fun createOrder(accountId: String,clientId: String, createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse> {
+        return APIClient.apiService.createAnOrder(accountId, clientId, createOrderRequest)
     }
 
     fun checkTransactionOrderStatus(checkTransactionStatusRequest: CheckTransactionStatusRequest) : Call<CheckTransactionStatusResponse> {
-        return APIClient.apiService.checkTransactionOrderStatus(accessToken, checkTransactionStatusRequest)
+        return APIClient.apiService.checkTransactionOrderStatus(checkTransactionStatusRequest)
     }
 
     fun submitCardDetails(submitCardDetailsRequest: SubmitCardDetailsRequest) : Call<SubmitCardDetailsResponse> {
-        return APIClient.apiService.submitCardDetails("Bearer $accessToken", submitCardDetailsRequest)
+        return APIClient.apiService.submitCardDetails( submitCardDetailsRequest)
     }
 
     fun requestOTPForCardSaving(saveCardOtpRequest: SaveCardOtpRequest) : Call<SaveCardOtpResponse> {
-        return APIClient.apiService.requestOTPForCardSaving("Bearer $accessToken", saveCardOtpRequest)
+        return APIClient.apiService.requestOTPForCardSaving( saveCardOtpRequest)
     }
 
 
     fun submitOTPForCardSaving(saveCardSubmitOtpRequest: SaveCardSubmitOtpRequest) : Call<SaveCardSubmitOtpResponse> {
-        return APIClient.apiService.submitOTPForCardSaving("Bearer $accessToken", saveCardSubmitOtpRequest)
+        return APIClient.apiService.submitOTPForCardSaving( saveCardSubmitOtpRequest)
     }
 
     fun submitOTPDetails(submitOTPRequest: SubmitOTPRequest) : Call<SubmitOTPResponse> {
-        return APIClient.apiService.submitOTPDetails("Bearer $accessToken", submitOTPRequest)
+        return APIClient.apiService.submitOTPDetails( submitOTPRequest)
     }
 
 }
