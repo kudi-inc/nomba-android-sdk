@@ -41,7 +41,7 @@ interface APIService {
     fun getAccountTransactions(@Header("accountId") accountId : String) : Call<FetchParentAccountResponse>
 
     @POST("/v1/checkout/order")
-    fun  createAnOrder(@Header("accountId") accountId : String, @Header("public_key") clientId : String, @Body createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse>
+    fun  createAnOrder(@Header("accountId") accountId : String, @Header("public_key") clientId : String, @Header("X-Nomba-Integration") source : String, @Body createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse>
 
 
     @POST("/v1/checkout/confirm-transaction-receipt")
