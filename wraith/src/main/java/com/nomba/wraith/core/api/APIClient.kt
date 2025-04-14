@@ -9,7 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient{
     private val BASE_URL: String = if (dev_mode) "https://sandbox.nomba.com" else "https://api.nomba.com"
-
     val retrofit: Retrofit by lazy {
         Log.d("BASE_URL", BASE_URL)
         Retrofit.Builder()

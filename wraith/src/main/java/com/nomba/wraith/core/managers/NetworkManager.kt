@@ -77,7 +77,7 @@ class NetworkManager {
     }
 
     fun createOrder(accountId: String,clientId: String, createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse> {
-        return APIClient.apiService.createAnOrder(accountId, clientId, createOrderRequest)
+        return APIClient.apiService.createAnOrder(accountId, clientId,"android-flutter-sdk", createOrderRequest)
     }
 
     fun checkTransactionOrderStatus(checkTransactionStatusRequest: CheckTransactionStatusRequest) : Call<CheckTransactionStatusResponse> {

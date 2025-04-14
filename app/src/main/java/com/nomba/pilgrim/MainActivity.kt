@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         nombaManager?.paymentAmount = amount.text.toString().toDouble()
         nombaManager?.customerEmail = email.text.toString()
         nombaManager?.customerName = customer.text.toString()
+        nombaManager?.orderReference = "7dc1558f-dcc3-4cc8-b4cd-6ba8603efcee"
+        nombaManager?.customerId = "58530bfe-e1f9-405f-b1b0-249910e6a09f"
 
         nombaManager?.showPaymentView()
         nombaManager?.transactionCallback = fun(response){
