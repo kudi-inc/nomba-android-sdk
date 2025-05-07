@@ -81,6 +81,7 @@ open class NombaManager private constructor(
     var customerEmail: String = "customer-email@gmail.com"
     var customerId: String = UUID.randomUUID().toString()
     var customerName: String = "Wasiu Jackson"
+    var source: String = "android-sdk"
     var logo: Bitmap? = null
     var shouldSaveCard: Boolean = false
     var otpPhoneNumber: String = ""
@@ -630,6 +631,7 @@ open class NombaManager private constructor(
         networkManager.createOrder(
             accountId,
             clientId,
+            source,
             CreateOrderRequest(
                 Order(
                     paymentAmount.toString(), callbackUrl = callbackURL,
