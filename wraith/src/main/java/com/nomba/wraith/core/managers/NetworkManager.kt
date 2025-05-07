@@ -76,8 +76,8 @@ class NetworkManager {
         return APIClient.apiService.getFlashBankAccount(orderReference)
     }
 
-    fun createOrder(accountId: String,clientId: String, createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse> {
-        return APIClient.apiService.createAnOrder(accountId, clientId,"android-flutter-sdk", createOrderRequest)
+    fun createOrder(accountId: String, clientId: String, source: String, createOrderRequest: CreateOrderRequest) : Call<CreateOrderResponse> {
+        return APIClient.apiService.createAnOrder(accountId, clientId,source, createOrderRequest)
     }
 
     fun checkTransactionOrderStatus(checkTransactionStatusRequest: CheckTransactionStatusRequest) : Call<CheckTransactionStatusResponse> {
