@@ -87,6 +87,7 @@ open class NombaManager private constructor(
     var otpPhoneNumber: String = ""
     var transactionCallback: (CheckTransactionStatusResponse) -> Unit =
         fun(CheckTransactionStatusResponse) {}
+    var onPaymentCancelled: () -> Unit = fun() {}
 
 
     private var callbackURL: String = "https://wraith/android.sdk/callback"
@@ -196,6 +197,7 @@ open class NombaManager private constructor(
 
     fun showExitDialog() {
         activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
+        onPaymentCancelled()
     }
 
     fun hideExitDialog() {
@@ -392,6 +394,7 @@ open class NombaManager private constructor(
         cardShelter.hideShelter()
         paymentOptionsShelter.hideShelter()
         activityMainViewBinding.root.visibility = View.GONE
+        onPaymentCancelled()
     }
 
     private fun restartAllStates() {
