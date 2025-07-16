@@ -76,11 +76,11 @@ open class NombaManager private constructor(
 
     private val format: NumberFormat = NumberFormat.getInstance()
     var paymentAmount: Double = 0.0
-    var orderReference: String = UUID.randomUUID().toString()
+    var orderReference: String = ""
     var displayViewState: DisplayViewState = DisplayViewState.PAYMENTOPTIONS
-    var customerEmail: String = "customer-email@gmail.com"
-    var customerId: String = UUID.randomUUID().toString()
-    var customerName: String = "Wasiu Jackson"
+    var customerEmail: String = ""
+    var customerId: String = ""
+    var customerName: String = ""
     var source: String = "android-sdk"
     var logo: Bitmap? = null
     var shouldSaveCard: Boolean = false
@@ -120,7 +120,6 @@ open class NombaManager private constructor(
     }
 
     fun endInstance() {
-        Log.d("Manager-Instance", "$instance")
         instance = null
     }
 
@@ -405,7 +404,6 @@ open class NombaManager private constructor(
     }
 
     private fun setPaymentValues() {
-        //orderReference = UUID.randomUUID().toString()
         activityMainViewBinding.amountLabel.text = formatPaymentAmount()
         activityMainViewBinding.emailLabel.text = customerEmail
         logo?.let {
@@ -529,6 +527,8 @@ open class NombaManager private constructor(
                             transferExpiredShelter.hideShelter()
                             paymentOptionsShelter.hideShelter()
                             transferShelter.showShelter()
+                        }else{
+                            showSnackbar("Cannot fetch account details. Please try Again")
                         }
                     } else {
                         // Handle error
@@ -628,6 +628,11 @@ open class NombaManager private constructor(
 
     private fun createOrder(selectedPaymentOption: PaymentOption) {
         // the order hasn't been created so create it
+        if (orderReference.isEmpty()){
+            showSnackbar( "Order reference is required")
+            hideLoader()
+            return;
+        }
         networkManager.createOrder(
             accountId,
             clientId,
