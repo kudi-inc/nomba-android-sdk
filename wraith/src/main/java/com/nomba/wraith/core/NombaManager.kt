@@ -197,7 +197,6 @@ open class NombaManager private constructor(
 
     fun showExitDialog() {
         activityMainViewBinding.dialogView.root.visibility = View.VISIBLE
-        onPaymentCancelled()
     }
 
     fun hideExitDialog() {

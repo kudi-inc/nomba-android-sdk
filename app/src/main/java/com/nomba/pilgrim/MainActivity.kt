@@ -52,6 +52,9 @@ class MainActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
         }
+        nombaManager?.onPaymentCancelled=fun (){
+            _closeCheckoutPage()
+        }
 
         button.setOnClickListener {
             // set up payment values
@@ -61,12 +64,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         cancelButton.setOnClickListener {
-            val resultIntent = this.intent
-            resultIntent.putExtra("result", "")
-            resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            setResult(Activity.RESULT_CANCELED, resultIntent)
-            finish()
+            _closeCheckoutPage()
         }
+
+
 
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true)
@@ -80,6 +81,14 @@ class MainActivity : AppCompatActivity() {
 
 
         onBackPressedDispatcher.addCallback(callback)
+    }
+
+    fun _closeCheckoutPage(){
+        val resultIntent = this.intent
+        resultIntent.putExtra("result", "")
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        setResult(Activity.RESULT_CANCELED, resultIntent)
+        finish()
     }
 
     override fun onDestroy() {
